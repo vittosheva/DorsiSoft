@@ -120,7 +120,7 @@ final class DocumentSequenceForm
             ->select(['code', 'name'])
             ->where('company_id', $companyId)
             ->where('is_active', true)
-            ->orderBy('code')
+            ->orderBy('code', 'desc')
             ->limit(config('dorsi.filament.select_filter_options_limit', 50))
             ->get()
             ->mapWithKeys(fn (Establishment $establishment): array => [
@@ -157,7 +157,7 @@ final class DocumentSequenceForm
             ->where('company_id', $companyId)
             ->where('is_active', true)
             ->where('establishment_id', $establishmentId)
-            ->orderBy('code')
+            ->orderBy('code', 'desc')
             ->limit(config('dorsi.filament.select_filter_options_limit', 50))
             ->get()
             ->mapWithKeys(fn (EmissionPoint $emissionPoint): array => [

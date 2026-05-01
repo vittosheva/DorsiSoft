@@ -245,7 +245,7 @@ final class FilamentServiceProvider extends ServiceProvider
         });
     }
 
-    private function checkHiddenLabel($action, $livewire): bool
+    private function checkHiddenLabel(Action $action, Component $livewire): bool
     {
         if ($action->isIconButton() || $livewire instanceof EditRecord || $livewire instanceof ViewRecord) {
             return true;
@@ -254,7 +254,7 @@ final class FilamentServiceProvider extends ServiceProvider
         return false;
     }
 
-    private function checkTooltip($action, $livewire, $label): ?string
+    private function checkTooltip(Action $action, Component $livewire, string $label): ?string
     {
         if ($action->isIconButton() || $livewire instanceof EditRecord || $livewire instanceof ViewRecord) {
             return $label;

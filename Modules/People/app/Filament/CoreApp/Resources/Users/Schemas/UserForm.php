@@ -218,7 +218,7 @@ final class UserForm
                                     ->select(['id', 'name', 'code'])
                                     ->where('company_id', Filament::getTenant()->getKey())
                                     ->where('is_active', true)
-                                    ->orderBy('code')
+                                    ->orderBy('code', 'desc')
                                     ->get()
                                     ->mapWithKeys(fn ($ep) => [$ep->id => "[{$ep->code}] {$ep->name}"])
                             )

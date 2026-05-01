@@ -149,7 +149,7 @@ final class DocumentSequencesTable
                             ->options(fn (): array => Establishment::query()
                                 ->select('code')
                                 ->where('is_active', true)
-                                ->orderBy('code')
+                                ->orderBy('code', 'desc')
                                 ->pluck('code', 'code')
                                 ->toArray())
                             ->searchable()
@@ -179,7 +179,7 @@ final class DocumentSequencesTable
                                     ->select('code')
                                     ->where('is_active', true)
                                     ->where('establishment_id', $establishmentId)
-                                    ->orderBy('code')
+                                    ->orderBy('code', 'desc')
                                     ->pluck('code', 'code')
                                     ->toArray();
                             })
