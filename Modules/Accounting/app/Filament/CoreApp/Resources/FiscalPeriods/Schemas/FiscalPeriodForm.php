@@ -7,9 +7,11 @@ namespace Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Schemas;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Carbon;
 use Modules\Accounting\Enums\FiscalPeriodStatusEnum;
+use Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\FiscalPeriodResource;
 
 final class FiscalPeriodForm
 {
@@ -17,38 +19,43 @@ final class FiscalPeriodForm
     {
         return $schema
             ->components([
-                Select::make('year')
-                    ->options(fn () => range(now()->year - 2, now()->year + 2))
-                    ->required()
-                    ->live(),
-                Select::make('month')
-                    ->options([
-                        1 => __('January'),
-                        2 => __('February'),
-                        3 => __('March'),
-                        4 => __('April'),
-                        5 => __('May'),
-                        6 => __('June'),
-                        7 => __('July'),
-                        8 => __('August'),
-                        9 => __('September'),
-                        10 => __('October'),
-                        11 => __('November'),
-                        12 => __('December'),
+                Section::make(__('Fiscal Period Information'))
+                    ->icon(FiscalPeriodResource::getNavigationIcon())
+                    ->schema([
+                        Select::make('year')
+                            ->options(fn () => range(now()->year - 2, now()->year + 2))
+                            ->required()
+                            ->live(),
+                        Select::make('month')
+                            ->options([
+                                1 => __('January'),
+                                2 => __('February'),
+                                3 => __('March'),
+                                4 => __('April'),
+                                5 => __('May'),
+                                6 => __('June'),
+                                7 => __('July'),
+                                8 => __('August'),
+                                9 => __('September'),
+                                10 => __('October'),
+                                11 => __('November'),
+                                12 => __('December'),
+                            ])
+                            ->required()
+                            ->live(),
+                        TextInput::make('name')
+                            ->default(fn ($get) => ($get('month') ? [1 => __('January'), 2 => __('February'), 3 => __('March'), 4 => __('April'), 5 => __('May'), 6 => __('June'), 7 => __('July'), 8 => __('August'), 9 => __('September'), 10 => __('October'), 11 => __('November'), 12 => __('December')][$get('month')] : '').' '.$get('year'))
+                            ->readOnly(),
+                        DatePicker::make('start_date')
+                            ->default(fn ($get) => $get('year') && $get('month') ? Carbon::create($get('year'), $get('month'), 1)->toDateString() : null),
+                        DatePicker::make('end_date')
+                            ->default(fn ($get) => $get('year') && $get('month') ? Carbon::create($get('year'), $get('month'), 1)->endOfMonth()->toDateString() : null),
+                        Select::make('status')
+                            ->options(FiscalPeriodStatusEnum::class)
+                            ->default(FiscalPeriodStatusEnum::OPEN),
                     ])
-                    ->required()
-                    ->live(),
-                TextInput::make('name')
-                    ->default(fn ($get) => ($get('month') ? [1 => __('January'), 2 => __('February'), 3 => __('March'), 4 => __('April'), 5 => __('May'), 6 => __('June'), 7 => __('July'), 8 => __('August'), 9 => __('September'), 10 => __('October'), 11 => __('November'), 12 => __('December')][$get('month')] : '').' '.$get('year'))
-                    ->readOnly(),
-                DatePicker::make('start_date')
-                    ->default(fn ($get) => $get('year') && $get('month') ? Carbon::create($get('year'), $get('month'), 1)->toDateString() : null),
-                DatePicker::make('end_date')
-                    ->default(fn ($get) => $get('year') && $get('month') ? Carbon::create($get('year'), $get('month'), 1)->endOfMonth()->toDateString() : null),
-                Select::make('status')
-                    ->options(FiscalPeriodStatusEnum::class)
-                    ->default(FiscalPeriodStatusEnum::OPEN),
+                    ->columns(3),
             ])
-            ->columns(3);
+            ->columns(1);
     }
 }

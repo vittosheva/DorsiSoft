@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
+use Modules\Inventory\Filament\CoreApp\Resources\Brands\BrandResource;
 
 final class BrandForm
 {
@@ -20,6 +21,7 @@ final class BrandForm
         return $schema
             ->components([
                 Section::make(__('Brand Information'))
+                    ->icon(BrandResource::getNavigationIcon())
                     ->schema([
                         NameTextInput::make()
                             ->tenantScopedUnique()

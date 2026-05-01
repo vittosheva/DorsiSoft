@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Modules\Core\Filament\CoreApp\Resources\EstablishmentResource;
 use Modules\Core\Support\Forms\TextInputs\ThreeDigitCodeTextInput;
 
 final class EstablishmentForm
@@ -18,6 +19,7 @@ final class EstablishmentForm
         return $schema
             ->components([
                 Section::make(__('Establishment data'))
+                    ->icon(EstablishmentResource::getNavigationIcon())
                     ->schema([
                         ThreeDigitCodeTextInput::make('code')
                             ->autofocus()

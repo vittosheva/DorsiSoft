@@ -11,7 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Support\Enums\Alignment;
@@ -88,7 +88,8 @@ final class DocumentSequencesTable
                     ->modalHeading(__('Set new sequential'))
                     ->modalSubmitActionLabel(__('Change'))
                     ->schema([
-                        Grid::make()
+                        Section::make(__('Reset Sequential Number'))
+                            ->icon(Heroicon::ExclamationTriangle)
                             ->schema([
                                 TextInput::make('last_sequential')
                                     ->label(__('Last Issued'))

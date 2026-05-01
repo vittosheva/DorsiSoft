@@ -16,6 +16,7 @@ use Filament\Schemas\Schema;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
 use Modules\Finance\Enums\TaxTypeEnum;
+use Modules\Finance\Filament\CoreApp\Resources\Taxes\TaxResource;
 use Modules\Finance\Models\Tax;
 use Modules\System\Enums\TaxCalculationTypeEnum;
 use Modules\System\Models\TaxDefinition;
@@ -34,6 +35,7 @@ final class TaxForm
     private static function infoSection(): Section
     {
         return Section::make(__('Tax Information'))
+            ->icon(TaxResource::getNavigationIcon())
             ->schema([
                 Grid::make(12)
                     ->schema([

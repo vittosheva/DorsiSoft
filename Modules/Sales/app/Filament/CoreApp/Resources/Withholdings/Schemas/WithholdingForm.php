@@ -53,8 +53,51 @@ final class WithholdingForm
                                     ->schema([
                                         SupplierBusinessPartnerSelect::make('business_partner_id')
                                             ->hiddenLabel(),
+
+                                        Grid::make(3)
+                                            ->schema([
+                                                Select::make('source_document_type')
+                                                    ->options([
+                                                        SriDocumentTypeEnum::Invoice->value => SriDocumentTypeEnum::Invoice->getLabel(),
+                                                    ])
+                                                    ->default(SriDocumentTypeEnum::Invoice->value)
+                                                    ->required(),
+
+                                                TextInput::make('source_document_number')
+                                                    ->label(__('Document number'))
+                                                    ->placeholder('001-001-000000001')
+                                                    ->maxLength(17)
+                                                    ->rule([new SriDocumentNumber()])
+                                                    ->mask('999-999-999999999')
+                                                    ->required(),
+
+                                                DatePicker::make('source_document_date')
+                                                    ->label(__('Issue date'))
+                                                    ->required()
+                                                    ->live(onBlur: true)
+                                                    ->afterStateUpdated(function (?string $state, Get $get): void {
+                                                        if (blank($state)) {
+                                                            return;
+                                                        }
+
+                                                        $issueDate = $get('issue_date');
+
+                                                        if (blank($issueDate)) {
+                                                            return;
+                                                        }
+
+                                                        if (date('Y/m', strtotime($state)) !== date('Y/m', strtotime($issueDate))) {
+                                                            Notification::make()
+                                                                ->warning()
+                                                                ->title(__('Source document date out of period'))
+                                                                ->body(__('The source document date does not match the month and year of the issue date.'))
+                                                                ->persistent()
+                                                                ->send();
+                                                        }
+                                                    }),
+                                            ]),
                                     ]),
-                                self::sourceDocumentSection(),
+                                // self::sourceDocumentSection(),
                             ])
                             ->columnSpan(6),
                     ]),

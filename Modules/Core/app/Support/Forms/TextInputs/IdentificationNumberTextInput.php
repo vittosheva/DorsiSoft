@@ -37,11 +37,11 @@ final class IdentificationNumberTextInput extends TextInput
                 'passport' => Heroicon::BookOpen,
                 default => Heroicon::FingerPrint,
             })
-            ->maxLength(fn (Get $get): int => match ($this->currentType($get)) {
+            /* ->maxLength(fn(Get $get): int => match ($this->currentType($get)) {
                 'ruc' => 13,
                 'cedula' => 10,
                 default => 30,
-            })
+            }) */
             ->minLength(fn (Get $get): ?int => match ($this->currentType($get)) {
                 'ruc', 'cedula' => null,
                 default => null,
@@ -59,20 +59,42 @@ final class IdentificationNumberTextInput extends TextInput
             ->live(onBlur: true)
             ->afterStateUpdatedJs(
                 <<<'JS'
-                    $set('identification_number', $get('identification_number') ? $get('identification_number').replace(/\s+/g, '') : '');
+                    const number = $get('identification_number') ? $get('identification_number').replace(/\s+/g, '') : '';
+                    $set('identification_number', number);
+
+                    const digitCount = number.replace(/\D/g, '').length;
+                    if (digitCount === 0) {
+                        $set('identification_type', null);
+                    } else if (digitCount === 10) {
+                        $set('identification_type', 'cedula');
+                    } else if (digitCount === 13) {
+                        $set('identification_type', 'ruc');
+                    } else {
+                        $set('identification_type', 'other');
+                    }
+
                     $set('hideCallout', false);
                 JS
             )
             ->afterStateUpdated(function (Set $set, Get $get, ?Model $record): void {
                 $set('hideCallout', false);
-                $identType = $get('identification_type');
                 $identNumber = $get('identification_number');
 
-                if (blank($identType) || blank($identNumber)) {
+                if (blank($identNumber)) {
+                    $set('identification_type', null);
                     $set('_duplicate_partner_id', null);
                     $set('_duplicate_partner_name', '');
 
                     return;
+                }
+
+                $digitCount = mb_strlen(preg_replace('/\D/', '', $identNumber) ?? '');
+                if ($digitCount === 10) {
+                    $set('identification_type', 'cedula');
+                } elseif ($digitCount === 13) {
+                    $set('identification_type', 'ruc');
+                } else {
+                    $set('identification_type', 'other');
                 }
 
                 $duplicate = self::findDuplicatePartner($get, $record);

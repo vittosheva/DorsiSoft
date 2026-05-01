@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Modules\Core\Support\Forms\Selects\CurrencyCodeSelect;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
+use Modules\Finance\Filament\CoreApp\Resources\PriceLists\PriceListResource;
 use Modules\Finance\Models\PriceList;
 
 final class PriceListForm
@@ -24,6 +25,7 @@ final class PriceListForm
         return $schema
             ->components([
                 Section::make(__('Price List Information'))
+                    ->icon(PriceListResource::getNavigationIcon())
                     ->schema([
                         Grid::make(12)->schema([
                             CodeTextInput::make()

@@ -380,7 +380,7 @@ ul.fi-topbar-nav-groups > li.fi-topbar-item span.fi-topbar-item-label {
 }
 
 .fi-topbar-item.fi-active .fi-topbar-item-btn:where(.dark,.dark *) {
-    background-color: #ffffff0d !important;
+    @apply bg-primary-50! dark:bg-primary-900!;
 }
 
 .fi-sidebar-item.fi-active>.fi-sidebar-item-btn {
@@ -388,7 +388,19 @@ ul.fi-topbar-nav-groups > li.fi-topbar-item span.fi-topbar-item-label {
 }
 
 .fi-dropdown-list-item.fi-color-primary:not(.fi-disabled):not([disabled]) {
-    background-color: var(--primary-50);
+    @apply bg-primary-50!;
+}
+
+.fi-dropdown-list-item.fi-color-primary:not(.fi-disabled):not([disabled]):where(.dark,.dark *) {
+    @apply dark:bg-primary-900!;
+}
+
+.fi-topbar-item.fi-active .fi-topbar-item-label:where(.dark,.dark *) {
+    @apply text-primary-100!;
+}
+
+.fi-dropdown-list-item.fi-color .fi-dropdown-list-item-label:where(.dark,.dark *) {
+    @apply dark:text-primary-100!;
 }
 
 @media (hover: hover) {

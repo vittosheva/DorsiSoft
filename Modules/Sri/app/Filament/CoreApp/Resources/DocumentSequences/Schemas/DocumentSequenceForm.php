@@ -8,6 +8,7 @@ use Closure;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
@@ -18,6 +19,7 @@ use Illuminate\Validation\Rules\Unique;
 use Modules\Core\Models\EmissionPoint;
 use Modules\Core\Models\Establishment;
 use Modules\Sri\Enums\SriDocumentTypeEnum;
+use Modules\Sri\Filament\CoreApp\Resources\DocumentSequences\DocumentSequenceResource;
 use Modules\Sri\Models\DocumentSequence;
 
 final class DocumentSequenceForm
@@ -26,75 +28,81 @@ final class DocumentSequenceForm
     {
         return $schema
             ->components([
-                Select::make('document_type')
-                    ->options(fn (): array => self::resolveDocumentTypeOptions())
-                    ->searchable()
-                    ->required()
-                    ->rules([
-                        fn (Get $get, ?Model $record): Unique => Rule::unique((new DocumentSequence())->getTable(), 'document_type')
-                            ->ignore($record?->getKey())
-                            ->where('company_id', Filament::getTenant()?->getKey())
-                            ->where('establishment_code', (string) $get('establishment_code'))
-                            ->where('emission_point_code', (string) $get('emission_point_code')),
-                    ]),
+                Section::make(__('Document Sequence'))
+                    ->icon(DocumentSequenceResource::getNavigationIcon())
+                    ->schema([
+                        Select::make('document_type')
+                            ->options(fn (): array => self::resolveDocumentTypeOptions())
+                            ->searchable()
+                            ->required()
+                            ->rules([
+                                fn (Get $get, ?Model $record): Unique => Rule::unique((new DocumentSequence())->getTable(), 'document_type')
+                                    ->ignore($record?->getKey())
+                                    ->where('company_id', Filament::getTenant()?->getKey())
+                                    ->where('establishment_code', (string) $get('establishment_code'))
+                                    ->where('emission_point_code', (string) $get('emission_point_code')),
+                            ]),
 
-                Select::make('establishment_code')
-                    ->options(fn (): array => self::resolveEstablishmentOptions())
-                    ->searchable()
-                    ->preload()
-                    ->live()
-                    ->required()
-                    ->exists(
-                        table: (new Establishment())->getTable(),
-                        column: 'code',
-                        modifyRuleUsing: fn (Exists $rule): Exists => $rule
-                            ->where('company_id', Filament::getTenant()?->getKey())
-                            ->where('is_active', true),
-                    )
-                    ->afterStateUpdated(function (Set $set): void {
-                        $set('emission_point_code', null);
-                    }),
+                        Select::make('establishment_code')
+                            ->options(fn (): array => self::resolveEstablishmentOptions())
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required()
+                            ->exists(
+                                table: (new Establishment())->getTable(),
+                                column: 'code',
+                                modifyRuleUsing: fn (Exists $rule): Exists => $rule
+                                    ->where('company_id', Filament::getTenant()?->getKey())
+                                    ->where('is_active', true),
+                            )
+                            ->afterStateUpdated(function (Set $set): void {
+                                $set('emission_point_code', null);
+                            }),
 
-                Select::make('emission_point_code')
-                    ->options(fn (Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->disabled(fn (Get $get): bool => blank($get('establishment_code')))
-                    ->rules([
-                        fn (Get $get): Closure => function (string $attribute, mixed $value, Closure $fail) use ($get): void {
-                            if (blank($value) || blank($get('establishment_code'))) {
-                                return;
-                            }
+                        Select::make('emission_point_code')
+                            ->options(fn (Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->disabled(fn (Get $get): bool => blank($get('establishment_code')))
+                            ->rules([
+                                fn (Get $get): Closure => function (string $attribute, mixed $value, Closure $fail) use ($get): void {
+                                    if (blank($value) || blank($get('establishment_code'))) {
+                                        return;
+                                    }
 
-                            $establishmentId = self::resolveActiveEstablishmentId((string) $get('establishment_code'));
+                                    $establishmentId = self::resolveActiveEstablishmentId((string) $get('establishment_code'));
 
-                            if (! $establishmentId) {
-                                $fail(__('The selected emission point is invalid for the selected establishment.'));
+                                    if (! $establishmentId) {
+                                        $fail(__('The selected emission point is invalid for the selected establishment.'));
 
-                                return;
-                            }
+                                        return;
+                                    }
 
-                            $exists = EmissionPoint::query()
-                                ->select('id')
-                                ->where('company_id', Filament::getTenant()?->getKey())
-                                ->where('code', $value)
-                                ->where('is_active', true)
-                                ->where('establishment_id', $establishmentId)
-                                ->exists();
+                                    $exists = EmissionPoint::query()
+                                        ->select('id')
+                                        ->where('company_id', Filament::getTenant()?->getKey())
+                                        ->where('code', $value)
+                                        ->where('is_active', true)
+                                        ->where('establishment_id', $establishmentId)
+                                        ->exists();
 
-                            if (! $exists) {
-                                $fail(__('The selected emission point is invalid for the selected establishment.'));
-                            }
-                        },
-                    ]),
+                                    if (! $exists) {
+                                        $fail(__('The selected emission point is invalid for the selected establishment.'));
+                                    }
+                                },
+                            ]),
 
-                TextInput::make('last_sequential')
-                    ->label(__('Last Issued'))
-                    ->dehydrated(false)
-                    ->readOnly(),
+                        TextInput::make('last_sequential')
+                            ->label(__('Last Issued'))
+                            ->dehydrated(false)
+                            ->readOnly()
+                            ->hiddenOn('create'),
+                    ])
+                    ->columns(3),
             ])
-            ->columns(4);
+            ->columns(1);
     }
 
     /**

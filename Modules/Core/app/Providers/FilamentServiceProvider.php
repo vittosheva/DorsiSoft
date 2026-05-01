@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Core\Providers;
 
 use Carbon\CarbonImmutable;
-use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -43,6 +42,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Component;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter as MalzarieyDateRangeFilter;
 use Tapp\FilamentTimezoneField\Forms\Components\TimezoneSelect;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 use YousefAman\ModalRepeater\ModalRepeater;
 
 final class FilamentServiceProvider extends ServiceProvider
@@ -91,7 +91,7 @@ final class FilamentServiceProvider extends ServiceProvider
                 ->filtersFormColumns(12)
                 ->filtersLayout(FiltersLayout::AboveContent)
                 ->filtersResetActionPosition(FiltersResetActionPosition::Footer)
-                ->filtersApplyAction(fn (Action $action) => $action->label(__('To Filter'))->color('primary')->icon(LucideIcon::ListFilter))
+                ->filtersApplyAction(fn (Action $action) => $action->label(__('To Filter'))->color('primary')->icon(Phosphor::Funnel))
                 ->persistFiltersInSession()
                 ->persistSearchInSession(false)
                 ->persistColumnSearchesInSession(false)

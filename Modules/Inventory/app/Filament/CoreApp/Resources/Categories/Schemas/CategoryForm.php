@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
+use Modules\Inventory\Filament\CoreApp\Resources\Categories\CategoryResource;
 use Modules\Inventory\Models\Category;
 
 final class CategoryForm
@@ -32,6 +33,7 @@ final class CategoryForm
     private static function infoSection(): Section
     {
         return Section::make(__('Category Information'))
+            ->icon(CategoryResource::getNavigationIcon())
             ->schema([
                 CodeTextInput::make()
                     ->autoGenerateFromModel(

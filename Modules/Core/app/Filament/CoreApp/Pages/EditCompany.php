@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Core\Filament\CoreApp\Pages;
 
-use Closure;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
@@ -52,6 +51,7 @@ use Modules\Core\Support\Forms\TextInputs\RucTextInput;
 use Modules\Core\Support\Sri\SriPayloadMapper;
 use Modules\Core\Traits\LocationSelects;
 use Modules\Finance\Enums\TaxTypeEnum;
+use Modules\Finance\Filament\CoreApp\Resources\Taxes\TaxResource;
 use Modules\Finance\Support\Forms\Selects\TaxSelect;
 use Modules\Sri\Enums\SriEnvironmentEnum;
 use Modules\Sri\Enums\SriRegimeTypeEnum;
@@ -86,12 +86,6 @@ final class EditCompany extends EditTenantProfile
                     ->columnSpan(3),
             ])
             ->columns(12);
-    }
-
-    protected function afterSave(): void
-    {
-        $this->tenant->refresh();
-        $this->fillForm();
     }
 
     public function saveFormComponentOnly(Component $component): void
@@ -135,7 +129,13 @@ final class EditCompany extends EditTenantProfile
 
         $this->commitDatabaseTransaction();
 
-        //$this->redirect($this->getUrl('edit', ['tenant' => $this->tenant->getKey()]));
+        // $this->redirect($this->getUrl('edit', ['tenant' => $this->tenant->getKey()]));
+    }
+
+    protected function afterSave(): void
+    {
+        $this->tenant->refresh();
+        $this->fillForm();
     }
 
     /**
@@ -235,7 +235,7 @@ final class EditCompany extends EditTenantProfile
     {
         return [
             self::brandingSection(),
-            //self::statusSection(),
+            // self::statusSection(),
         ];
     }
 
@@ -252,6 +252,7 @@ final class EditCompany extends EditTenantProfile
     private static function companyInfoSection(): Section
     {
         return Section::make(__('Company information'))
+            ->icon(Heroicon::OutlinedBuildingStorefront)
             ->schema([
                 RucTextInput::make('ruc')
                     ->sriAllowedFields([
@@ -259,8 +260,8 @@ final class EditCompany extends EditTenantProfile
                         'trade_name',
                         'business_activity',
                     ])
-                    ->uniqueCompanyRuc(fn(?Company $record): ?Company => $record)
-                    ->readOnly(fn(?Company $record) => $record !== null)
+                    ->uniqueCompanyRuc(fn (?Company $record): ?Company => $record)
+                    ->readOnly(fn (?Company $record) => $record !== null)
                     ->columnSpan(3),
                 TextInput::make('legal_name')
                     ->required()
@@ -283,6 +284,7 @@ final class EditCompany extends EditTenantProfile
     private static function contactSection(): Section
     {
         return Section::make(__('Contact'))
+            ->icon(Heroicon::OutlinedPhone)
             ->schema([
                 TextInput::make('phone')
                     ->tel()
@@ -300,12 +302,13 @@ final class EditCompany extends EditTenantProfile
     private static function addressSection(): Section
     {
         return Section::make(__('Address'))
+            ->icon(Heroicon::OutlinedMapPin)
             ->schema([
                 Select::make('country_id')
                     ->relationship(
                         name: 'country',
                         titleAttribute: 'name',
-                        modifyQueryUsing: static fn(Builder $query) => self::configureLocationQuery($query)->select(['id', 'name'])
+                        modifyQueryUsing: static fn (Builder $query) => self::configureLocationQuery($query)->select(['id', 'name'])
                     )
                     ->preload(true)
                     ->searchable()
@@ -319,24 +322,24 @@ final class EditCompany extends EditTenantProfile
                     ->relationship(
                         name: 'state',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query, Get $get) => self::configureDependentLocationQuery($query, $get, 'country_id', 'country_id')->select(['id', 'name'])
+                        modifyQueryUsing: fn (Builder $query, Get $get) => self::configureDependentLocationQuery($query, $get, 'country_id', 'country_id')->select(['id', 'name'])
                     )
                     ->searchable()
-                    ->preload(fn(Get $get) => filled($get('country_id')))
-                    ->disabled(fn(Get $get) => blank($get('country_id')))
+                    ->preload(fn (Get $get) => filled($get('country_id')))
+                    ->disabled(fn (Get $get) => blank($get('country_id')))
                     ->live()
-                    ->afterStateUpdated(fn($set) => $set('city_id', null))
+                    ->afterStateUpdated(fn ($set) => $set('city_id', null))
                     ->partiallyRenderComponentsAfterStateUpdated(['city_id'])
                     ->native(false),
                 Select::make('city_id')
                     ->relationship(
                         name: 'city',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query, Get $get) => self::configureDependentLocationQuery($query, $get, 'state_id', 'state_id')->select(['id', 'name'])
+                        modifyQueryUsing: fn (Builder $query, Get $get) => self::configureDependentLocationQuery($query, $get, 'state_id', 'state_id')->select(['id', 'name'])
                     )
-                    ->preload(fn(Get $get) => filled($get('state_id')))
-                    ->disabled(fn(Get $get) => blank($get('state_id')))
-                    ->searchable(fn(Get $get) => $get('state_id') !== null),
+                    ->preload(fn (Get $get) => filled($get('state_id')))
+                    ->disabled(fn (Get $get) => blank($get('state_id')))
+                    ->searchable(fn (Get $get) => $get('state_id') !== null),
                 TextInput::make('parish')
                     ->hidden(),
             ])
@@ -349,7 +352,7 @@ final class EditCompany extends EditTenantProfile
             ->schema([
                 LivewireSchema::make(
                     CompanyEstablishmentsManager::class,
-                    fn($livewire): ?array => ($livewire->tenant && $livewire->tenant instanceof Company)
+                    fn ($livewire): ?array => ($livewire->tenant && $livewire->tenant instanceof Company)
                         ? ['companyId' => (int) $livewire->tenant->getKey()]
                         : null,
                 )
@@ -370,6 +373,7 @@ final class EditCompany extends EditTenantProfile
     private static function taxSettingsSection(): Section
     {
         return Section::make(__('Tax settings'))
+            ->icon(TaxResource::getNavigationIcon())
             ->headerActions([
                 self::taxSettingsValidationAction(),
             ])
@@ -413,6 +417,7 @@ final class EditCompany extends EditTenantProfile
     private static function taxpayerDataSection(): Section
     {
         return Section::make(__('Taxpayer data'))
+            ->icon(Heroicon::Identification)
             ->schema([
                 TextInput::make('contributor_status')
                     ->maxLength(255)
@@ -496,6 +501,7 @@ final class EditCompany extends EditTenantProfile
     private static function subscriptionHistorySection(): Section
     {
         return Section::make(__('Subscription history'))
+            ->icon(Heroicon::OutlinedClock)
             ->schema([
                 View::make('core::filament.company.subscription-history-table')
                     ->viewData(function (?Company $record): array {
@@ -522,6 +528,7 @@ final class EditCompany extends EditTenantProfile
         return Tab::make(__('Configuration'))
             ->schema([
                 Section::make(__('Settings'))
+                    ->icon(Heroicon::OutlinedCog6Tooth)
                     ->schema([
                         TaxSelect::make('default_tax_id')
                             ->forType(TaxTypeEnum::Iva),
@@ -569,7 +576,7 @@ final class EditCompany extends EditTenantProfile
                     })
                     ->acceptedFileTypes(['application/x-pkcs12', '.p12', '.pfx'])
                     ->disk('local')
-                    ->directory(fn(?Company $record): string => $record?->ruc
+                    ->directory(fn (?Company $record): string => $record?->ruc
                         ? "tenants/{$record->ruc}/certificates"
                         : 'certificates/pending')
                     ->visibility('private')
@@ -596,16 +603,16 @@ final class EditCompany extends EditTenantProfile
 
                 Flex::make([
                     TextInput::make('certificate_valid_from')
-                        ->formatStateUsing(fn($state) => $state ? Carbon::parse($state)->format('d/m/Y') : null)
+                        ->formatStateUsing(fn ($state) => $state ? Carbon::parse($state)->format('d/m/Y') : null)
                         ->dehydrated(false)
                         ->disabled(),
 
                     TextInput::make('certificate_expiration_date')
-                        ->formatStateUsing(fn($state) => $state ? Carbon::parse($state)->format('d/m/Y') : null)
+                        ->formatStateUsing(fn ($state) => $state ? Carbon::parse($state)->format('d/m/Y') : null)
                         ->dehydrated(false)
                         ->disabled(),
                 ])
-                    ->visible(fn(?Company $record) => filled($record->certificate_path) && filled($record->certificate_valid_from) && filled($record->certificate_expiration_date)),
+                    ->visible(fn (?Company $record) => filled($record->certificate_path) && filled($record->certificate_valid_from) && filled($record->certificate_expiration_date)),
 
                 Callout::make()
                     ->description(__('Your signature key is stored securely and in encrypted form in our servers.'))
@@ -628,17 +635,18 @@ final class EditCompany extends EditTenantProfile
     private static function approvalFlowsSection(): Section
     {
         return Section::make(__('Approval flows'))
+            ->icon(Heroicon::OutlinedCheckBadge)
             ->description(__('Enable and configure approval workflows for this company. Each flow can require specific roles and a minimum document amount.'))
             ->schema([
                 Repeater::make('approvalSettings')
                     ->relationship(
                         name: 'approvalSettings',
-                        modifyQueryUsing: fn($query) => $query->select(['id', 'company_id', 'flow_key', 'min_amount', 'required_roles', 'is_enabled'])->orderBy('created_at')
+                        modifyQueryUsing: fn ($query) => $query->select(['id', 'company_id', 'flow_key', 'min_amount', 'required_roles', 'is_enabled'])->orderBy('created_at')
                     )
                     ->schema([
                         Select::make('flow_key')
                             ->label(__('Flow'))
-                            ->options(fn($livewire) => app(ApprovalRegistry::class)->all($livewire->tenant?->getKey()))
+                            ->options(fn ($livewire) => app(ApprovalRegistry::class)->all($livewire->tenant?->getKey()))
                             ->searchable()
                             ->required()
                             ->disableOptionsWhenSelectedInSiblingRepeaterItems()
@@ -646,7 +654,7 @@ final class EditCompany extends EditTenantProfile
                             ->columnSpan(2),
 
                         MoneyTextInput::make('min_amount')
-                            ->currencyCode(fn(): string => filament()->getTenant()?->defaultCurrency?->code ?? 'USD')
+                            ->currencyCode(fn (): string => filament()->getTenant()?->defaultCurrency?->code ?? 'USD')
                             ->placeholder('—')
                             ->hintIcon(Heroicon::OutlinedInformationCircle, __('Minimum document amount required for this approval.')),
 
@@ -654,7 +662,7 @@ final class EditCompany extends EditTenantProfile
                             ->multiple()
                             ->searchable()
                             ->options(
-                                fn() => Role::query()
+                                fn () => Role::query()
                                     ->select(['name', 'display_name', 'description'])
                                     ->where('company_id', filament()->getTenant()->id)
                                     ->limit(config('dorsi.filament.select_filter_options_limit', 50))
@@ -663,10 +671,10 @@ final class EditCompany extends EditTenantProfile
                                         return mb_strtolower(__($role->display_name ?? $role->name));
                                     }, SORT_NATURAL | SORT_FLAG_CASE)
                                     ->mapWithKeys(function (Role $role) {
-                                        $display = '<strong>' . __($role->display_name ?? $role->name) . '</strong>';
+                                        $display = '<strong>'.__($role->display_name ?? $role->name).'</strong>';
                                         $description = __($role->description ?? '');
 
-                                        return [$role->name => $display . ($description ? '<br>' . $description : '')];
+                                        return [$role->name => $display.($description ? '<br>'.$description : '')];
                                     })
                                     ->toArray()
                             )
@@ -688,8 +696,8 @@ final class EditCompany extends EditTenantProfile
                         // Validación de duplicados (solo hint visual)
                         $flows = collect($state);
                         $duplicates = $flows
-                            ->groupBy(fn($item) => $item['flow_key'] . '-' . ($item['min_amount'] ?? '0'))
-                            ->filter(fn($group) => $group->count() > 1);
+                            ->groupBy(fn ($item) => $item['flow_key'].'-'.($item['min_amount'] ?? '0'))
+                            ->filter(fn ($group) => $group->count() > 1);
                         if ($duplicates->isNotEmpty()) {
                             $component->addError('approvalSettings', __('Duplicate flows detected: same type and minimum amount!'));
                         }
@@ -721,7 +729,7 @@ final class EditCompany extends EditTenantProfile
                     })
                     ->columnSpanFull(),
             ])
-            ->visible(fn(?Company $record) => $record->loadMissing('approvalHistory') && $record->approvalHistory->isNotEmpty())
+            ->visible(fn (?Company $record) => $record->loadMissing('approvalHistory') && $record->approvalHistory->isNotEmpty())
             ->collapsible();
     }
 
@@ -733,11 +741,11 @@ final class EditCompany extends EditTenantProfile
                 FileUpload::make('logo_url')
                     ->label(__('Company logo'))
                     ->image()
-                    ->disk(fn() => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
-                    ->directory(fn($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
-                    ->visibility(fn() => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
-                    ->acceptedFileTypes(fn() => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
-                    ->maxSize(fn() => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
+                    ->disk(fn () => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
+                    ->directory(fn ($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
+                    ->visibility(fn () => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
+                    ->acceptedFileTypes(fn () => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
+                    ->maxSize(fn () => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
                     ->hintIcon(Heroicon::OutlinedInformationCircle, __('Upload a high-quality logo. SVG, PNG, or WEBP recommended.'))
                     ->columnSpan(2),
 
@@ -745,11 +753,11 @@ final class EditCompany extends EditTenantProfile
                     ->label(__('Company logo for PDF'))
                     ->helperText(__('Used on invoices, reports and documents generated in PDF'))
                     ->image()
-                    ->disk(fn() => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
-                    ->directory(fn($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
-                    ->visibility(fn() => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
-                    ->acceptedFileTypes(fn() => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
-                    ->maxSize(fn() => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
+                    ->disk(fn () => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
+                    ->directory(fn ($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
+                    ->visibility(fn () => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
+                    ->acceptedFileTypes(fn () => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
+                    ->maxSize(fn () => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
                     ->hintIcon(Heroicon::OutlinedInformationCircle, __('Upload a high-quality logo. SVG, PNG, or WEBP recommended.'))
                     ->columnSpan(2),
 
@@ -757,11 +765,11 @@ final class EditCompany extends EditTenantProfile
                     ->label(__('Company logo isotype'))
                     ->helperText(__('Used in the app header and small spaces. SVG, PNG, or WEBP recommended.'))
                     ->image()
-                    ->disk(fn() => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
-                    ->directory(fn($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
-                    ->visibility(fn() => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
-                    ->acceptedFileTypes(fn() => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
-                    ->maxSize(fn() => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
+                    ->disk(fn () => FileStoragePathService::getDisk(FileTypeEnum::CompanyLogos))
+                    ->directory(fn ($record) => FileStoragePathService::getPath(FileTypeEnum::CompanyLogos, $record))
+                    ->visibility(fn () => FileStoragePathService::getVisibility(FileTypeEnum::CompanyLogos))
+                    ->acceptedFileTypes(fn () => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CompanyLogos))
+                    ->maxSize(fn () => FileStoragePathService::getMaxSizeKb(FileTypeEnum::CompanyLogos))
                     ->hintIcon(Heroicon::OutlinedInformationCircle, __('Upload a lower-quality or simplified version of your logo for small spaces. SVG, PNG, or WEBP recommended.'))
                     ->columnSpan(2),
             ]);
@@ -778,7 +786,7 @@ final class EditCompany extends EditTenantProfile
 
     private static function shouldDisableWhenBlank(string $statePath): callable
     {
-        return fn(Get $get): bool => blank($get($statePath));
+        return fn (Get $get): bool => blank($get($statePath));
     }
 
     private function handleSriValidation(Set $set): void
@@ -796,7 +804,7 @@ final class EditCompany extends EditTenantProfile
             $validated = $this->hydrateSriDataFields(
                 $ruc,
                 function (string $field, mixed $value) use ($set): void {
-                    $set('data.' . $field, $value, true, true);
+                    $set('data.'.$field, $value, true, true);
                 }
             );
         } catch (Throwable) {
@@ -932,7 +940,7 @@ final class EditCompany extends EditTenantProfile
         }
 
         return collect($representatives)
-            ->filter(fn(mixed $representative): bool => is_array($representative))
+            ->filter(fn (mixed $representative): bool => is_array($representative))
             ->map(function (array $representative): array {
                 return [
                     'identification' => mb_trim((string) (
@@ -955,7 +963,7 @@ final class EditCompany extends EditTenantProfile
                     )),
                 ];
             })
-            ->filter(fn(array $representative): bool => $representative['identification'] !== '' || $representative['name'] !== '')
+            ->filter(fn (array $representative): bool => $representative['identification'] !== '' || $representative['name'] !== '')
             ->values()
             ->all();
     }

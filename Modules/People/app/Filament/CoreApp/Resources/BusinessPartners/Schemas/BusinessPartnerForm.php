@@ -48,6 +48,7 @@ use Modules\People\Support\Forms\Selects\SellerUserSelect;
 use Modules\Sales\Filament\CoreApp\Resources\Invoices\InvoiceResource;
 use Modules\Sales\Filament\CoreApp\Resources\Quotations\QuotationResource;
 use Modules\Sales\Filament\CoreApp\Resources\SalesOrders\SalesOrderResource;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 
 final class BusinessPartnerForm
 {
@@ -77,6 +78,7 @@ final class BusinessPartnerForm
     private static function basicInfoSection(): Section
     {
         return Section::make(__('Basic Information'))
+            ->icon(Heroicon::Identification)
             ->description(__('Main identity and classification data.'))
             ->schema([
                 CodeTextInput::make('code')
@@ -229,6 +231,7 @@ final class BusinessPartnerForm
     private static function tabContactSection(): Section
     {
         return Section::make(__('Contact Information'))
+            ->icon(Phosphor::UserCircleGearFill)
             ->description(__('Communication and fiscal address data.'))
             ->schema([
                 Repeater::make('email')
@@ -275,6 +278,7 @@ final class BusinessPartnerForm
     private static function tabCustomerSection(): Section
     {
         return Section::make(__('Customer Details'))
+            ->icon(Phosphor::UserCircleGearFill)
             ->description(__('Credit, payment, and commercial conditions.'))
             ->relationship('customerDetail')
             ->schema([
@@ -325,6 +329,7 @@ final class BusinessPartnerForm
     private static function tabSupplierSection(): Section
     {
         return Section::make(__('Supplier Details'))
+            ->icon(Phosphor::UserCircleGearFill)
             ->description(__('Payment terms and supply conditions.'))
             ->relationship('supplierDetail')
             ->schema([
@@ -349,6 +354,7 @@ final class BusinessPartnerForm
     private static function tabCarrierSection(): Section
     {
         return Section::make(__('Carrier Details'))
+            ->icon(Phosphor::UserCircleGearFill)
             ->description(__('Transport authorization and insurance data.'))
             ->relationship('carrierDetail')
             ->schema([
@@ -394,6 +400,7 @@ final class BusinessPartnerForm
     private static function tabCarrierVehiclesSection(): Section
     {
         return Section::make(__('Vehicles'))
+            ->icon(Phosphor::TruckFill)
             ->description(__('Drivers and vehicles assigned to this carrier.'))
             ->schema([
                 Repeater::make('carrierVehicles')
@@ -471,6 +478,7 @@ final class BusinessPartnerForm
     private static function tabAddressesSection(): Section
     {
         return Section::make(__('Addresses'))
+            ->icon(Phosphor::AddressBookFill)
             ->description(__('Billing, shipping, and branch addresses.'))
             ->schema([
                 Repeater::make('addresses')
@@ -533,6 +541,7 @@ final class BusinessPartnerForm
     private static function tabBankAccountsSection(): Section
     {
         return Section::make(__('Bank accounts'))
+            ->icon(Phosphor::PiggyBankFill)
             ->description(__('Bank accounts for payments and collections.'))
             ->schema([
                 Repeater::make('bankAccounts')
@@ -591,6 +600,7 @@ final class BusinessPartnerForm
     {
         return [
             Section::make(__('Roles'))
+                ->icon(Phosphor::ShieldStarFill)
                 ->description(__('Assign roles to the entity.'))
                 ->schema([
                     Select::make('roles')
@@ -613,6 +623,7 @@ final class BusinessPartnerForm
                 ->columnSpanFull(),
 
             Section::make(__('Status'))
+                ->icon(Phosphor::CheckCircleFill)
                 ->description(__('Availability for operations.'))
                 ->schema([
                     Toggle::make('is_active')

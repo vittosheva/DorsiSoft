@@ -15,7 +15,7 @@ final class KardexService
      *
      * @return Collection<int, array<string, mixed>>
      */
-    public function kardex(int $productId, int $warehouseId, ?Carbon $from = null, ?Carbon $to = null): Collection
+    public function kardex(?int $productId, ?int $warehouseId, ?Carbon $from = null, ?Carbon $to = null): Collection
     {
         $query = InventoryMovement::query()
             ->with(['documentType', 'lot', 'creator'])

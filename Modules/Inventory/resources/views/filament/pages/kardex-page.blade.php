@@ -1,6 +1,6 @@
 <x-filament-panels::page>
     <div class="space-y-6">
-        <x-filament::section>
+        <x-filament::section icon="phosphor-funnel">
             <x-slot name="heading">{{ __('Filters') }}</x-slot>
             {{ $this->filtersForm }}
             <div class="mt-4 flex justify-end">

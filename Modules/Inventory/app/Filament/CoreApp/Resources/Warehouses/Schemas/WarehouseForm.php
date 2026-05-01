@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Schemas;
 
+use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -23,6 +24,7 @@ final class WarehouseForm
         return $schema
             ->components([
                 Section::make(__('Warehouse Information'))
+                    ->icon(LucideIcon::Warehouse)
                     ->schema([
                         Grid::make(12)
                             ->schema([

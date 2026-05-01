@@ -12,6 +12,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
+use Modules\Inventory\Filament\CoreApp\Resources\Units\UnitResource;
 use Modules\Inventory\Models\Unit;
 
 final class UnitForm
@@ -21,6 +22,7 @@ final class UnitForm
         return $schema
             ->components([
                 Section::make(__('Unit Information'))
+                    ->icon(UnitResource::getNavigationIcon())
                     ->schema([
                         Grid::make(12)
                             ->schema([

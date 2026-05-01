@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
@@ -67,19 +68,26 @@ final class KardexPage extends Page implements HasForms
         return $schema
             ->statePath('data')
             ->components([
-                ProductSelect::make('productId'),
+                Grid::make(12)
+                    ->schema([
+                        ProductSelect::make('productId')
+                            ->columnSpan(3),
 
-                Select::make('warehouseId')
-                    ->options(fn () => Warehouse::query()
-                        ->where('company_id', Filament::getTenant()?->getKey())
-                        ->active()
-                        ->pluck('name', 'id')),
+                        Select::make('warehouseId')
+                            ->options(fn () => Warehouse::query()
+                                ->where('company_id', Filament::getTenant()?->getKey())
+                                ->active()
+                                ->pluck('name', 'id'))
+                            ->columnSpan(3),
 
-                DatePicker::make('fromDate'),
+                        DatePicker::make('fromDate')
+                            ->columnSpan(2),
 
-                DatePicker::make('toDate'),
+                        DatePicker::make('toDate')
+                            ->columnSpan(2),
+                    ]),
             ])
-            ->columns(4);
+            ->columns(1);
     }
 
     public function applyFilters(): void

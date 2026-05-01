@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Modules\Accounting\Filament\CoreApp\Resources\JournalEntries\JournalEntryResource;
 use Modules\Accounting\Models\FiscalPeriod;
 
 final class JournalEntryForm
@@ -19,6 +20,7 @@ final class JournalEntryForm
         return $schema
             ->components([
                 Section::make(__('Journal Entry'))
+                    ->icon(JournalEntryResource::getNavigationIcon())
                     ->schema([
                         Grid::make(12)
                             ->schema([

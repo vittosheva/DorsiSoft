@@ -8,7 +8,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use Modules\Core\Support\Pages\BaseViewRecord;
@@ -39,7 +39,8 @@ final class ViewDocumentSequence extends BaseViewRecord
                 ->icon(Heroicon::ArrowPath)
                 ->color('warning')
                 ->schema([
-                    Grid::make()
+                    Section::make(__('Reset Sequential Number'))
+                        ->icon(Heroicon::ExclamationTriangle)
                         ->schema([
                             TextInput::make('last_sequential')
                                 ->label(__('Last Issued'))

@@ -11,8 +11,10 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Modules\Accounting\Filament\CoreApp\Resources\ChartOfAccounts\ChartOfAccountResource;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
+use Modules\System\Filament\CoreApp\Resources\DocumentTypes\DocumentTypeResource;
 
 final class DocumentTypeForm
 {
@@ -36,6 +38,7 @@ final class DocumentTypeForm
     private static function identificationSection(): Section
     {
         return Section::make(__('Identification'))
+            ->icon(DocumentTypeResource::getNavigationIcon())
             ->afterHeader([
                 Toggle::make('is_active')
                     ->default(true),
@@ -67,6 +70,7 @@ final class DocumentTypeForm
     private static function behaviorsSection(): Section
     {
         return Section::make(__('Behaviors'))
+            ->icon(Heroicon::Cog6Tooth)
             ->description(__('Configure what this document type generates and affects.'))
             ->schema([
                 Grid::make(12)
@@ -111,6 +115,7 @@ final class DocumentTypeForm
     private static function accountingSection(): Section
     {
         return Section::make(__('Accounting Integration'))
+            ->icon(ChartOfAccountResource::getNavigationIcon())
             ->description(__('Default accounts used when generating draft journal entries.'))
             ->schema([
                 Grid::make(12)

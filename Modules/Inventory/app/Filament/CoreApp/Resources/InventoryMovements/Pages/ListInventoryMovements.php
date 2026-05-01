@@ -46,7 +46,8 @@ final class ListInventoryMovements extends ListRecords
                 ->icon(Heroicon::OutlinedPlusCircle)
                 ->color('primary')
                 ->schema(fn () => [
-                    Section::make(__('Header'))
+                    Section::make(__('Main information'))
+                        ->icon(Heroicon::DocumentText)
                         ->schema([
                             DatePicker::make('movement_date')
                                 ->default(today())
@@ -62,6 +63,7 @@ final class ListInventoryMovements extends ListRecords
                         ])
                         ->columns(4),
                     Section::make(__('Details'))
+                        ->icon(Heroicon::ListBullet)
                         ->schema([
                             Fieldset::make(__('Documents'))
                                 ->schema([

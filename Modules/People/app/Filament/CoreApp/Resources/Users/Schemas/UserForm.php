@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -29,6 +30,7 @@ use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
 use Spatie\Permission\Models\Role;
 use Tapp\FilamentTimezoneField\Forms\Components\TimezoneSelect;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 use YousefAman\ModalRepeater\Column;
 use YousefAman\ModalRepeater\ModalRepeater;
 
@@ -78,6 +80,7 @@ final class UserForm
     private static function basicInfoSection(): Section
     {
         return Section::make(__('Basic Information'))
+            ->icon(Heroicon::UserCircle)
             ->description(__('Main account identity details.'))
             ->schema([
                 CodeTextInput::make('code')
@@ -111,7 +114,8 @@ final class UserForm
 
     private static function credentialsSection(): Section
     {
-        return Section::make(__('Credentials & Company'))
+        return Section::make(__('Credentials'))
+            ->icon(Heroicon::LockClosed)
             ->description(__('Access credentials and organizational assignment.'))
             ->schema([
                 Select::make('role_name')
@@ -168,6 +172,7 @@ final class UserForm
     private static function assignmentSection(): Section
     {
         return Section::make(__('Assignment'))
+            ->icon(Phosphor::UserCirclePlusFill)
             ->description(__('Contact and locale settings for this user.'))
             ->schema([
                 EstablishmentSelect::make('establishment_id')
@@ -192,6 +197,7 @@ final class UserForm
     private static function emissionPointsSection(): Section
     {
         return Section::make(__('Emission Points Assignment'))
+            ->icon(Phosphor::CashRegisterFill)
             ->description(__('Assignment and configuration of charges by emission point.'))
             ->schema([
                 ModalRepeater::make('userEmissionPoints')
@@ -266,6 +272,7 @@ final class UserForm
     private static function avatarSection(): Section
     {
         return Section::make(__('Avatar'))
+            ->icon(Phosphor::ImageFill)
             ->description(__('Profile image used across the system.'))
             ->schema([
                 FileUpload::make('avatar_url')
@@ -290,6 +297,7 @@ final class UserForm
     private static function accountStatusSection(): Section
     {
         return Section::make(__('Account Status'))
+            ->icon(Phosphor::CheckCircleFill)
             ->description(__('Define if this user can access the panel.'))
             ->schema([
                 Toggle::make('is_allowed_to_login')

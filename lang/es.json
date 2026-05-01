@@ -2039,5 +2039,12 @@
     "Company logo isotype": "Isotipo de la empresa",
     "Used in the app header and small spaces. SVG, PNG, or WEBP recommended.": "Usado en el encabezado de la aplicación y espacios pequeños. Se recomiendan SVG, PNG o WEBP.",
     "Upload a lower-quality or simplified version of your logo for small spaces. SVG, PNG, or WEBP recommended.": "Sube una versión de menor calidad o simplificada de tu logo para espacios pequeños. Se recomiendan SVG, PNG o WEBP.",
-    "Your signature key is stored securely and in encrypted form in our servers.": "La clave de la firma se almacena de forma segura y encriptada en nuestros servidores."
+    "Your signature key is stored securely and in encrypted form in our servers.": "La clave de la firma se almacena de forma segura y encriptada en nuestros servidores.",
+    "Credentials": "Credenciales",
+    "Clear Form Fields?": "¿Borrar campos del formulario?",
+    "Are you sure you want to clear all form fields? This action cannot be undone.": "¿Está seguro de que desea borrar todos los campos del formulario? Esta acción no se puede deshacer.",
+    "Form Cleared": "Formulario borrado",
+    "All form fields have been cleared successfully.": "Todos los campos del formulario se han borrado correctamente.",
+    "Main information": "Información principal",
+    "Reset Sequential Number": "Reiniciar número secuencial"
 }

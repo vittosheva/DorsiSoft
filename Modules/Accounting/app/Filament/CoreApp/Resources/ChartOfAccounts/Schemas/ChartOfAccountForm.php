@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Modules\Accounting\Enums\AccountNatureEnum;
 use Modules\Accounting\Enums\AccountTypeEnum;
+use Modules\Accounting\Filament\CoreApp\Resources\ChartOfAccounts\ChartOfAccountResource;
 use Modules\Accounting\Models\ChartOfAccount;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
 
@@ -23,6 +24,7 @@ final class ChartOfAccountForm
         return $schema
             ->components([
                 Section::make(__('Account details'))
+                    ->icon(ChartOfAccountResource::getNavigationIcon())
                     ->schema([
                         Grid::make(12)
                             ->schema([
