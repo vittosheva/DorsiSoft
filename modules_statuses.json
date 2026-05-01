@@ -1,0 +1,12 @@
+{
+    "Accounting": true,
+    "Core": true,
+    "Finance": true,
+    "Inventory": true,
+    "People": true,
+    "Reports": true,
+    "Sales": true,
+    "Sri": true,
+    "System": true,
+    "Workflow": true
+}

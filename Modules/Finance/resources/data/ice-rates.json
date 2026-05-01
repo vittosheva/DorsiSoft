@@ -1,0 +1,156 @@
+{
+  "version": "2024",
+  "source": "SRI Ecuador — LRTI Art. 82 / Resolución NAC-DGERCGC",
+  "description": "Matrices ICE por categoría de producto vigentes 2024",
+  "categories": [
+    {
+      "definition_code": "ICE_ALCOHOL",
+      "rule_name": "ICE Alcohol — Tarifa específica por litro de alcohol puro",
+      "description": "Bebidas alcohólicas distintas de cerveza — mixto: $7.68/litro + 75% PVP",
+      "sri_code": "3",
+      "sri_percentage_code": "3051",
+      "calculation_type": "mixed",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 75.00,
+          "fixed_amount": 7.68,
+          "excess_from": 0,
+          "description": "Mixto: $7.68/litro alcohol puro + 75% precio ex-fábrica"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_CERVEZA",
+      "rule_name": "ICE Cerveza — Tarifa mixta específica + porcentual",
+      "description": "Cerveza — mixto: $0.91/litro + 75% precio ex-fábrica",
+      "sri_code": "3",
+      "sri_percentage_code": "3011",
+      "calculation_type": "mixed",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 75.00,
+          "fixed_amount": 0.91,
+          "excess_from": 0,
+          "description": "Mixto: $0.91/litro + 75% precio ex-fábrica"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_CIGARRILLOS",
+      "rule_name": "ICE Cigarrillos — Tarifa específica por unidad",
+      "description": "Cigarrillos — $0.164 por unidad (cajetilla 20 = $3.28)",
+      "sri_code": "3",
+      "sri_percentage_code": "3071",
+      "calculation_type": "fixed",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 0.00,
+          "fixed_amount": 0.164,
+          "excess_from": 0,
+          "description": "$0.164 por cigarrillo"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_BEBIDAS",
+      "rule_name": "ICE Bebidas Azucaradas — Porcentaje sobre PVP",
+      "description": "Bebidas con azúcar añadida — 10% sobre PVP",
+      "sri_code": "3",
+      "sri_percentage_code": "3191",
+      "calculation_type": "percentage",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 10.00,
+          "fixed_amount": 0,
+          "excess_from": 0,
+          "description": "10% sobre precio de venta al público"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_VEHICULOS",
+      "rule_name": "ICE Vehículos — Tabla progresiva por precio",
+      "description": "Vehículos de transporte terrestre — tarifa progresiva según precio",
+      "sri_code": "3",
+      "sri_percentage_code": "3151",
+      "calculation_type": "progressive",
+      "lines": [
+        { "sort_order": 1, "from_amount": 0.00,     "to_amount": 20000.00, "rate": 0.00,  "fixed_amount": 0, "excess_from": 0, "description": "Hasta $20.000 — 0%" },
+        { "sort_order": 2, "from_amount": 20000.00, "to_amount": 30000.00, "rate": 5.00,  "fixed_amount": 0, "excess_from": 0, "description": "$20.001 a $30.000 — 5%" },
+        { "sort_order": 3, "from_amount": 30000.00, "to_amount": 40000.00, "rate": 10.00, "fixed_amount": 0, "excess_from": 0, "description": "$30.001 a $40.000 — 10%" },
+        { "sort_order": 4, "from_amount": 40000.00, "to_amount": 50000.00, "rate": 15.00, "fixed_amount": 0, "excess_from": 0, "description": "$40.001 a $50.000 — 15%" },
+        { "sort_order": 5, "from_amount": 50000.00, "to_amount": 70000.00, "rate": 20.00, "fixed_amount": 0, "excess_from": 0, "description": "$50.001 a $70.000 — 20%" },
+        { "sort_order": 6, "from_amount": 70000.00, "to_amount": null,     "rate": 35.00, "fixed_amount": 0, "excess_from": 0, "description": "Más de $70.000 — 35%" }
+      ]
+    },
+    {
+      "definition_code": "ICE_PERFUMES",
+      "rule_name": "ICE Perfumes — 20% sobre PVP",
+      "description": "Perfumes, fragancias y preparaciones de tocador — 20% sobre PVP",
+      "sri_code": "3",
+      "sri_percentage_code": "3101",
+      "calculation_type": "percentage",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 20.00,
+          "fixed_amount": 0,
+          "excess_from": 0,
+          "description": "20% sobre precio de venta al público"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_VIDEOJUEGOS",
+      "rule_name": "ICE Videojuegos — 35% sobre PVP",
+      "description": "Videojuegos — 35% sobre precio de venta al público",
+      "sri_code": "3",
+      "sri_percentage_code": "3131",
+      "calculation_type": "percentage",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 35.00,
+          "fixed_amount": 0,
+          "excess_from": 0,
+          "description": "35% sobre precio de venta al público"
+        }
+      ]
+    },
+    {
+      "definition_code": "ICE_TELECOM",
+      "rule_name": "ICE Telecomunicaciones — 15% sobre precio del servicio",
+      "description": "Servicios de telecomunicaciones y radiodifusión — 15%",
+      "sri_code": "3",
+      "sri_percentage_code": "3211",
+      "calculation_type": "percentage",
+      "lines": [
+        {
+          "sort_order": 1,
+          "from_amount": null,
+          "to_amount": null,
+          "rate": 15.00,
+          "fixed_amount": 0,
+          "excess_from": 0,
+          "description": "15% sobre precio del servicio"
+        }
+      ]
+    }
+  ]
+}

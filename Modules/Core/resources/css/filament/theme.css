@@ -1,0 +1,813 @@
+@import '../../../../../vendor/filament/filament/resources/css/theme.css';
+
+/* Third party packages */
+@source '../../../../vendor/malzariey/filament-daterangepicker-filter/resources/css/filament-daterangepicker.css';
+@source '../../../../../resources/views/vendor/**/*.blade.php';
+
+/* All Modules */
+@source '../../../../Accounting/resources/views/**/*.blade.php';
+@source '../../../../Accounting/app/Filament/**/*.php';
+@source '../../../../Core/resources/views/**/*.blade.php';
+@source '../../../../Core/app/Filament/**/*.php';
+@source '../../../../Finance/resources/views/**/*.blade.php';
+@source '../../../../Finance/app/Filament/**/*.php';
+@source '../../../../Inventory/resources/views/**/*.blade.php';
+@source '../../../../Inventory/app/Filament/**/*.php';
+@source '../../../../People/resources/views/**/*.blade.php';
+@source '../../../../People/app/Filament/**/*.php';
+@source '../../../../Reports/resources/views/**/*.blade.php';
+@source '../../../../Reports/app/Filament/**/*.php';
+@source '../../../../Sales/resources/views/**/*.blade.php';
+@source '../../../../Sales/app/Filament/**/*.php';
+@source '../../../../Sri/resources/views/**/*.blade.php';
+@source '../../../../Sri/app/Filament/**/*.php';
+@source '../../../../System/resources/views/**/*.blade.php';
+@source '../../../../System/app/Filament/**/*.php';
+@source '../../../../Workflow/resources/views/**/*.blade.php';
+@source '../../../../Workflow/app/Filament/**/*.php';
+
+@layer base {
+    html {
+        font-size: 0.85rem;
+        @apply antialiased font-normal;
+    }
+}
+
+[x-cloak] {
+    display: none;
+}
+
+.fi-topbar nav {
+    @apply bg-primary-900!;
+}
+
+.fi-topbar>nav>ul>.fi-topbar-item:first-child {
+    @apply hidden;
+}
+
+.fi-topbar-item-button {
+    @apply px-2! py-2!;
+}
+
+.fi-topbar-item-btn {
+    padding-inline: calc(var(--spacing) * 2) !important;
+}
+
+.fi-sidebar-nav {
+    @apply bg-white border-r border-r-gray-200 py-6! dark:bg-gray-900 dark:border-r-gray-800;
+    padding-top: 0.5rem !important;
+}
+
+.fi-fo-field-wrp-label .leading-6 {
+    @apply leading-4!;
+}
+
+.fi-form .fi-fo-component-ctn {
+    @apply gap-y-3!;
+}
+
+.fi-page .flex.flex-col.gap-y-8.py-8 {
+    @apply gap-y-3! py-4! mb-10!;
+}
+
+.fi-accordion {
+    @apply overflow-visible!;
+}
+
+.fi-accordion .fi-accordion-item button {
+    @apply bg-transparent!;
+}
+
+.fi-ta-text.px-3.py-4,
+.fi-ta-image.px-3.py-4,
+.fi-ta-icon.px-3.py-4,
+.fi-ta-color.px-3.py-4,
+.fi-ta-cell>.px-3.py-4 {
+    @apply px-2! py-2!;
+}
+
+.fi-section-header,
+.fi-section-content {
+    @apply px-4! py-3!;
+}
+
+.fi-ta-filters-above-content-ctn {
+    @apply px-2.5! py-2.5! sm:px-4!;
+}
+
+.fi-sidebar-nav-groups {
+    @apply gap-y-2!;
+}
+
+.fi-fo-placeholder {
+    @apply hyphens-auto!;
+    line-height: 2.1rem !important;
+}
+
+.fi-fo-field-wrp.justify-center .flex.items-center.justify-between {
+    @apply justify-center!;
+}
+
+/**
+* TABLE
+**/
+.fi-ta-table>thead>tr {
+    @apply divide-x divide-gray-200 dark:divide-white/5;
+}
+
+.fi-ta-row {
+    @apply divide-x divide-gray-200 dark:divide-white/5;
+}
+
+.fi-ta-ctn .fi-ta-header,
+.fi-section-header {
+    @apply bg-primary-50/40! rounded-tl-lg! rounded-tr-lg! dark:bg-gray-800!;
+}
+
+.fi-ta-header-cell {
+    @apply px-2! py-2!;
+}
+
+.global-search-modal-overlay {
+    @apply bg-black/50!;
+}
+
+.fi-global-search-result {
+    @apply p-0.5! mt-3!;
+}
+
+.fi-topbar-with-navigation>nav>ul.me-4.gap-x-4 {
+    @apply gap-x-3!;
+}
+
+.fi-topbar.sticky.top-0.z-20.overflow-x-clip {
+    @apply z-10!;
+}
+
+.fi-page-sub-navigation-sidebar {
+    @apply gap-y-3!;
+}
+
+.fi-fo-text-input .fi-input-wrp-input .fi-input {
+    @apply h-full!;
+}
+
+.fi-fo-rich-editor-main {
+    min-height: 12rem !important;
+}
+
+.search-menu .fi-input {
+    @apply pl-9!;
+}
+
+.camera-field button {
+    @apply px-1.5! py-2!;
+}
+
+.camera-field .flex.items-center.space-x-4 {
+    @apply gap-3 relative z-20;
+}
+
+/*
+ * POS
+ */
+.service-icon {
+    @apply transition-all duration-200 ease-in-out;
+}
+
+.service-button:hover .service-icon {
+    @apply transform scale-110;
+}
+
+.service-button {
+    @apply relative overflow-hidden;
+}
+
+.service-button::after {
+    content: '';
+    @apply absolute inset-0 bg-cyan-500 opacity-0 transition-opacity duration-200;
+}
+
+.service-button:hover::after {
+    @apply opacity-10;
+}
+
+.item-card {
+    @apply relative;
+}
+
+.item-card::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-0 w-1 bg-cyan-500 opacity-0 transition-opacity duration-200;
+}
+
+.item-card:hover::before {
+    @apply opacity-100;
+}
+
+/* Animaciones para modales */
+.modal-backdrop {
+    backdrop-filter: blur(4px);
+}
+
+/* Efecto de onda al hacer clic */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Scrollbar personalizado */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb #f3f4f6;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* Skeleton loading */
+.skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+}
+
+.fi-fo-file-upload-avatar {
+    @apply mx-auto;
+}
+
+.fi-input-wrp .fi-input-wrp-suffix:not(.fi-inline) {
+    padding-inline-start: calc(var(--spacing) * 1.5);
+}
+
+.fi-input-wrp .fi-input-wrp-suffix {
+    padding-inline-end: calc(var(--spacing) * 1.5);
+}
+
+.fi-ta-cell.fi-align-center .fi-ta-placeholder {
+    @apply text-center;
+}
+
+.fi-topbar-nav-groups {
+    column-gap: calc(var(--spacing) * 1) !important;
+}
+
+.column-resize-handle-bar {
+    z-index: 9 !important;
+}
+
+.fi-fo-table-repeater>table .fi-fo-table-repeater-actions {
+    padding-inline: calc(var(--spacing) * 1) !important;
+    padding-block: calc(var(--spacing) * 1) !important;
+}
+
+.fi-fo-table-repeater>table>tbody>tr>td {
+    padding-inline: calc(var(--spacing) * 2) !important;
+    padding-block: calc(var(--spacing) * 2) !important;
+}
+
+.fi {
+    background-color: var(--primary-50) !important;
+}
+
+.fi-body {
+    @apply bg-slate-50 dark:bg-slate-950 bg-linear-to-b dark:from-slate-950 from-slate-100 to-transparent dark:to-transparent;
+}
+
+.fi-fo-table-repeater>table>tbody>tr>td {
+    padding-inline: calc(var(--spacing) * 1.5) !important;
+    padding-block: unset !important;
+}
+
+.fi-input {
+    padding: .5rem .5rem !important;
+    line-height: 1.3rem !important;
+}
+
+.fi-fo-table-repeater .fi-input-wrp-content-ctn .fi-input {
+    padding: .4rem .3rem !important;
+}
+
+.fi-input-wrp-content-ctn .fi-select-input-search-ctn .fi-input {
+    padding: .6rem .8rem !important;
+}
+
+.fi-sc.fi-sc-has-gap {
+    gap: calc(var(--spacing) * 4) !important;
+}
+
+.fi-tenant-menu.fi-dropdown {
+    @apply bg-white dark:bg-gray-900 m-0;
+    padding: 0.6rem 0.8rem 0 !important;
+}
+
+#sidebar-search {
+    @apply bg-white dark:bg-gray-900;
+}
+
+.fi-tenant-menu.fi-dropdown, #sidebar-search {
+    @apply border-r border-r-gray-200 dark:border-r-gray-800;
+}
+
+:is(.fi-ta-text.fi-ta-text-has-descriptions,.fi-ta-text.fi-ta-text-list-limited):not(.fi-ta-text-has-badges) {
+    row-gap: calc(var(--spacing) * 0) !important;
+}
+
+.fi-ta-text:not(.fi-inline) {
+    padding-inline: calc(var(--spacing) * 2) !important;
+    padding-block: calc(var(--spacing) * 2) !important;
+}
+
+/* Modal Draggable - Solo para modales, no slideovers */
+.fi-modal-window:not(.fi-modal-slide-over-panel) .fi-modal-header[data-draggable-installed] {
+    cursor: move;
+    user-select: none;
+}
+
+.fi-fieldset.fi-sc-fieldset {
+    @apply p-4!;
+}
+
+ul.fi-topbar-nav-groups > li.fi-topbar-item span.fi-topbar-item-label {
+    @apply hidden!;
+}
+
+.fi-btn.fi-color-primary {
+    background-color: var(--color-600) !important;
+    color: white !important;
+}
+
+.fi-btn.fi-color-primary:hover {
+    background-color: var(--color-500) !important;
+    color: white !important;
+}
+
+.fi-btn.fi-color-primary svg {
+    color: inherit !important;
+}
+
+/*
+ * Active States
+ */
+.fi-topbar-item.fi-active .fi-topbar-item-btn {
+    background-color: var(--primary-50) !important;
+}
+
+.fi-topbar-item.fi-active .fi-topbar-item-btn:where(.dark,.dark *) {
+    background-color: #ffffff0d !important;
+}
+
+.fi-sidebar-item.fi-active>.fi-sidebar-item-btn {
+    background-color: var(--primary-100) !important;
+}
+
+.fi-dropdown-list-item.fi-color-primary:not(.fi-disabled):not([disabled]) {
+    background-color: var(--primary-50);
+}
+
+@media (hover: hover) {
+    .fi-dropdown-list-item:not(.fi-disabled):not([disabled]):hover {
+        background-color: var(--primary-50);
+    }
+}
+
+@media (hover: hover) {
+    .fi-dropdown-list-item.fi-color:not(.fi-disabled):not([disabled]):hover {
+        background-color: var(--primary-50);
+    }
+}
+
+@media (hover: hover) {
+    @supports (color:color-mix(in lab,red,red)) {
+        .fi-dropdown-list-item:not(.fi-disabled):not([disabled]):where(.dark,.dark *):hover {
+            background-color: color-mix(in oklab, var(--color-white) 5%, transparent) !important;
+        }
+    }
+}
+
+@supports (color:color-mix(in lab,red,red)) {
+    .fi-sidebar-item.fi-active>.fi-sidebar-item-btn:where(.dark,.dark *) {
+        background-color: color-mix(in oklab, var(--color-white) 5%, transparent) !important;
+    }
+}
+
+.fi-ta-header-toolbar .fi-ta-search-field .fi-input-wrp-content-ctn .fi-input {
+    width: 300px !important;
+}
+
+.fi-ta-actions {
+    justify-content: flex-start !important;
+}
+
+.pos-page .fi-page-content {
+    row-gap: unset !important;
+}
+
+/**
+ * Read-only inputs styling
+ */
+.fi-input[readonly],
+.fi-input[readonly]:focus {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 cursor-not-allowed;
+}
+
+.fi-global-search-field .fi-input-wrp-content-ctn .fi-input {
+    @apply cursor-auto! bg-transparent!;
+    width: 75px !important;
+}
+
+.fi-tenant-menu.fi-dropdown {
+    padding: 0 0.8rem 0 !important;
+}
+
+.fi-sidebar.fi-main-sidebar .fi-tenant-menu.fi-dropdown {
+    padding: 0.8rem 0.8rem 0 !important;
+}
+
+.fi-simple-page-content .fi-simple-header .fi-logo {
+    height: 4rem !important;
+}
+
+/**
+ * FilamentMenuTopSwitcher Dark Mode Improvements
+ * Overrides vendor plugin styling for better visibility in dark mode
+ */
+
+.language-switch-trigger {
+    @apply dark:text-slate-100;
+}
+
+.language-switch-trigger:hover {
+    @apply dark:bg-slate-700/50;
+}
+
+.fi-tenant-menu-trigger-tenant-name {
+    @apply truncate block max-w-32.5 uppercase;
+}
+
+.filament-sidebar-btn {
+    @apply w-full flex justify-between items-center px-3 py-2 rounded-lg
+    text-sm font-medium
+    text-gray-700 dark:text-gray-300
+    hover:bg-gray-100 dark:hover:bg-gray-800
+}
+
+.filament-sub-btn {
+    @apply w-full flex justify-between items-center px-3 py-2 rounded-md
+    text-sm
+    text-gray-600 dark:text-gray-400
+    hover:bg-gray-100 dark:hover:bg-gray-800
+}
+
+.fi-page-header-main-ctn {
+    row-gap: calc(var(--spacing) * 6) !important;
+    padding-block: calc(var(--spacing) * 6) !important;
+}
+
+.fi-input-wrp .fi-input-wrp-prefix:not(.fi-inline) {
+    padding-inline-start: calc(var(--spacing) * 2);
+    padding-inline-end: calc(var(--spacing) * 2);
+}
+
+
+/*
+ * Page Transitions
+ * Utiliza la API de View Transitions para aplicar animaciones suaves al navegar entre páginas.
+ */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: fade-out 0.4s ease forwards;
+}
+
+::view-transition-new(root) {
+    animation: fade-in 0.4s ease forwards;
+}
+
+@keyframes fade-out {
+    to { opacity: 0; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+}
+
+@keyframes slide-out {
+    to { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+}
+
+.fi-wi-widget .fi-sc.fi-grid.fi-section-content {
+    padding-inline: calc(var(--spacing) * 0) !important;
+    padding-block: calc(var(--spacing) * 0) !important;
+}
+
+/* .fi-section:not(.fi-section-not-contained):not(.fi-aside) {
+    min-height: 100% !important;
+} */
+
+/* ─── Feature 1: Before-heading actions ──────────────────────────────────── */
+
+.fi-page-header-with-before-actions {
+    margin-block-end: calc(var(--spacing) * 2);
+}
+
+/* ─── Feature 2: Action separator ────────────────────────────────────────── */
+
+/* Inline context: vertical bar */
+.fi-action-separator-inline {
+    display: inline-block;
+    width: 1px;
+    height: 1.25rem;
+    background-color: currentColor;
+    opacity: 0.2;
+    vertical-align: middle;
+    margin-inline: 0.25rem;
+}
+
+.fi-action-separator-inline:first-child,
+.fi-action-separator-inline:last-child,
+.fi-action-separator-inline + .fi-action-separator-inline {
+    display: none;
+}
+
+/* In a dropdown the inline variant is hidden and the <hr> is shown */
+.fi-dropdown-list .fi-action-separator-inline {
+    display: none;
+}
+
+.fi-action-separator-dropdown {
+    display: none;
+}
+
+.fi-action-separator-dropdown:first-child,
+.fi-action-separator-dropdown:last-child,
+.fi-action-separator-dropdown + .fi-action-separator-dropdown {
+    display: none;
+}
+
+.fi-dropdown-list .fi-action-separator-dropdown {
+    display: block;
+}
+
+/* ─── Feature 3: Animated notification bell ──────────────────────────────── */
+
+@keyframes fi-bell-ring {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(15deg); }
+    30%  { transform: rotate(-12deg); }
+    45%  { transform: rotate(10deg); }
+    60%  { transform: rotate(-8deg); }
+    75%  { transform: rotate(4deg); }
+    90%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Filament 5 database-notifications open button */
+.fi-topbar-database-notifications-btn:hover svg {
+    animation: fi-bell-ring 0.6s ease-in-out;
+    transform-origin: top center;
+}
+
+/* Unread badge — rendered by the NotificationBellBadge Livewire component.
+   Positioned relative to the closest .fi-topbar-item-button ancestor via JS
+   wrapper, or floats near the bell via fixed positioning below. */
+.fi-bell-badge {
+    position: fixed;
+    z-index: 50;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    padding-inline: 0.25rem;
+    border-radius: 9999px;
+    background-color: oklch(93.2% 0.032 255.585);   /* blue-100 */
+    color: oklch(44.8% 0.143 265.522);              /* blue-700 */
+    font-size: 0.625rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    line-height: 1;
+    transform: translate(calc(var(--fi-bell-x, 0px) + 0.6rem), calc(var(--fi-bell-y, 0px) - 0.4rem));
+}
+
+/* ─── Feature 4: Sticky actions column + custom scrollbar ────────────────── */
+
+/*
+ * data-sticky-actions values:
+ *   "end"   → stick the last td (e.g. AfterColumns/AfterCells actions)
+ *   "start" → stick checkbox (fi-ta-selection-cell) + actions td after it (BeforeColumns)
+ *   "both"  → both start and end
+ *
+ * Background must be explicit — position:sticky cells don't inherit tr backgrounds.
+ * CSS custom property --fi-sticky-start-offset controls the actions column left offset
+ * (= checkbox column width, default 3.25rem for Filament's w-1 + px-3 + ps-6 sizing).
+ */
+
+/* ── END sticky (last column) ── */
+[data-sticky-actions="end"] .fi-ta-row td:last-child,
+[data-sticky-actions="end"] tr th:last-child,
+[data-sticky-actions="both"] .fi-ta-row td:last-child,
+[data-sticky-actions="both"] tr th:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background-color: white;
+}
+
+/* Shadow: left edge of end-sticky column */
+[data-sticky-actions="end"] .fi-ta-row td:last-child::before,
+[data-sticky-actions="end"] tr th:last-child::before,
+[data-sticky-actions="both"] .fi-ta-row td:last-child::before,
+[data-sticky-actions="both"] tr th:last-child::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: -8px;
+    width: 8px;
+    background: linear-gradient(to right, transparent, rgb(0 0 0 / 6%));
+    pointer-events: none;
+}
+
+/* ── START sticky (checkbox + actions before data columns) ── */
+
+/* Checkbox cell — sticky at left: 0 */
+[data-sticky-actions="start"] .fi-ta-row td.fi-ta-selection-cell,
+[data-sticky-actions="start"] tr th.fi-ta-selection-cell,
+[data-sticky-actions="both"] .fi-ta-row td.fi-ta-selection-cell,
+[data-sticky-actions="both"] tr th.fi-ta-selection-cell {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background-color: white;
+}
+
+/* Actions cell — sticky offset by checkbox width */
+[data-sticky-actions="start"] .fi-ta-row td.fi-ta-selection-cell + td,
+[data-sticky-actions="start"] tr th.fi-ta-selection-cell + th,
+[data-sticky-actions="both"] .fi-ta-row td.fi-ta-selection-cell + td,
+[data-sticky-actions="both"] tr th.fi-ta-selection-cell + th {
+    position: sticky;
+    left: var(--fi-sticky-start-offset, 3.25rem);
+    z-index: 2;
+    background-color: white;
+}
+
+/* Shadow: right edge of actions cell */
+[data-sticky-actions="start"] .fi-ta-row td.fi-ta-selection-cell + td::after,
+[data-sticky-actions="start"] tr th.fi-ta-selection-cell + th::after,
+[data-sticky-actions="both"] .fi-ta-row td.fi-ta-selection-cell + td::after,
+[data-sticky-actions="both"] tr th.fi-ta-selection-cell + th::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    right: -8px;
+    width: 8px;
+    background: linear-gradient(to left, transparent, rgb(0 0 0 / 6%));
+    pointer-events: none;
+}
+
+/* ── Striped rows ── */
+[data-sticky-actions] .fi-ta-row.fi-striped td:last-child,
+[data-sticky-actions] .fi-ta-row.fi-striped td.fi-ta-selection-cell,
+[data-sticky-actions] .fi-ta-row.fi-striped td.fi-ta-selection-cell + td {
+    background-color: rgb(249 250 251); /* gray-50 */
+}
+
+/* ── Selected rows ── */
+[data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td:last-child,
+[data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td.fi-ta-selection-cell,
+[data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td.fi-ta-selection-cell + td {
+    background-color: rgb(249 250 251); /* gray-50 */
+}
+
+/* ── Hover rows ── */
+@media (hover: hover) {
+    [data-sticky-actions] .fi-ta-row.fi-clickable:hover td:last-child,
+    [data-sticky-actions] .fi-ta-row.fi-clickable:hover td.fi-ta-selection-cell,
+    [data-sticky-actions] .fi-ta-row.fi-clickable:hover td.fi-ta-selection-cell + td {
+        background-color: rgb(249 250 251); /* gray-50 */
+    }
+}
+
+/* ── Dark mode ── */
+.dark [data-sticky-actions] .fi-ta-row td:last-child,
+.dark [data-sticky-actions] .fi-ta-row td.fi-ta-selection-cell,
+.dark [data-sticky-actions] .fi-ta-row td.fi-ta-selection-cell + td {
+    background-color: rgb(17 24 39); /* gray-900 */
+}
+
+.dark [data-sticky-actions] .fi-ta-row.fi-striped td:last-child,
+.dark [data-sticky-actions] .fi-ta-row.fi-striped td.fi-ta-selection-cell,
+.dark [data-sticky-actions] .fi-ta-row.fi-striped td.fi-ta-selection-cell + td,
+.dark [data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td:last-child,
+.dark [data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td.fi-ta-selection-cell,
+.dark [data-sticky-actions] .fi-ta-row.fi-selected:not(.fi-striped) td.fi-ta-selection-cell + td {
+    background-color: rgba(255 255 255 / 5%); /* white/5 */
+}
+
+@media (hover: hover) {
+    .dark [data-sticky-actions] .fi-ta-row.fi-clickable:hover td:last-child,
+    .dark [data-sticky-actions] .fi-ta-row.fi-clickable:hover td.fi-ta-selection-cell,
+    .dark [data-sticky-actions] .fi-ta-row.fi-clickable:hover td.fi-ta-selection-cell + td {
+        background-color: rgba(255 255 255 / 5%);
+    }
+}
+
+/* Thin custom horizontal scrollbar for tables */
+.fi-ta-content {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(87.2% 0.01 258.338) transparent; /* gray-300 */
+}
+
+.fi-ta-content::-webkit-scrollbar {
+    height: 4px;
+}
+
+.fi-ta-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb {
+    background-color: oklch(87.2% 0.01 258.338); /* gray-300 */
+    border-radius: 9999px;
+}
+
+.dark .fi-ta-content::-webkit-scrollbar-thumb {
+    background-color: oklch(44.6% 0.03 256.802); /* gray-600 */
+}
+
+/* ─── Feature 5: Disabled button shake ───────────────────────────────────── */
+
+/*
+ * Filament sets pointer-events:none on disabled buttons (no tooltip).
+ * Re-enable so our mousedown listener can detect the click.
+ * Safe: the HTML disabled attribute already prevents browser click/submit.
+ */
+.fi-btn.fi-disabled:not(.fi-force-enabled):not([x-tooltip]) {
+    pointer-events: auto !important;
+}
+
+@keyframes fi-btn-shake {
+    0%   { transform: translateX(0); }
+    15%  { transform: translateX(-4px); }
+    30%  { transform: translateX(4px); }
+    45%  { transform: translateX(-4px); }
+    60%  { transform: translateX(4px); }
+    75%  { transform: translateX(-2px); }
+    90%  { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.fi-btn-shake {
+    animation: fi-btn-shake 0.4s ease-in-out;
+}
+
+.fi-wi-stats-overview-stat {
+    @apply transition duration-300 hover:shadow-lg shrink-0 cursor-pointer;
+}
+
+.fi-wi-stats-overview-stat:hover {
+    @apply transform -translate-y-1 scale-105;
+}
+
+.fi-empty-state {
+    padding-inline: calc(var(--spacing) * 6) !important;
+    padding-block: calc(var(--spacing) * 6) !important;
+}

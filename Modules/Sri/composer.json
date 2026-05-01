@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/sri",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Sri\\": "app/",
+            "Modules\\Sri\\Database\\Factories\\": "database/factories/",
+            "Modules\\Sri\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Sri\\Tests\\": "tests/"
+        }
+    }
+}

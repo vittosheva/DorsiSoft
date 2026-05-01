@@ -1,0 +1,89 @@
+{
+  "version": "2024",
+  "source": "SRI Ecuador — Resolución NAC-DGERCGC24-00000001 / LRTI Art. 36",
+  "description": "Tabla progresiva IR personas naturales vigente 2024",
+  "definition_code": "IR_PN_PROGRESIVO",
+  "brackets": [
+    {
+      "sort_order": 1,
+      "from_amount": 0.00,
+      "to_amount": 11722.00,
+      "excess_from": 0.00,
+      "rate": 0.00,
+      "fixed_amount": 0.00,
+      "description": "Fracción básica — tarifa 0%"
+    },
+    {
+      "sort_order": 2,
+      "from_amount": 11722.00,
+      "to_amount": 14931.00,
+      "excess_from": 11722.00,
+      "rate": 5.00,
+      "fixed_amount": 0.00,
+      "description": "5% sobre excedente de $11.722"
+    },
+    {
+      "sort_order": 3,
+      "from_amount": 14931.00,
+      "to_amount": 19919.00,
+      "excess_from": 14931.00,
+      "rate": 10.00,
+      "fixed_amount": 160.45,
+      "description": "10% sobre excedente de $14.931"
+    },
+    {
+      "sort_order": 4,
+      "from_amount": 19919.00,
+      "to_amount": 26031.00,
+      "excess_from": 19919.00,
+      "rate": 12.00,
+      "fixed_amount": 659.25,
+      "description": "12% sobre excedente de $19.919"
+    },
+    {
+      "sort_order": 5,
+      "from_amount": 26031.00,
+      "to_amount": 34255.00,
+      "excess_from": 26031.00,
+      "rate": 15.00,
+      "fixed_amount": 1392.69,
+      "description": "15% sobre excedente de $26.031"
+    },
+    {
+      "sort_order": 6,
+      "from_amount": 34255.00,
+      "to_amount": 45407.00,
+      "excess_from": 34255.00,
+      "rate": 20.00,
+      "fixed_amount": 2626.29,
+      "description": "20% sobre excedente de $34.255"
+    },
+    {
+      "sort_order": 7,
+      "from_amount": 45407.00,
+      "to_amount": 60450.00,
+      "excess_from": 45407.00,
+      "rate": 25.00,
+      "fixed_amount": 4856.69,
+      "description": "25% sobre excedente de $45.407"
+    },
+    {
+      "sort_order": 8,
+      "from_amount": 60450.00,
+      "to_amount": 80605.00,
+      "excess_from": 60450.00,
+      "rate": 30.00,
+      "fixed_amount": 8617.44,
+      "description": "30% sobre excedente de $60.450"
+    },
+    {
+      "sort_order": 9,
+      "from_amount": 80605.00,
+      "to_amount": null,
+      "excess_from": 80605.00,
+      "rate": 35.00,
+      "fixed_amount": 14663.94,
+      "description": "35% sobre excedente de $80.605"
+    }
+  ]
+}

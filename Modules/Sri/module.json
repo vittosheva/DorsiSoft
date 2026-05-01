@@ -1,0 +1,11 @@
+{
+    "name": "Sri",
+    "alias": "sri",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Sri\\Providers\\SriServiceProvider"
+    ],
+    "files": []
+}

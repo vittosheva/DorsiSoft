@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Modules\Accounting\Filament\CoreApp\Resources\ChartOfAccounts\Pages;
+
+use Modules\Accounting\Filament\CoreApp\Resources\ChartOfAccounts\ChartOfAccountResource;
+use Modules\Core\Support\Pages\BaseCreateRecord;
+
+final class CreateChartOfAccount extends BaseCreateRecord
+{
+    protected static string $resource = ChartOfAccountResource::class;
+}

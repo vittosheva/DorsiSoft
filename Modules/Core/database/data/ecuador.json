@@ -1,0 +1,1034 @@
+[
+    {
+        "id": 1,
+        "name": "AZUAY",
+        "cities": [
+            {
+                "id": "101",
+                "name": "SEVILLA DE ORO"
+            },
+            {
+                "id": "102",
+                "name": "PAUTE"
+            },
+            {
+                "id": "103",
+                "name": "GUACHAPALA"
+            },
+            {
+                "id": "104",
+                "name": "EL PAN"
+            },
+            {
+                "id": "105",
+                "name": "GUALACEO"
+            },
+            {
+                "id": "106",
+                "name": "CHORDELEG"
+            },
+            {
+                "id": "107",
+                "name": "SÍGSIG"
+            },
+            {
+                "id": "108",
+                "name": "CUENCA"
+            },
+            {
+                "id": "109",
+                "name": "SANTA ISABEL"
+            },
+            {
+                "id": "110",
+                "name": "PUCARÁ"
+            },
+            {
+                "id": "111",
+                "name": "CAMILO PONCE ENRÍQUEZ"
+            },
+            {
+                "id": "112",
+                "name": "SAN FERNANDO"
+            },
+            {
+                "id": "113",
+                "name": "GIRÓN"
+            },
+            {
+                "id": "114",
+                "name": "NABÓN"
+            },
+            {
+                "id": "115",
+                "name": "OÑA"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "BOLÍVAR",
+        "cities": [
+            {
+                "id": "201",
+                "name": "GUARANDA"
+            },
+            {
+                "id": "202",
+                "name": "LAS NAVES"
+            },
+            {
+                "id": "203",
+                "name": "ECHEANDÍA"
+            },
+            {
+                "id": "204",
+                "name": "CALUMA"
+            },
+            {
+                "id": "205",
+                "name": "CHIMBO"
+            },
+            {
+                "id": "206",
+                "name": "SAN MIGUEL"
+            },
+            {
+                "id": "207",
+                "name": "CHILLANES"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "CAÑAR",
+        "cities": [
+            {
+                "id": "301",
+                "name": "LA TRONCAL"
+            },
+            {
+                "id": "302",
+                "name": "CAÑAR"
+            },
+            {
+                "id": "303",
+                "name": "SUSCAL"
+            },
+            {
+                "id": "304",
+                "name": "EL TAMBO"
+            },
+            {
+                "id": "305",
+                "name": "AZOGUES"
+            },
+            {
+                "id": "306",
+                "name": "BIBLIÁN"
+            },
+            {
+                "id": "307",
+                "name": "DÉLEG"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "CARCHI",
+        "cities": [
+            {
+                "id": "401",
+                "name": "TULCÁN"
+            },
+            {
+                "id": "402",
+                "name": "MIRA"
+            },
+            {
+                "id": "403",
+                "name": "ESPEJO"
+            },
+            {
+                "id": "404",
+                "name": "MONTÚFAR"
+            },
+            {
+                "id": "405",
+                "name": "SAN PEDRO DE HUACA"
+            },
+            {
+                "id": "406",
+                "name": "BOLÍVAR"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "COTOPAXI",
+        "cities": [
+            {
+                "id": "501",
+                "name": "SIGCHOS"
+            },
+            {
+                "id": "502",
+                "name": "LA MANÁ"
+            },
+            {
+                "id": "503",
+                "name": "LATACUNGA"
+            },
+            {
+                "id": "504",
+                "name": "SAQUISILÍ"
+            },
+            {
+                "id": "505",
+                "name": "PUJILÍ"
+            },
+            {
+                "id": "506",
+                "name": "PANGUA"
+            },
+            {
+                "id": "507",
+                "name": "SALCEDO"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "CHIMBORAZO",
+        "cities": [
+            {
+                "id": "601",
+                "name": "GUANO"
+            },
+            {
+                "id": "602",
+                "name": "PENIPE"
+            },
+            {
+                "id": "603",
+                "name": "RIOBAMBA"
+            },
+            {
+                "id": "604",
+                "name": "COLTA"
+            },
+            {
+                "id": "605",
+                "name": "CHAMBO"
+            },
+            {
+                "id": "606",
+                "name": "PALLATANGA"
+            },
+            {
+                "id": "607",
+                "name": "GUAMOTE"
+            },
+            {
+                "id": "608",
+                "name": "ALAUSÍ"
+            },
+            {
+                "id": "609",
+                "name": "CUMANDÁ"
+            },
+            {
+                "id": "610",
+                "name": "CHUNCHI"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "EL ORO",
+        "cities": [
+            {
+                "id": "701",
+                "name": "EL GUABO"
+            },
+            {
+                "id": "702",
+                "name": "MACHALA"
+            },
+            {
+                "id": "703",
+                "name": "PASAJE"
+            },
+            {
+                "id": "704",
+                "name": "CHILLA"
+            },
+            {
+                "id": "705",
+                "name": "ZARUMA"
+            },
+            {
+                "id": "706",
+                "name": "SANTA ROSA"
+            },
+            {
+                "id": "707",
+                "name": "ATAHUALPA"
+            },
+            {
+                "id": "708",
+                "name": "ARENILLAS"
+            },
+            {
+                "id": "709",
+                "name": "HUAQUILLAS"
+            },
+            {
+                "id": "710",
+                "name": "LAS LAJAS"
+            },
+            {
+                "id": "711",
+                "name": "MARCABELÍ"
+            },
+            {
+                "id": "712",
+                "name": "BALSAS"
+            },
+            {
+                "id": "713",
+                "name": "PIÑAS"
+            },
+            {
+                "id": "714",
+                "name": "PORTOVELO"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "ESMERALDAS",
+        "cities": [
+            {
+                "id": "801",
+                "name": "SAN LORENZO"
+            },
+            {
+                "id": "802",
+                "name": "ELOY ALFARO"
+            },
+            {
+                "id": "803",
+                "name": "RIOVERDE"
+            },
+            {
+                "id": "804",
+                "name": "ESMERALDAS"
+            },
+            {
+                "id": "805",
+                "name": "MUISNE"
+            },
+            {
+                "id": "806",
+                "name": "ATACAMES"
+            },
+            {
+                "id": "807",
+                "name": "QUININDÉ"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "GALÁPAGOS",
+        "cities": [
+            {
+                "id": "901",
+                "name": "ISABELA"
+            },
+            {
+                "id": "902",
+                "name": "SAN CRISTÓBAL"
+            },
+            {
+                "id": "903",
+                "name": "SANTA CRUZ"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "GUAYAS",
+        "cities": [
+            {
+                "id": "1001",
+                "name": "EL EMPALME"
+            },
+            {
+                "id": "1002",
+                "name": "BALZAR"
+            },
+            {
+                "id": "1003",
+                "name": "COLIMES"
+            },
+            {
+                "id": "1004",
+                "name": "PALESTINA"
+            },
+            {
+                "id": "1005",
+                "name": "SANTA LUCÍA"
+            },
+            {
+                "id": "1006",
+                "name": "PEDRO CARBO"
+            },
+            {
+                "id": "1007",
+                "name": "ISIDRO AYORA"
+            },
+            {
+                "id": "1008",
+                "name": "LOMAS DE SARGENTILLO"
+            },
+            {
+                "id": "1009",
+                "name": "NOBOL"
+            },
+            {
+                "id": "1010",
+                "name": "DAULE"
+            },
+            {
+                "id": "1011",
+                "name": "SALITRE"
+            },
+            {
+                "id": "1012",
+                "name": "SAMBORONDÓN"
+            },
+            {
+                "id": "1013",
+                "name": "SAN JACINTO DE YAGUACHI"
+            },
+            {
+                "id": "1014",
+                "name": "ALFREDO BAQUERIZO MORENO"
+            },
+            {
+                "id": "1015",
+                "name": "MILAGRO"
+            },
+            {
+                "id": "1016",
+                "name": "SIMÓN BOLÍVAR"
+            },
+            {
+                "id": "1017",
+                "name": "NARANJITO"
+            },
+            {
+                "id": "1018",
+                "name": "GENERAL ANTONIO ELIZALDE"
+            },
+            {
+                "id": "1019",
+                "name": "CORONEL MARCELINO MARIDUEÑA"
+            },
+            {
+                "id": "1020",
+                "name": "EL TRIUNFO"
+            },
+            {
+                "id": "1021",
+                "name": "DURÁN"
+            },
+            {
+                "id": "1022",
+                "name": "GUAYAQUIL"
+            },
+            {
+                "id": "1023",
+                "name": "PLAYAS"
+            },
+            {
+                "id": "1024",
+                "name": "NARANJAL"
+            },
+            {
+                "id": "1025",
+                "name": "BALAO"
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "IMBABURA",
+        "cities": [
+            {
+                "id": "1101",
+                "name": "IBARRA"
+            },
+            {
+                "id": "1102",
+                "name": "SAN MIGUEL DE URCUQUÍ"
+            },
+            {
+                "id": "1103",
+                "name": "COTACACHI"
+            },
+            {
+                "id": "1104",
+                "name": "ANTONIO ANTE"
+            },
+            {
+                "id": "1105",
+                "name": "OTAVALO"
+            },
+            {
+                "id": "1106",
+                "name": "PIMAMPIRO"
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "LOJA",
+        "cities": [
+            {
+                "id": "1201",
+                "name": "SARAGURO"
+            },
+            {
+                "id": "1202",
+                "name": "LOJA"
+            },
+            {
+                "id": "1203",
+                "name": "CHAGUARPAMBA"
+            },
+            {
+                "id": "1204",
+                "name": "OLMEDO"
+            },
+            {
+                "id": "1205",
+                "name": "CATAMAYO"
+            },
+            {
+                "id": "1206",
+                "name": "PALTAS"
+            },
+            {
+                "id": "1207",
+                "name": "PUYANGO"
+            },
+            {
+                "id": "1208",
+                "name": "PINDAL"
+            },
+            {
+                "id": "1209",
+                "name": "CELICA"
+            },
+            {
+                "id": "1210",
+                "name": "ZAPOTILLO"
+            },
+            {
+                "id": "1211",
+                "name": "MACARÁ"
+            },
+            {
+                "id": "1212",
+                "name": "SOZORANGA"
+            },
+            {
+                "id": "1213",
+                "name": "CALVAS"
+            },
+            {
+                "id": "1214",
+                "name": "GONZANAMÁ"
+            },
+            {
+                "id": "1215",
+                "name": "QUILANGA"
+            },
+            {
+                "id": "1216",
+                "name": "ESPÍNDOLA"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "LOS RÍOS",
+        "cities": [
+            {
+                "id": "1301",
+                "name": "BUENA FE"
+            },
+            {
+                "id": "1302",
+                "name": "VALENCIA"
+            },
+            {
+                "id": "1303",
+                "name": "QUEVEDO"
+            },
+            {
+                "id": "1304",
+                "name": "QUINSALOMA"
+            },
+            {
+                "id": "1305",
+                "name": "PALENQUE"
+            },
+            {
+                "id": "1306",
+                "name": "MOCACHE"
+            },
+            {
+                "id": "1307",
+                "name": "VENTANAS"
+            },
+            {
+                "id": "1308",
+                "name": "VINCES"
+            },
+            {
+                "id": "1309",
+                "name": "BABA"
+            },
+            {
+                "id": "1310",
+                "name": "PUEBLOVIEJO"
+            },
+            {
+                "id": "1311",
+                "name": "URDANETA"
+            },
+            {
+                "id": "1312",
+                "name": "BABAHOYO"
+            },
+            {
+                "id": "1313",
+                "name": "MONTALVO"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "name": "MANABÍ",
+        "cities": [
+            {
+                "id": "1401",
+                "name": "PEDERNALES"
+            },
+            {
+                "id": "1402",
+                "name": "CHONE"
+            },
+            {
+                "id": "1403",
+                "name": "FLAVIO ALFARO"
+            },
+            {
+                "id": "1404",
+                "name": "EL CARMEN"
+            },
+            {
+                "id": "1405",
+                "name": "JAMA"
+            },
+            {
+                "id": "1406",
+                "name": "SAN VICENTE"
+            },
+            {
+                "id": "1407",
+                "name": "SUCRE"
+            },
+            {
+                "id": "1408",
+                "name": "TOSAGUA"
+            },
+            {
+                "id": "1409",
+                "name": "ROCAFUERTE"
+            },
+            {
+                "id": "1410",
+                "name": "JUNÍN"
+            },
+            {
+                "id": "1411",
+                "name": "BOLÍVAR"
+            },
+            {
+                "id": "1412",
+                "name": "PICHINCHA"
+            },
+            {
+                "id": "1413",
+                "name": "PORTOVIEJO"
+            },
+            {
+                "id": "1414",
+                "name": "JARAMIJÓ"
+            },
+            {
+                "id": "1415",
+                "name": "MANTA"
+            },
+            {
+                "id": "1416",
+                "name": "MONTECRISTI"
+            },
+            {
+                "id": "1417",
+                "name": "SANTA ANA"
+            },
+            {
+                "id": "1418",
+                "name": "JIPIJAPA"
+            },
+            {
+                "id": "1419",
+                "name": "VEINTICUATRO DE MAYO"
+            },
+            {
+                "id": "1420",
+                "name": "OLMEDO"
+            },
+            {
+                "id": "1421",
+                "name": "PUERTO LÓPEZ"
+            },
+            {
+                "id": "1422",
+                "name": "PAJÁN"
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "name": "MORONA SANTIAGO",
+        "cities": [
+            {
+                "id": "1501",
+                "name": "PALORA"
+            },
+            {
+                "id": "1502",
+                "name": "PABLO SEXTO"
+            },
+            {
+                "id": "1503",
+                "name": "HUAMBOYA"
+            },
+            {
+                "id": "1504",
+                "name": "MORONA"
+            },
+            {
+                "id": "1505",
+                "name": "TAISHA"
+            },
+            {
+                "id": "1506",
+                "name": "SUCÚA"
+            },
+            {
+                "id": "1507",
+                "name": "SANTIAGO"
+            },
+            {
+                "id": "1508",
+                "name": "LOGROÑO"
+            },
+            {
+                "id": "1509",
+                "name": "TIWINTZA"
+            },
+            {
+                "id": "1510",
+                "name": "LIMÓN INDANZA"
+            },
+            {
+                "id": "1511",
+                "name": "SAN JUAN BOSCO"
+            },
+            {
+                "id": "1512",
+                "name": "GUALAQUIZA"
+            },
+            {
+                "id": "1513",
+                "name": "SEVILLA DON BOSCO"
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "name": "NAPO",
+        "cities": [
+            {
+                "id": "1601",
+                "name": "EL CHACO"
+            },
+            {
+                "id": "1602",
+                "name": "QUIJOS"
+            },
+            {
+                "id": "1603",
+                "name": "ARCHIDONA"
+            },
+            {
+                "id": "1604",
+                "name": "TENA"
+            },
+            {
+                "id": "1605",
+                "name": "CARLOS JULIO AROSEMENA TOLA"
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "name": "PASTAZA",
+        "cities": [
+            {
+                "id": "1701",
+                "name": "MERA"
+            },
+            {
+                "id": "1702",
+                "name": "SANTA CLARA"
+            },
+            {
+                "id": "1703",
+                "name": "ARAJUNO"
+            },
+            {
+                "id": "1704",
+                "name": "PASTAZA"
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "name": "PICHINCHA",
+        "cities": [
+            {
+                "id": "1801",
+                "name": "PUERTO QUITO"
+            },
+            {
+                "id": "1802",
+                "name": "PEDRO VICENTE MALDONADO"
+            },
+            {
+                "id": "1803",
+                "name": "SAN MIGUEL DE LOS BANCOS"
+            },
+            {
+                "id": "1804",
+                "name": "QUITO"
+            },
+            {
+                "id": "1805",
+                "name": "PEDRO MONCAYO"
+            },
+            {
+                "id": "1806",
+                "name": "CAYAMBE"
+            },
+            {
+                "id": "1807",
+                "name": "RUMIÑAHUI"
+            },
+            {
+                "id": "1808",
+                "name": "MEJÍA"
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "name": "TUNGURAHUA",
+        "cities": [
+            {
+                "id": "1901",
+                "name": "AMBATO"
+            },
+            {
+                "id": "1902",
+                "name": "SANTIAGO DE PÍLLARO"
+            },
+            {
+                "id": "1903",
+                "name": "PATATE"
+            },
+            {
+                "id": "1904",
+                "name": "BAÑOS DE AGUA SANTA"
+            },
+            {
+                "id": "1905",
+                "name": "SAN PEDRO DE PELILEO"
+            },
+            {
+                "id": "1906",
+                "name": "CEVALLOS"
+            },
+            {
+                "id": "1907",
+                "name": "TISALEO"
+            },
+            {
+                "id": "1908",
+                "name": "MOCHA"
+            },
+            {
+                "id": "1909",
+                "name": "QUERO"
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "name": "ZAMORA CHINCHIPE",
+        "cities": [
+            {
+                "id": "2001",
+                "name": "YACUAMBI"
+            },
+            {
+                "id": "2002",
+                "name": "YANTZAZA"
+            },
+            {
+                "id": "2003",
+                "name": "EL PANGUI"
+            },
+            {
+                "id": "2004",
+                "name": "ZAMORA"
+            },
+            {
+                "id": "2005",
+                "name": "CENTINELA DEL CÓNDOR"
+            },
+            {
+                "id": "2006",
+                "name": "PAQUISHA"
+            },
+            {
+                "id": "2007",
+                "name": "NANGARITZA"
+            },
+            {
+                "id": "2008",
+                "name": "PALANDA"
+            },
+            {
+                "id": "2009",
+                "name": "CHINCHIPE"
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "name": "SUCUMBÍOS",
+        "cities": [
+            {
+                "id": "2101",
+                "name": "SUCUMBÍOS"
+            },
+            {
+                "id": "2102",
+                "name": "GONZALO PIZARRO"
+            },
+            {
+                "id": "2103",
+                "name": "CASCALES"
+            },
+            {
+                "id": "2104",
+                "name": "LAGO AGRIO"
+            },
+            {
+                "id": "2105",
+                "name": "PUTUMAYO"
+            },
+            {
+                "id": "2106",
+                "name": "CUYABENO"
+            },
+            {
+                "id": "2107",
+                "name": "SHUSHUFINDI"
+            }
+        ]
+    },
+    {
+        "id": 22,
+        "name": "ORELLANA",
+        "cities": [
+            {
+                "id": "2201",
+                "name": "LORETO"
+            },
+            {
+                "id": "2202",
+                "name": "FRANCISCO DE ORELLANA"
+            },
+            {
+                "id": "2203",
+                "name": "LA JOYA DE LOS SACHAS"
+            },
+            {
+                "id": "2204",
+                "name": "AGUARICO"
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "name": "SANTO DOMINGO DE LOS TSÁCHILAS",
+        "cities": [
+            {
+                "id": "2301",
+                "name": "LA CONCORDIA"
+            },
+            {
+                "id": "2302",
+                "name": "SANTO DOMINGO"
+            }
+        ]
+    },
+    {
+        "id": 24,
+        "name": "SANTA ELENA",
+        "cities": [
+            {
+                "id": "2401",
+                "name": "SANTA ELENA"
+            },
+            {
+                "id": "2402",
+                "name": "LA LIBERTAD"
+            },
+            {
+                "id": "2403",
+                "name": "SALINAS"
+            }
+        ]
+    }
+]
