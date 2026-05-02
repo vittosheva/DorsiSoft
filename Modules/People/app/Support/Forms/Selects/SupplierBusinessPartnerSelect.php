@@ -43,7 +43,7 @@ final class SupplierBusinessPartnerSelect extends Select
                 Action::make('select_supplier')
                     ->hiddenLabel()
                     ->icon(Heroicon::MagnifyingGlass)
-                    ->tooltip(fn ($operation) => $operation !== 'view' ? __('Search supplier') : null)
+                    ->tooltip(fn($operation) => $operation !== 'view' ? __('Search supplier') : null)
                     ->schema([
                         TableSelect::make('selected_supplier')
                             ->hiddenLabel()
@@ -65,10 +65,10 @@ final class SupplierBusinessPartnerSelect extends Select
                     })
                     ->modalHeading(__('Select supplier'))
                     ->modalSubmitActionLabel(__('Confirm selection'))
-                    ->visible(fn ($operation) => in_array($operation, ['create', 'edit'])),
+                    ->visible(fn($operation) => in_array($operation, ['create', 'edit'])),
             ])
             ->placeholder(__('Search by name or identification...'))
-            ->options(fn (): array => $this->resolveInitialOptions())
+            ->options(fn(): array => $this->resolveInitialOptions())
             ->searchable()
             ->required()
             ->getSearchResultsUsing(
@@ -81,7 +81,7 @@ final class SupplierBusinessPartnerSelect extends Select
 
                     if ($search !== '') {
                         $query->where(function ($innerQuery) use ($search): void {
-                            $searchPattern = '%'.$search.'%';
+                            $searchPattern = '%' . $search . '%';
 
                             $innerQuery->whereLike('legal_name', $searchPattern)
                                 ->orWhereLike('trade_name', $searchPattern)
@@ -101,30 +101,30 @@ final class SupplierBusinessPartnerSelect extends Select
                         ->orderBy('legal_name')
                         ->limit($limit)
                         ->get()
-                        ->mapWithKeys(fn (BusinessPartner $businessPartner): array => [
+                        ->mapWithKeys(fn(BusinessPartner $businessPartner): array => [
                             $businessPartner->id => "{$businessPartner->legal_name} - {$businessPartner->identification_number}",
                         ])
                         ->all();
                 }
             )
             ->getOptionLabelUsing(
-                fn ($value): ?string => BusinessPartner::query()
+                fn($value): ?string => BusinessPartner::query()
                     ->whereKey($value)
                     ->value('legal_name')
             )
             ->live()
             ->preload()
-            ->default(fn (): ?int => $this->resolveRequestedBusinessPartnerId())
+            ->default(fn(): ?int => $this->resolveRequestedBusinessPartnerId())
             ->afterStateUpdated(function ($state, Set $set, Get $get): void {
                 if ($this->afterSelectionCallback) {
                     ($this->afterSelectionCallback)($state, $set, $get);
                 }
             })
             ->createOptionAction(
-                fn (Action $action) => $action
+                fn(Action $action) => $action
                     ->tooltip(__('Create :name', ['name' => __('Supplier')]))
             )
-            ->createOptionForm(fn (Schema $schema) => SupplierMinimalCreateForm::configure($schema))
+            ->createOptionForm(fn(Schema $schema) => SupplierMinimalCreateForm::configure($schema))
             ->createOptionUsing(
                 function (array $data): int {
                     return DB::transaction(function () use ($data): int {
@@ -157,7 +157,7 @@ final class SupplierBusinessPartnerSelect extends Select
 
                         return BusinessPartnerResource::getUrl('edit', ['record' => $get($this->getName())]);
                     }, shouldOpenInNewTab: true)
-                    ->visible(fn (Get $get) => filled($get($this->getName()))),
+                    ->hidden(fn(Get $get, $operation) => blank($get($this->getName())) || $operation === 'view'),
             ]);
     }
 
@@ -203,7 +203,7 @@ final class SupplierBusinessPartnerSelect extends Select
             ->orderBy('legal_name')
             ->limit(max(1, $this->initialResultsLimit))
             ->get()
-            ->mapWithKeys(fn (BusinessPartner $businessPartner): array => [
+            ->mapWithKeys(fn(BusinessPartner $businessPartner): array => [
                 $businessPartner->id => "{$businessPartner->legal_name} - {$businessPartner->identification_number}",
             ])
             ->all();

@@ -14,6 +14,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -54,7 +55,7 @@ final class AppPanelProvider extends PanelProvider
             ->topNavigation()
             // Sidebar
             ->sidebarWidth('17rem')
-            ->sidebarFullyCollapsibleOnDesktop(fn () => ! $panel->hasTopNavigation())
+            ->sidebarFullyCollapsibleOnDesktop(fn() => ! $panel->hasTopNavigation())
             // Tenancy
             ->tenant(Company::class, 'ruc')
             ->tenantProfile(EditCompany::class)
@@ -80,6 +81,7 @@ final class AppPanelProvider extends PanelProvider
             ->font('Inter')
             ->colors([
                 'primary' => [
+                    25 => '#f5f7f9',
                     50 => '#d8dee8',
                     100 => '#b2bed1',
                     200 => '#7f93b3',
@@ -163,11 +165,11 @@ final class AppPanelProvider extends PanelProvider
 
     private function moduleAppPath(string $module, string $relativePath): string
     {
-        return base_path('Modules/'.$module.'/app/'.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath));
+        return base_path('Modules/' . $module . '/app/' . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath));
     }
 
     private function moduleNamespace(string $module, string $relativeNamespace): string
     {
-        return 'Modules\\'.$module.'\\'.mb_trim($relativeNamespace, '\\');
+        return 'Modules\\' . $module . '\\' . mb_trim($relativeNamespace, '\\');
     }
 }

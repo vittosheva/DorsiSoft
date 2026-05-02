@@ -122,7 +122,12 @@
 
 .fi-ta-ctn .fi-ta-header,
 .fi-section-header {
-    @apply bg-primary-50/40! rounded-tl-lg! rounded-tr-lg! dark:bg-gray-800!;
+    @apply bg-linear-to-b! to-primary-50! rounded-tl-lg! rounded-tr-lg! dark:bg-gray-800! dark:to-gray-800! dark:from-gray-900!;
+    /* @apply bg-primary-50/40! rounded-tl-lg! rounded-tr-lg! dark:bg-gray-800!; */
+}
+
+.fi-document-table-header {
+    @apply bg-linear-to-b! from-primary-700 to-primary-400! rounded-tl-lg! rounded-tr-lg! dark:bg-gray-800! dark:from-gray-900 dark:to-gray-800!;
 }
 
 .fi-ta-header-cell {

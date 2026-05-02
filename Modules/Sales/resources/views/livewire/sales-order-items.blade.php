@@ -19,7 +19,7 @@
             <div class="overflow-x-auto">
                 <div class="min-w-260">
                     {{-- Column headers --}}
-                    <div class="grid grid-cols-12 gap-3 bg-primary-900 px-5 py-3.5 text-sm font-semibold uppercase tracking-[0.14em]- text-gray-100 dark:bg-gray-950">
+                    <div class="grid grid-cols-12 gap-3 bg-primary-900 px-5 py-3.5 text-sm font-semibold uppercase tracking-[0.14em]- text-gray-100 dark:bg-gray-950 fi-document-table-header">
                         <div class="col-span-3">{{ __('Description') }}</div>
                         <div class="col-span-1 text-center">{{ __('Quantity') }}</div>
                         <div class="col-span-2 text-center">{{ __('Price') }}</div>
