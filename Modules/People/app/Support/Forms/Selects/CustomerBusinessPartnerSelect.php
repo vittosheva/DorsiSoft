@@ -16,6 +16,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
 use Modules\People\Enums\PartnerRoleEnum;
+use Modules\People\Filament\CoreApp\Resources\BusinessPartners\BusinessPartnerResource;
 use Modules\People\Filament\CoreApp\Resources\BusinessPartners\Schemas\CustomerMinimalCreateForm;
 use Modules\People\Models\BusinessPartner;
 use Modules\People\Models\PartnerRole;
@@ -147,11 +148,11 @@ final class CustomerBusinessPartnerSelect extends Select
                     ($this->afterSelectionCallback)($state, $set, $get);
                 }
             })
-            ->createOptionForm(fn (Schema $schema) => CustomerMinimalCreateForm::configure($schema))
             ->createOptionAction(
                 fn (Action $action) => $action
                     ->tooltip(__('Create :name', ['name' => __('Customer')]))
             )
+            ->createOptionForm(fn (Schema $schema) => CustomerMinimalCreateForm::configure($schema))
             ->createOptionUsing(
                 function (array $data): int {
                     return DB::transaction(function () use ($data): int {
@@ -172,7 +173,20 @@ final class CustomerBusinessPartnerSelect extends Select
                         return (int) $businessPartner->getKey();
                     });
                 }
-            );
+            )
+            ->suffixActions([
+                Action::make('edit_customer')
+                    ->icon(Heroicon::PencilSquare)
+                    ->tooltip(__('Edit :name', ['name' => __('Customer')]))
+                    ->url(function (Get $get) {
+                        if (! $get($this->getName())) {
+                            return null;
+                        }
+
+                        return BusinessPartnerResource::getUrl('edit', ['record' => $get($this->getName())]);
+                    }, shouldOpenInNewTab: true)
+                    ->visible(fn (Get $get) => filled($get($this->getName()))),
+            ]);
     }
 
     public static function getDefaultName(): ?string

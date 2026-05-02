@@ -18,7 +18,7 @@ use Modules\Sri\Enums\ElectronicCorrectionStatusEnum;
 use Modules\Sri\Enums\ElectronicStatusEnum;
 use Modules\Sri\Enums\SriElectronicDocumentTypeEnum;
 use Modules\Sri\Enums\SriEmissionTypeEnum;
-use Modules\Sri\Exceptions\ElectronicBillingException;
+use Modules\Sri\Exceptions\ElectronicDocumentProcessingException;
 use Modules\Sri\Services\Xml\XmlGeneratorFactory;
 use Throwable;
 
@@ -36,6 +36,8 @@ use Throwable;
  */
 final class ElectronicDocumentOrchestrator
 {
+    public string $logChannel = 'electronic_billing';
+
     public function __construct(
         private readonly AccessKeyGenerator $accessKeyGenerator,
         private readonly XmlGeneratorFactory $xmlGeneratorFactory,
@@ -47,7 +49,7 @@ final class ElectronicDocumentOrchestrator
     ) {}
 
     /**
-     * @throws ElectronicBillingException
+     * @throws ElectronicDocumentProcessingException
      */
     public function process(HasElectronicBilling $document, ?int $triggeredBy = null): void
     {
@@ -57,10 +59,10 @@ final class ElectronicDocumentOrchestrator
             'document_type' => $document->getSriDocumentTypeCode(),
         ];
 
-        Log::info('ElectronicDocument: process started', $context);
+        Log::channel($this->logChannel)->info('ElectronicDocument: process started', $context);
 
         if (method_exists($document, 'canProcessElectronicWorkflow') && ! $document->canProcessElectronicWorkflow()) {
-            throw new ElectronicBillingException('Only issued documents that are not already locked by the SRI workflow can be processed electronically.');
+            throw new ElectronicDocumentProcessingException('Only issued documents that are not already locked by the SRI workflow can be processed electronically.');
         }
 
         ElectronicEventLogger::record(
@@ -73,7 +75,7 @@ final class ElectronicDocumentOrchestrator
         $company = Company::withoutGlobalScopes()->find($document->company_id);
 
         if (! $company) {
-            throw new ElectronicBillingException("Company not found for document [{$document->id}].");
+            throw new ElectronicDocumentProcessingException("Company not found for document [{$document->id}].");
         }
 
         // 1. Eager-load relations needed for pre-validation and XML generation
@@ -82,7 +84,7 @@ final class ElectronicDocumentOrchestrator
         // 2. Pre-validate document and company data before doing any work
         $this->preValidator->validate($document, $company);
 
-        Log::info('ElectronicDocument: pre-validation passed', $context);
+        Log::channel($this->logChannel)->info('ElectronicDocument: pre-validation passed', $context);
 
         // 3. Generate access key if not present
         if (blank($document->access_key)) {
@@ -97,9 +99,9 @@ final class ElectronicDocumentOrchestrator
                 emissionType: SriEmissionTypeEnum::Normal,
             );
             $document->update(['access_key' => $accessKey]);
-            Log::info('ElectronicDocument: access key generated', array_merge($context, ['access_key' => $accessKey]));
+            Log::channel($this->logChannel)->info('ElectronicDocument: access key generated', array_merge($context, ['access_key' => $accessKey]));
         } else {
-            Log::info('ElectronicDocument: access key already set', array_merge($context, ['access_key' => $document->access_key]));
+            Log::channel($this->logChannel)->info('ElectronicDocument: access key already set', array_merge($context, ['access_key' => $document->access_key]));
         }
 
         $context['access_key'] = $document->access_key;
@@ -109,7 +111,7 @@ final class ElectronicDocumentOrchestrator
         $xml = $generator->generate($document);
         $document->update(['electronic_status' => ElectronicStatusEnum::XmlGenerated]);
 
-        Log::info('ElectronicDocument: XML generated', array_merge($context, ['xml_length' => mb_strlen($xml)]));
+        Log::channel($this->logChannel)->info('ElectronicDocument: XML generated', array_merge($context, ['xml_length' => mb_strlen($xml)]));
 
         ElectronicEventLogger::record(
             document: $document,
@@ -123,7 +125,7 @@ final class ElectronicDocumentOrchestrator
         if (config('sri.electronic.validate_xsd', true)) {
             $docTypeEnum = SriElectronicDocumentTypeEnum::from($document->getSriDocumentTypeCode());
             $this->xmlValidatorService->validate($xml, $document->getSriDocumentTypeCode(), $docTypeEnum->getXmlVersion());
-            Log::info('ElectronicDocument: XSD validation passed', $context);
+            Log::channel($this->logChannel)->info('ElectronicDocument: XSD validation passed', $context);
 
             ElectronicEventLogger::record(
                 document: $document,
@@ -138,7 +140,7 @@ final class ElectronicDocumentOrchestrator
         $signedXml = $this->xmlSigningService->sign($xml, $company);
         $document->update(['electronic_status' => ElectronicStatusEnum::Signed]);
 
-        Log::info('ElectronicDocument: XML signed', array_merge($context, ['signed_xml_length' => mb_strlen($signedXml)]));
+        Log::channel($this->logChannel)->info('ElectronicDocument: XML signed', array_merge($context, ['signed_xml_length' => mb_strlen($signedXml)]));
 
         ElectronicEventLogger::record(
             document: $document,
@@ -156,7 +158,7 @@ final class ElectronicDocumentOrchestrator
             'metadata' => array_merge($document->metadata ?? [], ['xml_path' => $xmlPath]),
         ]);
 
-        Log::info('ElectronicDocument: XML stored', array_merge($context, ['xml_path' => $xmlPath]));
+        Log::channel($this->logChannel)->info('ElectronicDocument: XML stored', array_merge($context, ['xml_path' => $xmlPath]));
 
         ElectronicEventLogger::record(
             document: $document,
@@ -229,7 +231,7 @@ final class ElectronicDocumentOrchestrator
                 ]),
             ]);
 
-            Log::warning('ElectronicDocument: SRI reception rejected document', array_merge($context, [
+            Log::channel($this->logChannel)->warning('ElectronicDocument: SRI reception rejected document', array_merge($context, [
                 'estado' => $receptionResult->estado,
                 'mensajes' => $receptionResult->mensajes,
             ]));
@@ -263,7 +265,7 @@ final class ElectronicDocumentOrchestrator
             ]),
         ]);
 
-        Log::info('ElectronicDocument: submitted to SRI (RECIBIDA)', $context);
+        Log::channel($this->logChannel)->info('ElectronicDocument: submitted to SRI (RECIBIDA)', $context);
 
         ElectronicEventLogger::record(
             document: $document,
@@ -281,7 +283,7 @@ final class ElectronicDocumentOrchestrator
      * Polls the SRI for authorization status. Called by PollSriAuthorization job
      * and also immediately after reception for possible same-request authorization.
      *
-     * @throws ElectronicBillingException
+     * @throws ElectronicDocumentProcessingException
      */
     public function pollAuthorization(HasElectronicBilling $document, ?Company $company = null, ?int $triggeredBy = null): void
     {
@@ -298,7 +300,7 @@ final class ElectronicDocumentOrchestrator
             'access_key' => $document->access_key,
         ];
 
-        Log::info('ElectronicDocument: polling SRI authorization', $context);
+        Log::channel($this->logChannel)->info('ElectronicDocument: polling SRI authorization', $context);
 
         $authorizationStartedAt = microtime(true);
 
@@ -359,7 +361,7 @@ final class ElectronicDocumentOrchestrator
                 ]),
             ]);
 
-            Log::warning('ElectronicDocument: SRI authorization rejected', array_merge($context, [
+            Log::channel($this->logChannel)->warning('ElectronicDocument: SRI authorization rejected', array_merge($context, [
                 'estado' => $result->estado,
                 'mensajes' => $result->mensajes,
             ]));
@@ -387,7 +389,7 @@ final class ElectronicDocumentOrchestrator
                 ]),
             ]);
 
-            Log::info('ElectronicDocument: SRI authorization in process (EN PROCESO)', $context);
+            Log::channel($this->logChannel)->info('ElectronicDocument: SRI authorization in process (EN PROCESO)', $context);
 
             ElectronicEventLogger::record(
                 document: $document,
@@ -429,7 +431,7 @@ final class ElectronicDocumentOrchestrator
             'metadata' => $metadata,
         ]);
 
-        Log::info('ElectronicDocument: authorized by SRI', [
+        Log::channel($this->logChannel)->info('ElectronicDocument: authorized by SRI', [
             'document_id' => $document->id,
             'document_type' => $document->getSriDocumentTypeCode(),
             'access_key' => $document->access_key,
@@ -448,6 +450,16 @@ final class ElectronicDocumentOrchestrator
             ],
             triggeredBy: $triggeredBy,
         );
+
+        try {
+            app(SendElectronicDocumentEmailService::class)->dispatch($document, $company);
+        } catch (Throwable $e) {
+            Log::channel($this->logChannel)->error('ElectronicDocument: failed to dispatch notification email after authorization', [
+                'document_id' => $document->id,
+                'document_type' => $document->getSriDocumentTypeCode(),
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     private function getDocumentDate(HasElectronicBilling $document): Carbon|CarbonImmutable

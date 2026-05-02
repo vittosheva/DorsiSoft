@@ -21,6 +21,7 @@ use Modules\Sri\Support\Actions\DownloadXmlAction;
 use Modules\Sri\Support\Actions\GenerateXmlAction;
 use Modules\Sri\Support\Actions\PollElectronicAuthorizationAction;
 use Modules\Sri\Support\Actions\RetryElectronicAction;
+use Modules\Sri\Support\Actions\SendElectronicDocumentEmailAction;
 use Modules\Sri\Support\Actions\ShowElectronicAuditAction;
 use Modules\Sri\Support\Actions\ViewXmlAction;
 use ReflectionFunction;
@@ -176,6 +177,7 @@ trait InteractsWithSalesDocumentHeaderActions
             CorrectRejectedElectronicDocumentAction::make()->resource($resourceClass),
             RetryElectronicAction::make(),
             ShowElectronicAuditAction::make(),
+            SendElectronicDocumentEmailAction::make(),
         ];
     }
 

@@ -645,6 +645,7 @@ final class BusinessPartnerForm
         static $cache = [];
 
         $cacheKey = is_array($roleCodes) ? implode(',', $roleCodes) : $roleCodes;
+        $cacheKey = (int) $cacheKey;
 
         return $cache[$cacheKey] ??= self::buildRoleVisibleJs($roleCodes);
     }

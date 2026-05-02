@@ -91,7 +91,8 @@ final class InvoicesTable
                     ->options(InvoiceStatusEnum::class),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->modal(),
                 EditAction::make()
                     ->visible(fn ($record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),
@@ -105,7 +106,7 @@ final class InvoicesTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            // ->extraAttributes(['data-sticky-actions' => 'start'], true)
             ->defaultSort('created_at', 'desc');
-        // ->extraAttributes(['data-sticky-actions' => 'start'], true)
     }
 }

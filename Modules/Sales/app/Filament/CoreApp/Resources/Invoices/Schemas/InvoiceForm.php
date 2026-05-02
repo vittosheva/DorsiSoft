@@ -163,7 +163,7 @@ final class InvoiceForm
 
                 SequenceEmissionFusedGroup::makeForDocumentType(SriDocumentTypeEnum::Invoice),
 
-                Select::make('warehouse_id')
+                /* Select::make('warehouse_id')
                     ->label(__('Warehouse'))
                     ->options(fn () => Warehouse::query()
                         ->where('company_id', Filament::getTenant()?->getKey())
@@ -171,7 +171,7 @@ final class InvoiceForm
                         ->pluck('name', 'id'))
                     ->searchable()
                     ->nullable()
-                    ->columnSpan(6),
+                    ->columnSpan(6), */
             ])
             ->columns(12);
     }

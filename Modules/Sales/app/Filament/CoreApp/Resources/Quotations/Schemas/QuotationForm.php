@@ -108,7 +108,7 @@ final class QuotationForm
                         'const rawDate = $get(\'date\');',
                         "const days = Number.parseInt(String(\$state ?? ''), 10);",
                     ))
-                    ->columnSpan(3),
+                    ->columnSpan(4),
 
                 DatePicker::make('expires_at')
                     ->default(fn (Get $get): ?string => self::calculateExpiresAt($get('issue_date'), $get('validity_days')))

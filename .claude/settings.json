@@ -4,7 +4,9 @@
       "Bash([ -d \"/Users/vittosheva83/Herd/DorsiSoft/Modules/$dir/app/Filament/CoreApp/Pages\" ])",
       "Bash([ -d \"/Users/vittosheva83/Herd/DorsiSoft/Modules/$dir/app/Filament/CoreApp/Widgets\" ])",
       "Bash(vendor/bin/filacheck --fix)",
-      "Bash(vendor/bin/filacheck --path Modules/Core --fix)"
+      "Bash(vendor/bin/filacheck --path Modules/Core --fix)",
+      "Bash(php -l Modules/Sri/app/Services/ElectronicDocumentOrchestrator.php)",
+      "Bash(grep \"\\\\.php$\")"
     ]
   }
 }

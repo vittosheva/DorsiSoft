@@ -8,7 +8,7 @@
 @endsection
 
 @section('logo-company')
-    @include('sales::pdf.partials.sri-logo-company', ['document' => $document])
+    @include('sales::pdf.partials.sri-logo-company', ['document' => $document->company])
 @endsection
 
 @section('doc-number-area')
