@@ -18,6 +18,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
 
     // Core file types
     case ProductImages = 'product_images';
+    case InventoryQrCodes = 'inventory_qr_codes';
     case CertificateFiles = 'certificate_files';
     case UserAvatars = 'user_avatars';
 
@@ -72,6 +73,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => __('Product Images'),
+            self::InventoryQrCodes => __('Inventory QR Codes'),
             self::CertificateFiles => __('Certificate Files'),
             self::UserAvatars => __('User Avatars'),
             self::DocumentFiles => __('Document Files'),
@@ -107,6 +109,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => Color::Sky,
+            self::InventoryQrCodes => Color::Sky,
             self::CertificateFiles => Color::Amber,
             self::UserAvatars => Color::Rose,
             self::DocumentFiles => Color::Slate,
@@ -142,6 +145,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => 'info',
+            self::InventoryQrCodes => 'info',
             self::CertificateFiles => 'warning',
             self::UserAvatars => 'danger',
             self::DocumentFiles => 'secondary',
@@ -177,6 +181,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => Heroicon::Photo,
+            self::InventoryQrCodes => Heroicon::QrCode,
             self::CertificateFiles => Heroicon::DocumentText,
             self::UserAvatars => Heroicon::User,
             self::DocumentFiles => Heroicon::DocumentDuplicate,
@@ -212,6 +217,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => __('Product catalog images'),
+            self::InventoryQrCodes => __('Inventory QR Codes'),
             self::CertificateFiles => __('Digital certificate files (.p12, .pfx)'),
             self::UserAvatars => __('User profile avatars'),
             self::DocumentFiles => __('General documents and reports'),
@@ -247,6 +253,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => 'public',
+            self::InventoryQrCodes => 'public',
             self::CertificateFiles => 'local',
             self::UserAvatars => 'public',
             self::DocumentFiles => 'local',
@@ -282,6 +289,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => 'public',
+            self::InventoryQrCodes => 'public',
             self::CertificateFiles => 'private',
             self::UserAvatars => 'public',
             self::DocumentFiles => 'private',
@@ -317,6 +325,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+            self::InventoryQrCodes => ['image/png', 'image/svg+xml'],
             self::CertificateFiles => ['application/x-pkcs12', '.p12', '.pfx'],
             self::UserAvatars => ['image/jpeg', 'image/png', 'image/webp'],
             self::DocumentFiles => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
@@ -352,6 +361,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => 5120, // 5MB
+            self::InventoryQrCodes => 5120, // 5MB
             self::CertificateFiles => 1024, // 1MB
             self::UserAvatars => 1024, // 1MB
             self::DocumentFiles => 20480, // 20MB
@@ -387,6 +397,7 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::ProductImages => '{tenant}/{resource_type}/{record_id}',
+            self::InventoryQrCodes => '{tenant}/inventory/qr-codes/{filename}',
             self::CertificateFiles => '{tenant}/certificates/{record_id}',
             self::UserAvatars => '{tenant}/avatars/{record_id}',
             self::DocumentFiles => '{tenant}/documents/{record_id}',

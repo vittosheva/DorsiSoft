@@ -12,16 +12,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Mattiverse\Userstamps\Traits\Userstamps;
+use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Models\Traits\HasActiveScope;
 use Modules\Core\Models\Traits\HasAutoCode;
 use Modules\Core\Models\Traits\HasTenancy;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Finance\Models\PriceListItem;
 use Modules\Finance\Models\Tax;
 use Modules\Inventory\Enums\AbcClassificationEnum;
 use Modules\Inventory\Enums\BarcodeTypeEnum;
 use Modules\Inventory\Enums\ProductTypeEnum;
+use Modules\Inventory\Services\ProductDeletionValidator;
 use Modules\Inventory\Services\ProductQrCodeService;
 
 final class Product extends BaseModel
@@ -217,8 +221,26 @@ final class Product extends BaseModel
             app(ProductQrCodeService::class)->sync($product);
         });
 
+        self::deleting(function (Product $product): void {
+            app(ProductDeletionValidator::class)->validate($product);
+        });
+
         self::deleted(function (Product $product): void {
             app(ProductQrCodeService::class)->forget($product);
+            self::deleteImage($product);
         });
+    }
+
+    private static function deleteImage(self $product): void
+    {
+        if (blank($product->image_url)) {
+            return;
+        }
+
+        $disk = Storage::disk(FileStoragePathService::getDisk(FileTypeEnum::ProductImages));
+
+        if ($disk->exists($product->image_url)) {
+            $disk->delete($product->image_url);
+        }
     }
 }

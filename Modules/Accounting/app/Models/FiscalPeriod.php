@@ -59,7 +59,6 @@ final class FiscalPeriod extends BaseModel
         return $this->belongsTo(User::class, 'closed_by_id');
     }
 
-    // Scopes
     #[Scope]
     public function current(Builder $query): Builder
     {

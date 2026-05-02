@@ -152,8 +152,6 @@ final class JournalEntry extends BaseModel
         $this->total_credit = $credit;
     }
 
-    // --- Scopes ---
-
     #[Scope]
     public function drafts(Builder $query): void
     {

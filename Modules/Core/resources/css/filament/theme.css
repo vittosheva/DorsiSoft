@@ -9,6 +9,7 @@
 @source '../../../../Accounting/app/Filament/**/*.php';
 @source '../../../../Core/resources/views/**/*.blade.php';
 @source '../../../../Core/app/Filament/**/*.php';
+@source '../../../../Core/app/Providers/**/*.php';
 @source '../../../../Finance/resources/views/**/*.blade.php';
 @source '../../../../Finance/app/Filament/**/*.php';
 @source '../../../../Inventory/resources/views/**/*.blade.php';

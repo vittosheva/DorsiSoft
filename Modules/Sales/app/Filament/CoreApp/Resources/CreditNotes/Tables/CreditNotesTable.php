@@ -41,14 +41,12 @@ final class CreditNotesTable
                 SriSequentialTextColumn::make(),
 
                 TextColumn::make('issue_date')
-                    ->label(__('Issue date'))
                     ->date('d/m/Y')
                     ->sortable(),
 
                 CustomerNameTextColumn::make('customer_name'),
 
                 TextColumn::make('invoice.code')
-                    ->label(__('Invoice'))
                     ->placeholder('—')
                     ->description(fn ($record) => $record->invoice ? $record->invoice->getSriSequentialCode() : null),
 
@@ -56,11 +54,9 @@ final class CreditNotesTable
                     ->currencyCode(fn ($record): string => $record->currency_code),
 
                 MoneyTextColumn::make('applied_amount')
-                    ->label(__('Applied'))
                     ->currencyCode(fn ($record): string => $record->currency_code),
 
                 MoneyTextColumn::make('refunded_amount')
-                    ->label(__('Refunded'))
                     ->currencyCode(fn ($record): string => $record->currency_code),
 
                 CommercialStatusColumn::make(),

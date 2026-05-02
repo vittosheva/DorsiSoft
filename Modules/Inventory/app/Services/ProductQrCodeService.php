@@ -10,6 +10,8 @@ use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Core\Enums\FileTypeEnum;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Inventory\Enums\BarcodeTypeEnum;
 use Modules\Inventory\Models\Product;
 
@@ -69,6 +71,20 @@ final class ProductQrCodeService
 
     private function buildPath(Product $product): string
     {
+        $reference = Str::slug((string) ($product->code ?: $product->name ?: 'product'));
+        $payloadHash = mb_substr(sha1((string) $product->barcode), 0, 12);
+
+        return FileStoragePathService::getPath(
+            FileTypeEnum::InventoryQrCodes,
+            $product,
+            context: [
+                'filename' => "{$reference}-{$payloadHash}.svg",
+            ],
+        );
+    }
+
+    private function buildPathOld(Product $product): string
+    {
         $companyId = $product->company_id ?? 'shared';
         $reference = Str::slug((string) ($product->code ?: $product->name ?: 'product'));
         $payloadHash = mb_substr(sha1((string) $product->barcode), 0, 12);
@@ -96,7 +112,7 @@ final class ProductQrCodeService
 
     private function disk(): string
     {
-        return (string) config('filament.default_filesystem_disk', config('filesystems.default'));
+        return FileStoragePathService::getDisk(FileTypeEnum::InventoryQrCodes);
     }
 
     private function deletePath(?string $path, ?string $except = null): void

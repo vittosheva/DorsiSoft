@@ -61,7 +61,7 @@ final class WithholdingResource extends Resource
             'index' => ListWithholdings::route('/'),
             'create' => CreateWithholding::route('/create'),
             'edit' => EditWithholding::route('/{record}/edit'),
-            'view' => ViewWithholding::route('/{record}'),
+            // 'view' => ViewWithholding::route('/{record}'),
         ];
     }
 

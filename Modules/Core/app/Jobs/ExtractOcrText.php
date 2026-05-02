@@ -37,7 +37,6 @@ final class ExtractOcrText implements ShouldQueue
 
         $fullPath = Storage::disk($this->disk)->path($this->relativePath);
 
-        /** @var Imagick $imagick */
         $imagick = new Imagick;
         $imagick->setResolution(300, 300);
         $imagick->readImage($fullPath);

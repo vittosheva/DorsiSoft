@@ -63,7 +63,7 @@ final class PurchaseSettlementResource extends Resource
             'index' => ListPurchaseSettlements::route('/'),
             'create' => CreatePurchaseSettlement::route('/create'),
             'edit' => EditPurchaseSettlement::route('/{record}/edit'),
-            'view' => ViewPurchaseSettlement::route('/{record}'),
+            // 'view' => ViewPurchaseSettlement::route('/{record}'),
         ];
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Schemas;
 
-use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -16,6 +15,7 @@ use Modules\Core\Models\Establishment;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Core\Support\Forms\TextInputs\NameTextInput;
 use Modules\Inventory\Models\Warehouse;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 
 final class WarehouseForm
 {
@@ -24,7 +24,7 @@ final class WarehouseForm
         return $schema
             ->components([
                 Section::make(__('Warehouse Information'))
-                    ->icon(LucideIcon::Warehouse)
+                    ->icon(Phosphor::Warehouse)
                     ->schema([
                         Grid::make(12)
                             ->schema([

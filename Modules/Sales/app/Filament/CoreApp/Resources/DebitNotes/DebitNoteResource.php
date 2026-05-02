@@ -66,7 +66,7 @@ final class DebitNoteResource extends Resource
             'index' => ListDebitNotes::route('/'),
             'create' => CreateDebitNote::route('/create'),
             'edit' => EditDebitNote::route('/{record}/edit'),
-            'view' => ViewDebitNote::route('/{record}'),
+            // 'view' => ViewDebitNote::route('/{record}'),
         ];
     }
 

@@ -549,7 +549,8 @@ final class ProductForm
             return __('QR code will be available after saving.');
         }
 
-        $disk = Storage::disk((string) config('filament.default_filesystem_disk', config('filesystems.default')));
+        $diskName = FileStoragePathService::getDisk(FileTypeEnum::InventoryQrCodes);
+        $disk = Storage::disk($diskName);
 
         if (! $disk->exists($record->qr_code_path)) {
             return __('QR code file is not available.');

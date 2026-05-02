@@ -90,7 +90,7 @@ final class DeliveryGuideResource extends Resource
             'index' => ListDeliveryGuides::route('/'),
             'create' => CreateDeliveryGuide::route('/create'),
             'edit' => EditDeliveryGuide::route('/{record}/edit'),
-            'view' => ViewDeliveryGuide::route('/{record}'),
+            // 'view' => ViewDeliveryGuide::route('/{record}'),
         ];
     }
 

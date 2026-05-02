@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Core\Support\Pages;
 
-use Anish\ClearFieldAction\Actions\ClearFieldAction;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Js;
 use Modules\Core\Support\Actions\BackAction;
 use Modules\Core\Support\Actions\CancelAction;
+use Modules\Core\Support\Actions\ClearFieldAction;
 use Modules\Core\Support\Concerns\HasBeforeHeadingActions;
 
 abstract class BaseCreateRecord extends CreateRecord
