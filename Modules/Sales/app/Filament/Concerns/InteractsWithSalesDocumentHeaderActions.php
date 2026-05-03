@@ -21,7 +21,7 @@ use Modules\Sri\Support\Actions\DownloadXmlAction;
 use Modules\Sri\Support\Actions\GenerateXmlAction;
 use Modules\Sri\Support\Actions\PollElectronicAuthorizationAction;
 use Modules\Sri\Support\Actions\RetryElectronicAction;
-use Modules\Sri\Support\Actions\SendElectronicDocumentEmailAction;
+use Modules\Sri\Support\Actions\SendAutomaticElectronicDocumentEmailAction;
 use Modules\Sri\Support\Actions\ShowElectronicAuditAction;
 use Modules\Sri\Support\Actions\ViewXmlAction;
 use ReflectionFunction;
@@ -144,7 +144,15 @@ trait InteractsWithSalesDocumentHeaderActions
         $actions = [];
 
         if ($includeEmail) {
-            $actions[] = SendDocumentEmailAction::make();
+            $actions[] = ActionGroup::make([
+                SendAutomaticElectronicDocumentEmailAction::make(),
+                SendDocumentEmailAction::make(),
+            ])
+                ->label(__('Email'))
+                ->icon(Heroicon::Envelope)
+                ->color('info')
+                ->button();
+            // $actions[] = SendDocumentEmailAction::make();
         }
 
         if ($includePdf) {
@@ -177,7 +185,6 @@ trait InteractsWithSalesDocumentHeaderActions
             CorrectRejectedElectronicDocumentAction::make()->resource($resourceClass),
             RetryElectronicAction::make(),
             ShowElectronicAuditAction::make(),
-            SendElectronicDocumentEmailAction::make(),
         ];
     }
 

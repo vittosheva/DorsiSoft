@@ -54,7 +54,7 @@ final class SendElectronicDocumentEmailService
     {
         // 1. Try businessPartner relation
         if (method_exists($document, 'businessPartner')) {
-            $document->loadMissing('businessPartner');
+            $document->loadMissing('businessPartner:id,email');
             $emails = CustomerEmailNormalizer::normalizeAsArray($document->businessPartner?->email ?? null);
             if (! empty($emails)) {
                 return $emails;

@@ -36,6 +36,8 @@ final class SerialNumberResource extends Resource
                 'product:id,code,name',
                 'warehouse:id,code,name',
                 'lot:id,code',
+                'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
             ]);
     }
 

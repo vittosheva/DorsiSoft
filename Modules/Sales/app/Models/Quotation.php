@@ -175,7 +175,7 @@ final class Quotation extends BaseModel implements GeneratesPdf
 
     public function getPdfEagerLoads(): array
     {
-        return ['items.taxes', 'company', 'seller:id,name', 'priceList:id,name'];
+        return ['items.taxes', 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address', 'seller:id,name', 'priceList:id,name'];
     }
 
     public function getPdfViewData(): array

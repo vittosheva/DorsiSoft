@@ -32,6 +32,7 @@ final class PriceListItemsRelationManager extends BaseRelationManager
             ->with([
                 'priceList:id,currency_code',
                 'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
             ]);
     }
 

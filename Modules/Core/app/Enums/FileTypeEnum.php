@@ -28,6 +28,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
     case PurchaseOrderDocuments = 'purchase_order_documents';
     case ReceiptImages = 'receipt_images';
     case SriDocuments = 'sri_documents';
+    case SriSignedXml = 'sri_signed_xml';
+    case SriRideXml = 'sri_ride_xml';
+    case SriRidePdf = 'sri_ride_pdf';
 
     // Media types
     case WarehousePhotos = 'warehouse_photos';
@@ -81,6 +84,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => __('Purchase Order Documents'),
             self::ReceiptImages => __('Receipt Images'),
             self::SriDocuments => __('SRI Documents'),
+            self::SriSignedXml => __('SRI Signed XML'),
+            self::SriRideXml => __('SRI Authorized RIDE XML'),
+            self::SriRidePdf => __('SRI RIDE PDF'),
             self::WarehousePhotos => __('Warehouse Photos'),
             self::BannerImages => __('Banner Images'),
             self::BrandLogos => __('Brand Logos'),
@@ -117,6 +123,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => Color::Green,
             self::ReceiptImages => Color::Yellow,
             self::SriDocuments => Color::Red,
+            self::SriSignedXml => Color::Red,
+            self::SriRideXml => Color::Red,
+            self::SriRidePdf => Color::Red,
             self::WarehousePhotos => Color::Cyan,
             self::BannerImages => Color::Violet,
             self::BrandLogos => Color::Indigo,
@@ -153,6 +162,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => 'success',
             self::ReceiptImages => 'warning',
             self::SriDocuments => 'danger',
+            self::SriSignedXml => 'danger',
+            self::SriRideXml => 'danger',
+            self::SriRidePdf => 'danger',
             self::WarehousePhotos => 'info',
             self::BannerImages => 'primary',
             self::BrandLogos => 'info',
@@ -189,6 +201,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => Heroicon::ShoppingCart,
             self::ReceiptImages => Heroicon::ReceiptPercent,
             self::SriDocuments => Heroicon::DocumentDuplicate,
+            self::SriSignedXml => Heroicon::DocumentDuplicate,
+            self::SriRideXml => Heroicon::DocumentCheck,
+            self::SriRidePdf => Heroicon::DocumentArrowDown,
             self::WarehousePhotos => Heroicon::BuildingOffice,
             self::BannerImages => Heroicon::Photo,
             self::BrandLogos => Heroicon::Squares2x2,
@@ -225,6 +240,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => __('Purchase orders, quotes, and related documents'),
             self::ReceiptImages => __('Scanned receipts and physical invoices'),
             self::SriDocuments => __('SRI fiscal documents and proofs'),
+            self::SriSignedXml => __('Signed XML sent to SRI'),
+            self::SriRideXml => __('Authorized XML returned by SRI'),
+            self::SriRidePdf => __('RIDE PDF v2 representation'),
             self::WarehousePhotos => __('Inventory and warehouse location photos'),
             self::BannerImages => __('Promotional banners and carousel images'),
             self::BrandLogos => __('Brand logos for catalog'),
@@ -261,6 +279,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => 'local',
             self::ReceiptImages => 'local',
             self::SriDocuments => 'local',
+            self::SriSignedXml => 'local',
+            self::SriRideXml => 'local',
+            self::SriRidePdf => 'local',
             self::WarehousePhotos => 'public',
             self::BannerImages => 'public',
             self::BrandLogos => 'public',
@@ -297,6 +318,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => 'private',
             self::ReceiptImages => 'private',
             self::SriDocuments => 'private',
+            self::SriSignedXml => 'private',
+            self::SriRideXml => 'private',
+            self::SriRidePdf => 'private',
             self::WarehousePhotos => 'public',
             self::BannerImages => 'public',
             self::BrandLogos => 'public',
@@ -333,6 +357,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => ['application/pdf', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
             self::ReceiptImages => ['image/jpeg', 'image/png', 'image/webp'],
             self::SriDocuments => ['application/pdf', 'text/xml', 'application/xml'],
+            self::SriSignedXml => ['text/xml', 'application/xml'],
+            self::SriRideXml => ['text/xml', 'application/xml'],
+            self::SriRidePdf => ['application/pdf'],
             self::WarehousePhotos => ['image/jpeg', 'image/png', 'image/webp'],
             self::BannerImages => ['image/jpeg', 'image/png', 'image/webp'],
             self::BrandLogos => ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
@@ -369,6 +396,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => 15360, // 15MB
             self::ReceiptImages => 5120, // 5MB
             self::SriDocuments => 10240, // 10MB
+            self::SriSignedXml => 10240, // 10MB
+            self::SriRideXml => 10240, // 10MB
+            self::SriRidePdf => 5120, // 5MB
             self::WarehousePhotos => 8192, // 8MB
             self::BannerImages => 5120, // 5MB
             self::BrandLogos => 1024, // 1MB
@@ -405,6 +435,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::PurchaseOrderDocuments => '{tenant}/purchases/{record_id}',
             self::ReceiptImages => '{tenant}/receipts/{record_id}',
             self::SriDocuments => '{tenant}/sri/{record_id}',
+            self::SriSignedXml => '{tenant}/documents/xml/{document_type}/{year}/{filename}',
+            self::SriRideXml => '{tenant}/documents/ride/{document_type}/{year}/{filename}',
+            self::SriRidePdf => '{tenant}/pdfs/v2/ride/{document_type}/{year}/{filename}',
             self::WarehousePhotos => '{tenant}/warehouse/{record_id}',
             self::BannerImages => '{tenant}/banners/{record_id}',
             self::BrandLogos => '{tenant}/brands/{record_id}',
@@ -459,6 +492,9 @@ enum FileTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::InvoiceAttachments,
             self::PurchaseOrderDocuments,
             self::SriDocuments,
+            self::SriSignedXml,
+            self::SriRideXml,
+            self::SriRidePdf,
             self::EmployeeDocuments,
             self::CatalogDocuments,
             self::PartnerOcrDocuments,

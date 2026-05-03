@@ -15,6 +15,7 @@ use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Models\Traits\HasDocumentBehavior;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Models\Traits\HasYearlyAutoCode;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\People\Models\BusinessPartner;
 use Modules\People\Models\User;
@@ -195,7 +196,7 @@ final class DeliveryGuide extends BaseModel implements DocumentContract, Generat
 
     public function getPdfEagerLoads(): array
     {
-        return ['recipients.items', 'company'];
+        return ['recipients.items', 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address'];
     }
 
     public function getPdfViewData(): array
@@ -222,14 +223,20 @@ final class DeliveryGuide extends BaseModel implements DocumentContract, Generat
 
     public function getRidePdfStoragePath(string $tenantRuc): string
     {
-        $year = $this->transport_start_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/pdfs/v2/ride/delivery-guides/{$year}/{$this->access_key}.pdf";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRidePdf,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'delivery-guides',
+                'year' => (string) ($this->transport_start_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.pdf",
+            ],
+        );
     }
 
     public function getRidePdfStorageDisk(): string
     {
-        return 'local';
+        return FileStoragePathService::getDisk(FileTypeEnum::SriRidePdf);
     }
 
     public function getRidePdfEagerLoads(): array
@@ -276,15 +283,27 @@ final class DeliveryGuide extends BaseModel implements DocumentContract, Generat
 
     public function getXmlStoragePath(string $tenantRuc): string
     {
-        $year = $this->transport_start_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/xml/delivery-guides/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriSignedXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'delivery-guides',
+                'year' => (string) ($this->transport_start_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function getRideStoragePath(string $tenantRuc): string
     {
-        $year = $this->transport_start_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/ride/delivery-guides/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRideXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'delivery-guides',
+                'year' => (string) ($this->transport_start_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 }

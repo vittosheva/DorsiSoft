@@ -160,7 +160,7 @@ final class DebitNoteForm
             ->schema([
                 CodeTextInput::make('code')
                     ->autoGenerateFromModel(
-                        scope: fn() => [
+                        scope: fn () => [
                             'company_id' => Filament::getTenant()?->getKey(),
                         ],
                     )
@@ -226,7 +226,7 @@ final class DebitNoteForm
                     ->footer([
                         self::systemInvoiceSelect(__('Select invoice')),
                     ])
-                    ->visible(fn(Get $get): bool => blank($get('invoice_id')))
+                    ->visible(fn (Get $get): bool => blank($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         ! $get('invoice_id')
                     JS)
@@ -235,24 +235,24 @@ final class DebitNoteForm
 
                 TextEntry::make('invoice_selected_display')
                     ->hiddenLabel()
-                    ->state(fn(Get $get): HtmlString => self::buildSelectedInvoiceCard($get('invoice_id')))
+                    ->state(fn (Get $get): HtmlString => self::buildSelectedInvoiceCard($get('invoice_id')))
                     ->html()
-                    ->visible(fn(Get $get): bool => filled($get('invoice_id')))
+                    ->visible(fn (Get $get): bool => filled($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         !! $get('invoice_id')
                     JS)
                     ->columnSpanFull(),
 
                 self::systemInvoiceSelect(__('Change Invoice'), asLink: false)
-                    ->visible(fn(Get $get): bool => filled($get('invoice_id')))
+                    ->visible(fn (Get $get): bool => filled($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         !! $get('invoice_id')
                     JS)
                     ->columnSpanFull(),
 
                 Hidden::make('invoice_id')
-                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'system')
-                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'system'),
+                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'system')
+                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'system'),
                 ...CustomerSnapshotHiddenFields::make(customerEmailAsArray: true),
             ])
             ->visibleJs(<<<'JS'
@@ -263,30 +263,30 @@ final class DebitNoteForm
     private static function manualInvoiceSection(): Section
     {
         return Section::make(__('Customer'))
-            //->icon(Heroicon::User)
+            // ->icon(Heroicon::User)
             ->schema([
                 CustomerBusinessPartnerSelect::make('business_partner_id')
-                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpanFull(),
 
                 TextInput::make('ext_invoice_code')
                     ->label(__('Invoice Number'))
                     ->placeholder('001-001-000000001')
                     ->maxLength(17)
-                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
-                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(3),
 
                 DatePicker::make('ext_invoice_date')
                     ->label(__('Issue Date'))
-                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
-                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(3),
 
                 TextInput::make('ext_invoice_auth_number')
                     ->label(__('Authorization Number'))
                     ->maxLength(49)
-                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(6),
 
                 ...CustomerSnapshotHiddenFields::make(customerEmailAsArray: true),
@@ -317,7 +317,7 @@ final class DebitNoteForm
                             ->columnSpan(8),
 
                         MoneyTextInput::make('value')
-                            ->currencyCode(fn(Get $get): string => $get('../../currency_code') ?? 'USD')
+                            ->currencyCode(fn (Get $get): string => $get('../../currency_code') ?? 'USD')
                             ->required()
                             ->live(onBlur: true)
                             ->columnSpan(4),
@@ -367,19 +367,19 @@ final class DebitNoteForm
                     ->columnSpanFull(),
 
                 MoneyTextInput::make('subtotal')
-                    ->currencyCode(fn(Get $get): string => $get('currency_code') ?? 'USD')
+                    ->currencyCode(fn (Get $get): string => $get('currency_code') ?? 'USD')
                     ->readOnly()
                     ->default('0.00')
                     ->columnSpan(4),
 
                 MoneyTextInput::make('tax_amount')
-                    ->currencyCode(fn(Get $get): string => $get('currency_code') ?? 'USD')
+                    ->currencyCode(fn (Get $get): string => $get('currency_code') ?? 'USD')
                     ->readOnly()
                     ->default('0.00')
                     ->columnSpan(4),
 
                 MoneyTextInput::make('total')
-                    ->currencyCode(fn(Get $get): string => $get('currency_code') ?? 'USD')
+                    ->currencyCode(fn (Get $get): string => $get('currency_code') ?? 'USD')
                     ->readOnly()
                     ->default('0.00')
                     ->columnSpan(4),
@@ -409,9 +409,9 @@ final class DebitNoteForm
             ->relationship(
                 name: 'invoice',
                 titleAttribute: 'code',
-                modifyQueryUsing: fn($query) => $query->select(['id', 'code'])
+                modifyQueryUsing: fn ($query) => $query->select(['id', 'code'])
             )
-            ->getOptionLabelUsing(fn() => '')
+            ->getOptionLabelUsing(fn () => '')
             ->tableConfiguration(AuthorizedInvoicesTable::class)
             ->live()
             ->afterStateUpdated(function ($state, Set $set): void {
@@ -496,11 +496,11 @@ final class DebitNoteForm
     private static function syncDocumentTotals(Get $get, Set $set, string $prefix = '', ?array $reasonsState = null): void
     {
         $reasons = $reasonsState !== null
-            ? collect($reasonsState)->filter(fn(mixed $reason): bool => is_array($reason))->values()
-            : collect($get("{$prefix}reasons") ?? [])->filter(fn(mixed $reason): bool => is_array($reason))->values();
+            ? collect($reasonsState)->filter(fn (mixed $reason): bool => is_array($reason))->values()
+            : collect($get("{$prefix}reasons") ?? [])->filter(fn (mixed $reason): bool => is_array($reason))->values();
 
         $subtotal = $reasons
-            ->sum(fn(array $reason): float => (float) ($reason['value'] ?? 0));
+            ->sum(fn (array $reason): float => (float) ($reason['value'] ?? 0));
 
         $taxRate = (float) ($get("{$prefix}tax_rate") ?? 0);
         $taxAmount = $subtotal * $taxRate / 100;
@@ -523,7 +523,7 @@ final class DebitNoteForm
 
         $paymentKeys = array_keys(array_filter(
             $payments,
-            static fn(mixed $payment): bool => is_array($payment),
+            static fn (mixed $payment): bool => is_array($payment),
         ));
 
         if (count($paymentKeys) !== 1) {
@@ -540,12 +540,12 @@ final class DebitNoteForm
     private static function normalizeSriPaymentsPayload(mixed $payments): array
     {
         return collect(is_array($payments) ? $payments : [])
-            ->filter(static fn(mixed $payment): bool => is_array($payment) && filled($payment['method'] ?? null))
-            ->map(static fn(array $payment): array => [
+            ->filter(static fn (mixed $payment): bool => is_array($payment) && filled($payment['method'] ?? null))
+            ->map(static fn (array $payment): array => [
                 'method' => self::normalizeSriPaymentMethod($payment['method'] ?? null),
                 'amount' => number_format((float) ($payment['amount'] ?? 0), 2, '.', ''),
             ])
-            ->filter(static fn(array $payment): bool => filled($payment['method']))
+            ->filter(static fn (array $payment): bool => filled($payment['method']))
             ->values()
             ->all();
     }
@@ -573,8 +573,8 @@ final class DebitNoteForm
     private static function normalizeReasonsPayload(mixed $reasons): array
     {
         return collect(is_array($reasons) ? $reasons : [])
-            ->filter(static fn(mixed $reason): bool => is_array($reason))
-            ->map(static fn(array $reason): array => [
+            ->filter(static fn (mixed $reason): bool => is_array($reason))
+            ->map(static fn (array $reason): array => [
                 'reason' => (string) ($reason['reason'] ?? ''),
                 'value' => number_format((float) ($reason['value'] ?? 0), 4, '.', ''),
             ])

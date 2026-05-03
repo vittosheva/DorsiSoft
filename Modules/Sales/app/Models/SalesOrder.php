@@ -166,7 +166,7 @@ final class SalesOrder extends BaseModel implements Approvable, DocumentContract
 
     public function getPdfEagerLoads(): array
     {
-        return ['items.taxes', 'company', 'seller:id,name', 'quotation:id,code'];
+        return ['items.taxes', 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address', 'seller:id,name', 'quotation:id,code'];
     }
 
     public function getPdfViewData(): array

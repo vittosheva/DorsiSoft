@@ -37,6 +37,7 @@ final class DebitNoteResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
+                'documentType:id,code,name',
                 'invoice:id,code,establishment_code,emission_point_code,sequential_number,document_type_id,company_id',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',

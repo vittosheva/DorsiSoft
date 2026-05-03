@@ -15,6 +15,7 @@ use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Models\Traits\HasDocumentBehavior;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Models\Traits\HasYearlyAutoCode;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Inventory\Models\Warehouse;
 use Modules\People\Enums\RoleEnum;
@@ -258,16 +259,28 @@ final class PurchaseSettlement extends BaseModel implements Approvable, Document
 
     public function getXmlStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/xml/purchase-settlements/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriSignedXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'purchase-settlements',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function getRideStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/ride/purchase-settlements/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRideXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'purchase-settlements',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     // ─── GeneratesPdf ───────────────────────────────────────────────────────
@@ -284,7 +297,7 @@ final class PurchaseSettlement extends BaseModel implements Approvable, Document
 
     public function getPdfEagerLoads(): array
     {
-        return ['items', 'company'];
+        return ['items', 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address'];
     }
 
     public function getPdfViewData(): array
@@ -311,14 +324,20 @@ final class PurchaseSettlement extends BaseModel implements Approvable, Document
 
     public function getRidePdfStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/pdfs/v2/ride/purchase-settlements/{$year}/{$this->access_key}.pdf";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRidePdf,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'purchase-settlements',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.pdf",
+            ],
+        );
     }
 
     public function getRidePdfStorageDisk(): string
     {
-        return 'local';
+        return FileStoragePathService::getDisk(FileTypeEnum::SriRidePdf);
     }
 
     public function getRidePdfEagerLoads(): array

@@ -36,11 +36,12 @@ final class WithholdingResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
+                'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address',
+                'company.defaultCurrency:id,code',
+                'documentType:id,code,name',
                 'businessPartner:id,legal_name,identification_number,tax_address',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
-                'company:id,default_currency_id',
-                'company.defaultCurrency:id,code',
             ])
             ->withSum('items', 'withheld_amount');
     }
@@ -61,7 +62,7 @@ final class WithholdingResource extends Resource
             'index' => ListWithholdings::route('/'),
             'create' => CreateWithholding::route('/create'),
             'edit' => EditWithholding::route('/{record}/edit'),
-            // 'view' => ViewWithholding::route('/{record}'),
+            'view' => ViewWithholding::route('/{record}'),
         ];
     }
 

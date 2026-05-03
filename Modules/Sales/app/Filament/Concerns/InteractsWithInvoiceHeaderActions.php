@@ -151,7 +151,7 @@ trait InteractsWithInvoiceHeaderActions
                         ->body($e->getMessage())
                         ->persistent()
                         ->actions([
-                            EditCompanyAction::make(),
+                            // EditCompanyAction::make(),
                         ])
                         ->send();
 

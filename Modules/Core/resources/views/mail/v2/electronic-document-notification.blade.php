@@ -16,7 +16,7 @@
                     <tr>
                         <td style="background-color:#1e293b; padding:20px 32px;">
                             <p style="margin:0; color:#ffffff; font-size:14px; font-weight:bold; letter-spacing:0.5px;">
-                                UpConta &mdash; Facturación Electrónica
+                                @include('sales::pdf.partials.sri-logo-company', ['document' => $document->company]) &mdash; Facturación Electrónica
                             </p>
                         </td>
                     </tr>

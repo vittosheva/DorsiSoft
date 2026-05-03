@@ -17,6 +17,7 @@ use Modules\Core\Models\Traits\HasCustomerSnapshot;
 use Modules\Core\Models\Traits\HasDocumentBehavior;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Models\Traits\HasYearlyAutoCode;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Finance\Models\Tax;
 use Modules\People\Models\BusinessPartner;
@@ -177,16 +178,28 @@ final class DebitNote extends BaseModel implements DocumentContract, GeneratesPd
 
     public function getXmlStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/xml/debit-notes/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriSignedXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'debit-notes',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function getRideStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/ride/debit-notes/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRideXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'debit-notes',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function isVoided(): bool
@@ -289,7 +302,7 @@ final class DebitNote extends BaseModel implements DocumentContract, GeneratesPd
 
     public function getPdfEagerLoads(): array
     {
-        return ['invoice:id,code,establishment_code,emission_point_code,sequential_number,issue_date', 'company', 'creator:id,name'];
+        return ['invoice:id,code,establishment_code,emission_point_code,sequential_number,issue_date', 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address', 'creator:id,name'];
     }
 
     public function getPdfViewData(): array
@@ -327,14 +340,20 @@ final class DebitNote extends BaseModel implements DocumentContract, GeneratesPd
 
     public function getRidePdfStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/pdfs/v2/ride/debit-notes/{$year}/{$this->access_key}.pdf";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRidePdf,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'debit-notes',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.pdf",
+            ],
+        );
     }
 
     public function getRidePdfStorageDisk(): string
     {
-        return 'local';
+        return FileStoragePathService::getDisk(FileTypeEnum::SriRidePdf);
     }
 
     public function getRidePdfEagerLoads(): array

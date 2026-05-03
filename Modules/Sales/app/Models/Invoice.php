@@ -20,6 +20,7 @@ use Modules\Core\Models\Traits\HasCustomerSnapshot;
 use Modules\Core\Models\Traits\HasDocumentBehavior;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Models\Traits\HasYearlyAutoCode;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Finance\Models\Collection;
 use Modules\Finance\Models\CollectionAllocation;
@@ -188,16 +189,28 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
 
     public function getXmlStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/xml/invoices/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriSignedXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'invoices',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function getRideStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/documents/ride/invoices/{$year}/{$this->access_key}.xml";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRideXml,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'invoices',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.xml",
+            ],
+        );
     }
 
     public function getCodeScope(): array
@@ -417,14 +430,20 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
 
     public function getRidePdfStoragePath(string $tenantRuc): string
     {
-        $year = $this->issue_date?->year ?? now()->year;
-
-        return "tenants/{$tenantRuc}/pdfs/v2/ride/invoices/{$year}/{$this->access_key}.pdf";
+        return FileStoragePathService::getPath(
+            FileTypeEnum::SriRidePdf,
+            tenantId: $tenantRuc,
+            context: [
+                'document_type' => 'invoices',
+                'year' => (string) ($this->issue_date?->year ?? now()->year),
+                'filename' => "{$this->access_key}.pdf",
+            ],
+        );
     }
 
     public function getRidePdfStorageDisk(): string
     {
-        return 'local';
+        return FileStoragePathService::getDisk(FileTypeEnum::SriRidePdf);
     }
 
     public function getRidePdfEagerLoads(): array
@@ -439,7 +458,15 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
 
     public function getRidePdfDownloadFilename(): string
     {
-        return str($this->code)->slug()->append('-ride.pdf')->toString();
+        // return str($this->code)->slug()->append('-ride.pdf')->toString();
+        $metadata = $this->metadata ?? [];
+        $accessCode = $metadata['access_code'] ?? null;
+
+        if ($accessCode) {
+            return str($accessCode)->append('.pdf')->toString();
+        }
+
+        return str($this->code)->slug()->append('.pdf')->toString();
     }
 
     public function getRideSriDocumentTypeLabel(): string

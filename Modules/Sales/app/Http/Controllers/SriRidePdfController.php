@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Sales\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -30,11 +31,11 @@ final class SriRidePdfController extends Controller
         $modelClass = self::TYPE_MAP[$type] ?? null;
         abort_if($modelClass === null, 404);
 
-        /** @var Invoice|CreditNote|DebitNote $document */
-        $document = $modelClass::withoutGlobalScopes()->findOrFail($id);
+        /** @var Model $document */
+        $document = $modelClass::query()->withoutGlobalScopes()->findOrFail($id);
 
         $metadata = $document->metadata ?? [];
-        $ridePdfPath = $metadata['ride_pdf_path'] ?? null;
+        $ridePdfPath = $metadata['pdf_path'] ?? null; // ride_pdf_path
         $ridePdfDisk = $metadata['ride_pdf_disk'] ?? 'local';
 
         abort_if($ridePdfPath === null || ! Storage::disk($ridePdfDisk)->exists($ridePdfPath), 404);

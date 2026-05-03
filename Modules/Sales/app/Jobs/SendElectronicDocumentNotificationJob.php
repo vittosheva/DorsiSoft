@@ -57,13 +57,13 @@ final class SendElectronicDocumentNotificationJob implements ShouldQueue
         }
 
         $viewUrl = URL::temporarySignedRoute(
-            'sales.v2.ride.view',
+            'sales.v1.ride.view',
             now()->addDays(7),
             ['type' => $document->getRidePdfType(), 'id' => $this->modelId]
         );
 
         $xmlUrl = URL::temporarySignedRoute(
-            'sales.v2.xml.download',
+            'sales.v1.xml.download',
             now()->addDays(7),
             ['type' => $document->getRidePdfType(), 'id' => $this->modelId]
         );

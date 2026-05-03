@@ -10,12 +10,12 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Modules\Core\Contracts\GeneratesPdf;
 use Modules\Core\Jobs\SendDocumentEmail;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 
 final class SendDocumentEmailAction extends Action
 {
@@ -26,8 +26,8 @@ final class SendDocumentEmailAction extends Action
         $this
             ->label(__('Send email'))
             ->tooltip(fn (Action $action) => $action->isIconButton() ? __('Send email') : null)
-            ->icon(Heroicon::Envelope)
-            ->color('info')
+            ->icon(Phosphor::Envelope)
+            // ->color('info')
             ->modalHeading(__('Send document by email'))
             ->modalSubmitActionLabel(__('Send'))
             ->modalWidth(Width::ExtraLarge)

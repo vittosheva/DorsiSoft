@@ -6,6 +6,7 @@ namespace Modules\Sri\Support\Tables\Columns;
 
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Sri\Enums\ElectronicStatusEnum;
 
 final class ElectronicStatusColumn extends TextColumn
@@ -20,6 +21,7 @@ final class ElectronicStatusColumn extends TextColumn
             // ->color(fn(?ElectronicStatusEnum $state): string|array|null => $state?->getColor())
             // ->icon(fn (?ElectronicStatusEnum $state): ?string => $state?->getIcon())
             // ->formatStateUsing(fn(?ElectronicStatusEnum $state): string => $state?->getLabel() ?? '—')
+            ->tooltip(fn (?Model $record): string => $record?->metadata['error'] ?? '')
             ->alignment(Alignment::Center)
             ->sortable()
             ->toggleable();

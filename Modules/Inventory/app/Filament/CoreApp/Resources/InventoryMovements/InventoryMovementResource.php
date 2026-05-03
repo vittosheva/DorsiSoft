@@ -34,6 +34,7 @@ final class InventoryMovementResource extends Resource
                 'documentType:id,code,name,movement_type',
                 'lot:id,code',
                 'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
             ]);
     }
 

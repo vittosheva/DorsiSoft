@@ -38,7 +38,7 @@ final class ResetSequentialNumberAction extends Action
                     ->schema([
                         TextInput::make('last_sequential')
                             ->label(__('Last Issued'))
-                            ->default(fn(?Model $record, Set $set) => $this->buildSequentialNumber($this->getDocumentSequence($record, $set)->last_sequential))
+                            ->default(fn (?Model $record, Set $set) => $this->buildSequentialNumber($this->getDocumentSequence($record, $set)->last_sequential))
                             ->placeholder(__('None'))
                             ->dehydrated(false)
                             ->readOnly()
@@ -47,7 +47,7 @@ final class ResetSequentialNumberAction extends Action
                         TextInput::make('new_start')
                             ->label(__('Next Sequential Number'))
                             ->helperText(__('The next issued document will use this number.'))
-                            ->default(fn(Get $get) => $this->buildSequentialNumber($get('last_sequential') + 1))
+                            ->default(fn (Get $get) => $this->buildSequentialNumber($get('last_sequential') + 1))
                             ->numeric()
                             ->required()
                             ->minValue(1)
@@ -63,7 +63,7 @@ final class ResetSequentialNumberAction extends Action
                             ->columnSpanFull(),
 
                         Hidden::make('document_type')
-                            ->default(fn(?Model $record) => $record?->documentType?->code ?? null),
+                            ->default(fn (?Model $record) => $record?->documentType?->code ?? null),
                     ])
                     ->columns(12),
             ])

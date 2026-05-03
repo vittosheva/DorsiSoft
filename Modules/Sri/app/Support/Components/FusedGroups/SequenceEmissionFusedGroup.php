@@ -39,7 +39,7 @@ final class SequenceEmissionFusedGroup extends FusedGroup
             ->label(__('Sequence Emission'))
             ->schema([
                 Select::make('establishment_code')
-                    ->options(fn(): array => self::resolveEstablishmentOptions())
+                    ->options(fn (): array => self::resolveEstablishmentOptions())
                     ->live()
                     ->afterStateUpdated(function (Set $set) {
                         self::resetSequenceOnEstablishmentChange()($set);
@@ -48,8 +48,8 @@ final class SequenceEmissionFusedGroup extends FusedGroup
                     ->required(),
 
                 Select::make('emission_point_code')
-                    ->options(fn(Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
-                    ->disabled(fn(Get $get): bool => blank($get('establishment_code')))
+                    ->options(fn (Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
+                    ->disabled(fn (Get $get): bool => blank($get('establishment_code')))
                     ->live()
                     ->afterStateUpdated(function ($state, $old, Get $get, Set $set) {
                         $operation = 'create';

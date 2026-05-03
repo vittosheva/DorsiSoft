@@ -13,11 +13,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->names('sales');
 });
 
-// ── SRI v2: public signed URLs (no session auth required) ───────────────────
+// ── SRI v1: public signed URLs (no session auth required) ───────────────────
 Route::middleware('signed')->group(function (): void {
-    Route::get('/v2/ride/{type}/{id}', [SriRidePdfController::class, 'view'])
-        ->name('sales.v2.ride.view');
+    Route::get('/v1/ride/{type}/{id}', [SriRidePdfController::class, 'view'])
+        ->name('sales.v1.ride.view');
 
-    Route::get('/v2/xml/{type}/{id}/download', [SriXmlController::class, 'download'])
-        ->name('sales.v2.xml.download');
+    Route::get('/v1/xml/{type}/{id}/download', [SriXmlController::class, 'download'])
+        ->name('sales.v1.xml.download');
 });

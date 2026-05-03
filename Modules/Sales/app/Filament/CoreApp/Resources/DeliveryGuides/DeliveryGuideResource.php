@@ -37,6 +37,8 @@ final class DeliveryGuideResource extends Resource
         return parent::getEloquentQuery()
             ->withCount('recipients')
             ->with([
+                'documentType:id,code,name',
+                'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address',
                 'carrier:id,identification_number,legal_name',
                 'recipients' => function ($query) {
                     $query

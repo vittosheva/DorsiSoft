@@ -20,9 +20,9 @@ trait AutoAssignsDocumentType
             self::ensureDocumentType($model);
         });
 
-        static::retrieved(static function (self $model): void {
+        /* static::retrieved(static function (self $model): void {
             self::ensureDocumentType($model);
-        });
+        }); */
     }
 
     private static function ensureDocumentType(self $model): void

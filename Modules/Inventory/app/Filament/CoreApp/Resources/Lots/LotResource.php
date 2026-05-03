@@ -31,7 +31,11 @@ final class LotResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with(['product:id,code,name']);
+            ->with([
+                'product:id,code,name',
+                'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
+            ]);
     }
 
     public static function form(Schema $schema): Schema

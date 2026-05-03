@@ -2072,5 +2072,22 @@
     "≥ (greater or equal)": "≥ (mayor o igual que)",
     "🚀 PRODUCTION SRI": "🚀 PRODUCCIÓN SRI",
     "🧪 TESTING SRI": "🧪 PRUEBAS SRI",
-    "Withholding rate id": "Tasa de retención"
+    "Withholding rate id": "Tasa de retención",
+    "Document :code sent by email": "Documento :code enviado por correo electrónico",
+    "Document email sending failed": "Error al enviar el correo electrónico del documento",
+    "Company not found": "Compañía no encontrada",
+    "Send by email": "Enviar por correo",
+    "Send electronic document by email": "Enviar documento electrónico por correo",
+    "The RIDE PDF and XML download link will be sent automatically to the configured recipient.": "El enlace de descarga del PDF RIDE y XML se enviará automáticamente al destinatario configurado.",
+    "Send RIDE and XML": "Enviar RIDE y XML",
+    "The notification will be delivered to the configured recipient.": "La notificación se entregará al destinatario configurado.",
+    "Could not queue email": "No se pudo encolar el correo electrónico",
+    "SRI Signed XML": "XML firmado SRI",
+    "SRI Authorized RIDE XML": "XML RIDE autorizado SRI",
+    "SRI RIDE PDF": "PDF RIDE SRI",
+    "Signed XML sent to SRI": "XML firmado enviado al SRI",
+    "Authorized XML returned by SRI": "XML autorizado devuelto por el SRI",
+    "RIDE PDF v2 representation": "Representación PDF RIDE v2",
+    "Send electronic document email": "Envío automático de correo",
+    "Send automatic email": "Enviar correo automático"
 }

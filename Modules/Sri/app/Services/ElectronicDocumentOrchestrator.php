@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Models\Company;
+use Modules\Core\Services\FileStoragePathService;
 use Modules\Sri\Contracts\HasElectronicBilling;
 use Modules\Sri\Contracts\SriAuthorizationServiceContract;
 use Modules\Sri\Contracts\SriReceptionServiceContract;
@@ -152,7 +154,7 @@ final class ElectronicDocumentOrchestrator
 
         // 7. Store signed XML
         $xmlPath = $document->getXmlStoragePath($company->ruc);
-        Storage::disk(config('sri.electronic.xml_storage_disk', 'local'))->put($xmlPath, $signedXml);
+        Storage::disk(FileStoragePathService::getDisk(FileTypeEnum::SriSignedXml))->put($xmlPath, $signedXml);
 
         $document->update([
             'metadata' => array_merge($document->metadata ?? [], ['xml_path' => $xmlPath]),
@@ -416,7 +418,7 @@ final class ElectronicDocumentOrchestrator
         // Store RIDE (authorized XML) if provided
         if (! blank($result->comprobante)) {
             $ridePath = $document->getRideStoragePath($company->ruc);
-            Storage::disk(config('sri.electronic.xml_storage_disk', 'local'))->put($ridePath, $result->comprobante);
+            Storage::disk(FileStoragePathService::getDisk(FileTypeEnum::SriRideXml))->put($ridePath, $result->comprobante);
             $metadata['ride_path'] = $ridePath;
         }
 

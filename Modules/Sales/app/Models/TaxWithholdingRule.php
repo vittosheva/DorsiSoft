@@ -26,6 +26,8 @@ final class TaxWithholdingRule extends BaseModel
         'concept',
         'percentage',
         'account',
+        'created_by',
+        'updated_by',
     ];
 
     protected function casts(): array

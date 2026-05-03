@@ -36,6 +36,7 @@ final class PurchaseSettlementResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
+                'documentType:id,code,name',
                 'supplier:id,legal_name,identification_number,tax_address',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',

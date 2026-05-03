@@ -33,7 +33,11 @@ final class TaxWithholdingRuleResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['company:id,name', 'creator:id,name']);
+        return parent::getEloquentQuery()
+            ->with([
+                'company:id,name',
+                'creator:id,name,avatar_url',
+            ]);
     }
 
     public static function form(Schema $schema): Schema
