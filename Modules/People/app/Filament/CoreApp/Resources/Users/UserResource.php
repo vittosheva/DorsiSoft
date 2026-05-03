@@ -37,7 +37,7 @@ final class UserResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
-                'roles:id,name',
+                'roles:id,name,display_name',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
             ]);
@@ -48,10 +48,10 @@ final class UserResource extends Resource
         return UserForm::configure($schema);
     }
 
-    public static function infolist(Schema $schema): Schema
+    /* public static function infolist(Schema $schema): Schema
     {
         return UserInfolist::configure($schema);
-    }
+    } */
 
     public static function table(Table $table): Table
     {
@@ -63,7 +63,7 @@ final class UserResource extends Resource
         return [
             'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            // 'view' => ViewUser::route('/{record}'),
+            'view' => ViewUser::route('/{record}'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
     }

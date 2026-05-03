@@ -311,7 +311,7 @@ final class DeliveryGuideForm
                 $action = $action
                     ->label($label)
                     ->modalHeading(__('Search carriers'))
-                    ->modalSubmitActionLabel(__('Select'))
+                    ->modalSubmitActionLabel(__('Confirm selection'))
                     ->size(Size::Small);
 
                 if ($asLink) {
@@ -509,7 +509,7 @@ final class DeliveryGuideForm
                 $action = $action
                     ->label($label)
                     ->modalHeading(__('Search invoices'))
-                    ->modalSubmitActionLabel(__('Select'));
+                    ->modalSubmitActionLabel(__('Confirm selection'));
 
                 if ($asLink) {
                     return $action->link()->color('gray');

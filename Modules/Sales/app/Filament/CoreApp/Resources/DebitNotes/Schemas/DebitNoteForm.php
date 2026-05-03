@@ -421,7 +421,7 @@ final class DebitNoteForm
                 $action = $action
                     ->label($label)
                     ->modalHeading(__('Search invoices'))
-                    ->modalSubmitActionLabel(__('To select'))
+                    ->modalSubmitActionLabel(__('Confirm selection'))
                     ->size(Size::Small);
 
                 if ($asLink) {

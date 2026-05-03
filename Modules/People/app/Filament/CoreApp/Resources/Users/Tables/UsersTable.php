@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\FontWeight;
@@ -19,6 +20,7 @@ use Modules\Core\Support\Tables\Columns\CodeTextColumn;
 use Modules\Core\Support\Tables\Columns\CreatedAtTextColumn;
 use Modules\Core\Support\Tables\Columns\CreatedByTextColumn;
 use Modules\Core\Support\Tables\Filters\CreatorFilter;
+use Spatie\Permission\Models\Role;
 
 final class UsersTable
 {
@@ -43,7 +45,8 @@ final class UsersTable
                     ->searchable(
                         query: fn (Builder $query, string $search): Builder => $query->where('email', 'like', "{$search}%"),
                     ),
-                TextColumn::make('roles.name')
+                TextColumn::make('roles.display_name')
+                    ->formatStateUsing(fn ($state) => __($state))
                     ->badge(),
                 TextColumn::make('email_verified_at')
                     ->placeholder(__('Not verified'))
@@ -83,20 +86,29 @@ final class UsersTable
             ])
             ->filters([
                 SelectFilter::make('roles')
-                    ->relationship(
-                        'roles',
-                        'name',
-                        fn (Builder $query) => $query
-                            ->select($query->qualifyColumns(['id', 'name']))
-                            ->orderBy('name')
-                            ->limit(config('dorsi.filament.select_filter_options_limit', 50))
-                    )
+                    ->relationship('roles', 'name', function (Builder $query): Builder {
+                        $rolesTable = (new Role())->getTable();
+
+                        return $query
+                            ->select([
+                                "{$rolesTable}.id",
+                                "{$rolesTable}.name",
+                                "{$rolesTable}.display_name",
+                                "{$rolesTable}.company_id",
+                                "{$rolesTable}.guard_name",
+                            ])
+                            ->where("{$rolesTable}.guard_name", 'web')
+                            ->orderBy("{$rolesTable}.name");
+                    })
+                    ->getOptionLabelFromRecordUsing(fn (Role $record): string => __($record->display_name))
                     ->preload()
                     ->searchable()
                     ->multiple(),
                 CreatorFilter::make('creator'),
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modal(),
                 EditAction::make(),
             ])
             ->toolbarActions([

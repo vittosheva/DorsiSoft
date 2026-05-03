@@ -62,8 +62,15 @@ final class QuotationForm
 
                 Grid::make(12)
                     ->schema([
-                        RichEditor::make('introduction')
-                            ->label(__('Terms and conditions'))
+                        Grid::make(1)
+                            ->schema([
+                                Section::make(__('Terms and conditions'))
+                                    ->icon(Heroicon::ChatBubbleLeftRight)
+                                    ->schema([
+                                        RichEditor::make('introduction')
+                                            ->hiddenLabel(),
+                                    ]),
+                            ])
                             ->columnSpan(7),
 
                         Grid::make(1)
@@ -168,6 +175,7 @@ final class QuotationForm
             ->icon(Heroicon::ChatBubbleBottomCenterText)
             ->schema([
                 RichEditor::make('notes')
+                    ->hiddenLabel()
                     ->columnSpanFull(),
             ]);
     }

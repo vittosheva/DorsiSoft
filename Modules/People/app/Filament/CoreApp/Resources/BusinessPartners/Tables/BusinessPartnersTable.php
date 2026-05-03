@@ -49,8 +49,8 @@ final class BusinessPartnersTable
                     ->weight(FontWeight::Medium),
                 TextColumn::make('identification_number')
                     ->searchable(),
-                TextColumn::make('roles.name')
-                    ->formatStateUsing(fn ($state) => __($state))
+                TextColumn::make('roles.code')
+                    ->formatStateUsing(fn ($state) => $state->getLabel())
                     ->badge(),
                 TextColumn::make('email')
                     ->formatStateUsing(fn (mixed $state): string => is_array($state) ? implode(', ', $state) : ($state ?? ''))

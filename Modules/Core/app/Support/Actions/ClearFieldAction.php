@@ -27,6 +27,9 @@ final class ClearFieldAction extends Action
     {
         parent::setUp();
 
+        /** @var array<string, mixed> $config */
+        $config = config('clearfield-action', []);
+
         $this
             ->icon(Heroicon::OutlinedArrowPath)
             ->modalIcon(Heroicon::OutlinedArrowPath)
@@ -134,6 +137,8 @@ final class ClearFieldAction extends Action
         }
 
         $livewire->form->fill();
+
+        $livewire->dispatch('document-items:clear');
 
         if ($this->afterReset !== null) {
             $this->evaluate($this->afterReset, [

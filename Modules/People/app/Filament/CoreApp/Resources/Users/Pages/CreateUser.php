@@ -7,7 +7,7 @@ namespace Modules\People\Filament\CoreApp\Resources\Users\Pages;
 use Filament\Facades\Filament;
 use Modules\Core\Support\Pages\BaseCreateRecord;
 use Modules\People\Filament\CoreApp\Resources\Users\UserResource;
-use Spatie\Permission\Models\Role;
+use Modules\People\Services\UserTenantRoleSyncService;
 
 final class CreateUser extends BaseCreateRecord
 {
@@ -21,16 +21,8 @@ final class CreateUser extends BaseCreateRecord
             return;
         }
 
-        $this->record->companies()->syncWithoutDetaching([$tenantId]);
+        $roleIds = (array) ($this->data['role_name'] ?? []);
 
-        $roleName = $this->data['role_name'] ?? null;
-
-        if (blank($roleName)) {
-            return;
-        }
-
-        setPermissionsTeamId((int) $tenantId);
-        Role::findOrCreate((string) $roleName, 'web');
-        $this->record->syncRoles([(string) $roleName]);
+        app(UserTenantRoleSyncService::class)->sync($this->record, (int) $tenantId, $roleIds);
     }
 }

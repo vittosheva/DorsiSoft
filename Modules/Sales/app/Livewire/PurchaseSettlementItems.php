@@ -127,6 +127,33 @@ final class PurchaseSettlementItems extends Component
         $this->dispatchDocumentItemsCountUpdated();
     }
 
+    #[On('document-items:clear')]
+    public function clearPendingItems(): void
+    {
+        if ($this->isReadOnly) {
+            return;
+        }
+
+        $this->searchQuery = '';
+        $this->searchResults = [];
+        $this->hasSearchedProducts = false;
+
+        if ($this->purchaseSettlementId) {
+            $settlement = PurchaseSettlement::with('items')->find($this->purchaseSettlementId);
+
+            if ($settlement) {
+                $this->loadFromDatabase($settlement);
+
+                return;
+            }
+        }
+
+        $this->pendingItems = [];
+        $this->expandedItems = [];
+
+        $this->dispatchDocumentItemsCountUpdated();
+    }
+
     public function updateItemField(string $key, string $field, mixed $value): void
     {
         if ($this->isReadOnly) {
@@ -166,7 +193,7 @@ final class PurchaseSettlementItems extends Component
         }
 
         $this->pendingItems = array_values(
-            array_filter($this->pendingItems, fn ($i) => $i['_key'] !== $key),
+            array_filter($this->pendingItems, fn($i) => $i['_key'] !== $key),
         );
 
         unset($this->expandedItems[$key]);

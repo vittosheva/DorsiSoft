@@ -607,14 +607,14 @@ final class BusinessPartnerForm
                         ->hiddenLabel()
                         ->relationship(
                             'roles',
-                            'name',
+                            'code',
                             fn ($query) => $query
-                                ->select(['core_partner_roles.id', 'core_partner_roles.name'])
+                                ->select(['core_partner_roles.id', 'core_partner_roles.code'])
                                 ->where('is_active', true)
-                                ->orderBy('name')
+                                ->orderBy('code')
                                 ->limit(config('dorsi.filament.select_filter_options_limit', 50))
                         )
-                        ->getOptionLabelFromRecordUsing(fn ($record) => __($record->name))
+                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->code->displayName())
                         ->multiple()
                         ->preload()
                         ->live()

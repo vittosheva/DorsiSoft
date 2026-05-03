@@ -96,6 +96,34 @@ final class CreditNoteItems extends Component
         $this->hasSearchedProducts = false;
     }
 
+    #[On('document-items:clear')]
+    public function clearPendingItems(): void
+    {
+        if ($this->isReadOnly) {
+            return;
+        }
+
+        $this->searchQuery = '';
+        $this->searchResults = [];
+        $this->hasSearchedProducts = false;
+
+        if ($this->creditNoteId) {
+            $creditNote = CreditNote::with(['items.taxes'])->find($this->creditNoteId);
+
+            if ($creditNote) {
+                $this->loadFromDatabase($creditNote);
+
+                return;
+            }
+        }
+
+        $this->pendingItems = [];
+        $this->expandedItems = [];
+        $this->itemTaxErrors = [];
+
+        $this->dispatchDocumentItemsCountUpdated();
+    }
+
     public function updateItemField(string $key, string $field, mixed $value): void
     {
         if ($this->isReadOnly) {
@@ -162,7 +190,7 @@ final class CreditNoteItems extends Component
         $this->expandedItems = [];
 
         foreach ($invoice->items as $item) {
-            $taxes = $item->taxes->map(fn ($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
+            $taxes = $item->taxes->map(fn($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
 
             $key = Str::uuid()->toString();
 

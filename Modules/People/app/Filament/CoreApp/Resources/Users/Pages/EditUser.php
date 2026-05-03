@@ -10,6 +10,7 @@ use Filament\Facades\Filament;
 use Modules\Core\Support\Actions\SeparatorAction;
 use Modules\Core\Support\Pages\BaseEditRecord;
 use Modules\People\Filament\CoreApp\Resources\Users\UserResource;
+use Modules\People\Services\UserTenantRoleSyncService;
 use Spatie\Permission\Models\Role;
 
 final class EditUser extends BaseEditRecord
@@ -24,12 +25,13 @@ final class EditUser extends BaseEditRecord
             return $data;
         }
 
-        $roleName = $this->record
+        $roleIds = $this->record
             ->roles()
             ->where((new Role())->getTable().'.company_id', $tenantId)
-            ->value('name');
+            ->pluck((new Role())->getTable().'.id')
+            ->all();
 
-        $data['role_name'] = $roleName;
+        $data['role_name'] = $roleIds;
 
         return $data;
     }
@@ -42,17 +44,9 @@ final class EditUser extends BaseEditRecord
             return;
         }
 
-        $this->record->companies()->syncWithoutDetaching([$tenantId]);
+        $roleIds = (array) ($this->data['role_name'] ?? []);
 
-        $roleName = $this->data['role_name'] ?? null;
-
-        if (blank($roleName)) {
-            return;
-        }
-
-        setPermissionsTeamId((int) $tenantId);
-        Role::findOrCreate((string) $roleName, 'web');
-        $this->record->syncRoles([(string) $roleName]);
+        app(UserTenantRoleSyncService::class)->sync($this->record, (int) $tenantId, $roleIds);
     }
 
     protected function getHeaderActions(): array

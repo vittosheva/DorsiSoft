@@ -13,6 +13,7 @@ final class NotesTextarea extends Textarea
         parent::setUp();
 
         $this
+            ->hiddenLabel()
             ->rows(3)
             ->nullable()
             ->columnSpan(6);

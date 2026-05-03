@@ -15,8 +15,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Modules\Core\Enums\FileTypeEnum;
 use Modules\Core\Enums\LanguageEnum;
@@ -119,31 +119,28 @@ final class UserForm
             ->description(__('Access credentials and organizational assignment.'))
             ->schema([
                 Select::make('role_name')
-                    ->options(function (): array {
-                        $tenantId = Filament::getTenant()?->getKey();
+                    ->label(__('Roles'))
+                    ->relationship('roles', 'name', function (Builder $query): Builder {
+                        $rolesTable = (new Role())->getTable();
 
-                        if (blank($tenantId)) {
-                            return [];
-                        }
-
-                        return Cache::remember(
-                            "tenant_roles.{$tenantId}",
-                            900,
-                            fn () => Role::query()
-                                ->select(['name'])
-                                ->where('company_id', $tenantId)
-                                ->where('guard_name', 'web')
-                                ->orderBy('name')
-                                ->limit(config('dorsi.filament.select_filter_options_limit', 50))
-                                ->pluck('name', 'name')
-                                ->all(),
-                        );
+                        return $query
+                            ->select([
+                                "{$rolesTable}.id",
+                                "{$rolesTable}.name",
+                                "{$rolesTable}.display_name",
+                                "{$rolesTable}.company_id",
+                                "{$rolesTable}.guard_name",
+                            ])
+                            ->where("{$rolesTable}.guard_name", 'web')
+                            ->orderBy("{$rolesTable}.name");
                     })
+                    ->getOptionLabelFromRecordUsing(fn (Role $record): string => __($record->display_name ?? $record->name))
+                    ->multiple()
                     ->searchable()
                     ->preload()
                     ->required()
                     ->dehydrated(false)
-                    ->columnSpan(3),
+                    ->columnSpan(4),
 
                 TextInput::make('password')
                     ->password()

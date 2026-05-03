@@ -94,6 +94,34 @@ final class SalesOrderItems extends Component
         $this->hasSearchedProducts = false;
     }
 
+    #[On('document-items:clear')]
+    public function clearPendingItems(): void
+    {
+        if ($this->isReadOnly) {
+            return;
+        }
+
+        $this->searchQuery = '';
+        $this->searchResults = [];
+        $this->hasSearchedProducts = false;
+
+        if ($this->orderId) {
+            $order = SalesOrder::with(['items.taxes'])->find($this->orderId);
+
+            if ($order) {
+                $this->loadFromDatabase($order);
+
+                return;
+            }
+        }
+
+        $this->pendingItems = [];
+        $this->expandedItems = [];
+        $this->itemTaxErrors = [];
+
+        $this->dispatchDocumentItemsCountUpdated();
+    }
+
     public function updateItemField(string $key, string $field, mixed $value): void
     {
         if ($this->isReadOnly) {

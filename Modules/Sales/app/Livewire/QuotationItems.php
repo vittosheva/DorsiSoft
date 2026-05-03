@@ -96,6 +96,34 @@ final class QuotationItems extends Component
         $this->hasSearchedProducts = false;
     }
 
+    #[On('document-items:clear')]
+    public function clearPendingItems(): void
+    {
+        if ($this->isReadOnly) {
+            return;
+        }
+
+        $this->searchQuery = '';
+        $this->searchResults = [];
+        $this->hasSearchedProducts = false;
+
+        if ($this->quotationId) {
+            $quotation = Quotation::with(['items.taxes'])->find($this->quotationId);
+
+            if ($quotation) {
+                $this->loadFromDatabase($quotation);
+
+                return;
+            }
+        }
+
+        $this->pendingItems = [];
+        $this->expandedItems = [];
+        $this->itemTaxErrors = [];
+
+        $this->dispatchDocumentItemsCountUpdated();
+    }
+
     public function updateItemField(string $key, string $field, mixed $value): void
     {
         if ($this->isReadOnly) {
@@ -258,7 +286,7 @@ final class QuotationItems extends Component
             return $product->sale_price ?? 0;
         }
 
-        $quotation = Quotation::find($this->quotationId);
+        $quotation = Quotation::find($this->quotationId, ['*']);
 
         if (! $quotation?->price_list_id) {
             return $product->sale_price ?? 0;

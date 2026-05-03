@@ -35,7 +35,7 @@ final class BusinessPartnerResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
-                'roles:id,name',
+                'roles:id,code,name',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
             ]);
