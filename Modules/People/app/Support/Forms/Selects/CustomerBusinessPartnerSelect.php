@@ -48,7 +48,7 @@ final class CustomerBusinessPartnerSelect extends Select
                 Action::make('select_customer')
                     ->hiddenLabel()
                     ->icon(Heroicon::MagnifyingGlass)
-                    ->tooltip(fn($operation) => $operation !== 'view' ? __('Search customer') : null)
+                    ->tooltip(fn ($operation) => $operation !== 'view' ? __('Search customer') : null)
                     ->schema([
                         TableSelect::make('selected_customer')
                             ->hiddenLabel()
@@ -70,7 +70,7 @@ final class CustomerBusinessPartnerSelect extends Select
                     })
                     ->modalHeading(__('Select customer'))
                     ->modalSubmitActionLabel(__('Confirm selection'))
-                    ->visible(fn($operation) => in_array($operation, ['create', 'edit'])),
+                    ->visible(fn ($operation) => in_array($operation, ['create', 'edit'])),
             ])
             ->afterLabel([
                 Action::make('final_consumer')
@@ -94,10 +94,10 @@ final class CustomerBusinessPartnerSelect extends Select
                     })
                     ->badge()
                     ->tooltip(__('Select final consumer'))
-                    ->visible(fn($operation) => $this->showFinalConsumer && in_array($operation, ['create', 'edit'])),
+                    ->visible(fn ($operation) => $this->showFinalConsumer && in_array($operation, ['create', 'edit'])),
             ])
             ->placeholder(__('Search by name or identification...'))
-            ->options(fn(): array => $this->resolveInitialOptions())
+            ->options(fn (): array => $this->resolveInitialOptions())
             ->searchable()
             ->required()
             ->getSearchResultsUsing(
@@ -109,7 +109,7 @@ final class CustomerBusinessPartnerSelect extends Select
 
                     if ($search !== '') {
                         $query->where(function ($innerQuery) use ($search): void {
-                            $searchPattern = '%' . $search . '%';
+                            $searchPattern = '%'.$search.'%';
 
                             $innerQuery->whereLike('legal_name', $searchPattern)
                                 ->orWhereLike('trade_name', $searchPattern)
@@ -129,30 +129,30 @@ final class CustomerBusinessPartnerSelect extends Select
                         ->orderBy('legal_name')
                         ->limit($limit)
                         ->get()
-                        ->mapWithKeys(fn(BusinessPartner $businessPartner): array => [
+                        ->mapWithKeys(fn (BusinessPartner $businessPartner): array => [
                             $businessPartner->id => "{$businessPartner->legal_name} - {$businessPartner->identification_number}",
                         ])
                         ->all();
                 }
             )
             ->getOptionLabelUsing(
-                fn($value): ?string => BusinessPartner::query()
+                fn ($value): ?string => BusinessPartner::query()
                     ->whereKey($value)
                     ->value('legal_name')
             )
             ->live()
             ->preload()
-            ->default(fn(): ?int => $this->resolveRequestedBusinessPartnerId())
+            ->default(fn (): ?int => $this->resolveRequestedBusinessPartnerId())
             ->afterStateUpdated(function ($state, Set $set, Get $get): void {
                 if ($this->afterSelectionCallback) {
                     ($this->afterSelectionCallback)($state, $set, $get);
                 }
             })
             ->createOptionAction(
-                fn(Action $action) => $action
+                fn (Action $action) => $action
                     ->tooltip(__('Create :name', ['name' => __('Customer')]))
             )
-            ->createOptionForm(fn(Schema $schema) => CustomerMinimalCreateForm::configure($schema))
+            ->createOptionForm(fn (Schema $schema) => CustomerMinimalCreateForm::configure($schema))
             ->createOptionUsing(
                 function (array $data): int {
                     return DB::transaction(function () use ($data): int {
@@ -185,7 +185,7 @@ final class CustomerBusinessPartnerSelect extends Select
 
                         return BusinessPartnerResource::getUrl('edit', ['record' => $get($this->getName())]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn(Get $get, $operation) => blank($get($this->getName())) || $operation === 'view'),
+                    ->hidden(fn (Get $get, $operation) => blank($get($this->getName())) || $operation === 'view'),
             ]);
     }
 
@@ -237,7 +237,7 @@ final class CustomerBusinessPartnerSelect extends Select
             ->orderBy('legal_name')
             ->limit(max(1, $this->initialResultsLimit))
             ->get()
-            ->mapWithKeys(fn(BusinessPartner $businessPartner): array => [
+            ->mapWithKeys(fn (BusinessPartner $businessPartner): array => [
                 $businessPartner->id => "{$businessPartner->legal_name} - {$businessPartner->identification_number}",
             ])
             ->all();

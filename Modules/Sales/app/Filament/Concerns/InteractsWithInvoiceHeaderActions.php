@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Core\Support\Forms\TextInputs\MoneyTextInput;
 use Modules\Finance\Enums\CollectionMethodEnum;
@@ -149,6 +150,9 @@ trait InteractsWithInvoiceHeaderActions
                         ->title(__('Cannot issue invoice'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;

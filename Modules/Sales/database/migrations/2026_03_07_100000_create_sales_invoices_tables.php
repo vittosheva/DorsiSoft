@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\InvoiceStatusEnum;
 
 return new class extends Migration
 {
@@ -32,7 +33,7 @@ return new class extends Migration
             $table->string('seller_name', 150)->nullable();
 
             $table->string('currency_code', 3)->default('USD');
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 35)->default(InvoiceStatusEnum::Draft->value);
             $table->date('issue_date');
             $table->date('due_date')->nullable();
             $table->text('notes')->nullable();

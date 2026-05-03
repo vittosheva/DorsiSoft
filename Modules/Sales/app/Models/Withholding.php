@@ -23,6 +23,7 @@ use Modules\People\Models\User;
 use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\DocumentTypeEnum;
 use Modules\Sales\Enums\WithholdingStatusEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
 use Modules\Sri\Concerns\HasSriTechnicalExchanges;
@@ -38,6 +39,7 @@ use Modules\Workflow\Traits\HasApprovals;
 
 final class Withholding extends BaseModel implements Approvable, DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasApprovals;
     use HasDocumentBehavior;
     use HasElectronicDocumentState;
@@ -53,6 +55,7 @@ final class Withholding extends BaseModel implements Approvable, DocumentContrac
 
     protected $fillable = [
         'company_id',
+        'document_type_id',
         'code',
         'business_partner_id',
         'supplier_name',

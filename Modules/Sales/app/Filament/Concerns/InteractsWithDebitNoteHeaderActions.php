@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DangerRecordStatusAction;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Sales\Enums\DebitNoteStatusEnum;
 use Modules\Sales\Models\DebitNote;
@@ -63,6 +64,9 @@ trait InteractsWithDebitNoteHeaderActions
                         ->title(__('Cannot issue debit note'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;

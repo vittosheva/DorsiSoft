@@ -11,6 +11,7 @@ use Modules\Core\Contracts\DocumentStatus;
 enum CreditNoteStatusEnum: string implements DocumentStatus, HasColor, HasLabel
 {
     case Draft = 'draft';
+    case PendingAuthorization = 'pending_authorization';
     case Issued = 'issued';
     case FullyApplied = 'fully_applied';
     case Voided = 'voided';
@@ -19,6 +20,7 @@ enum CreditNoteStatusEnum: string implements DocumentStatus, HasColor, HasLabel
     {
         return match ($this) {
             self::Draft => __('Draft'),
+            self::PendingAuthorization => __('Pending Authorization'),
             self::Issued => __('Issued'),
             self::FullyApplied => __('Fully Applied'),
             self::Voided => __('Voided'),
@@ -29,6 +31,7 @@ enum CreditNoteStatusEnum: string implements DocumentStatus, HasColor, HasLabel
     {
         return match ($this) {
             self::Draft => 'gray',
+            self::PendingAuthorization => 'warning',
             self::Issued => 'success',
             self::FullyApplied => 'info',
             self::Voided => 'danger',
@@ -48,7 +51,8 @@ enum CreditNoteStatusEnum: string implements DocumentStatus, HasColor, HasLabel
     public function canTransitionTo(self $newStatus): bool
     {
         return match ($this) {
-            self::Draft => $newStatus === self::Issued,
+            self::Draft => $newStatus === self::PendingAuthorization,
+            self::PendingAuthorization => in_array($newStatus, [self::Issued, self::Voided], true),
             self::Issued => in_array($newStatus, [self::FullyApplied, self::Voided], true),
             default => false,
         };

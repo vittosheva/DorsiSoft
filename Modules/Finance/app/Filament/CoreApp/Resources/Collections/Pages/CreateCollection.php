@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Finance\Filament\CoreApp\Resources\Collections\Pages;
 
-use Filament\Schemas\Schema;
 use Illuminate\Validation\ValidationException;
 use Modules\Core\Support\Pages\BaseCreateRecord;
 use Modules\Finance\Filament\CoreApp\Resources\Collections\CollectionResource;
-use Modules\Finance\Filament\CoreApp\Resources\Collections\Schemas\CollectionForm;
 use Modules\Finance\Models\Collection;
 use Modules\Finance\Services\AllocateCollectionToInvoiceService;
 use Modules\Finance\Support\CollectionAllocationMath;
@@ -23,11 +21,6 @@ final class CreateCollection extends BaseCreateRecord
      * @var array<int, array{invoice_id?: mixed, amount?: mixed}>
      */
     private array $allocationItems = [];
-
-    public function form(Schema $schema): Schema
-    {
-        return CollectionForm::configure($schema);
-    }
 
     /**
      * @param  array<string, mixed>  $data

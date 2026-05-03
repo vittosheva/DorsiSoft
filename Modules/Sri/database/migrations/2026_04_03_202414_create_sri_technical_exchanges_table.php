@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('operation', 80);
             $table->string('environment', 20)->nullable();
             $table->string('endpoint')->nullable();
-            $table->string('status', 30);
+            $table->string('status', 35);
             $table->unsignedSmallInteger('attempt')->default(1);
             $table->json('request_summary')->nullable();
             $table->json('response_summary')->nullable();

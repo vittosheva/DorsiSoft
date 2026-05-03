@@ -15,6 +15,7 @@ use Modules\Core\Contracts\DocumentStatus;
 enum WithholdingStatusEnum: string implements DocumentStatus, HasColor, HasIcon, HasLabel
 {
     case Draft = 'draft';
+    case PendingAuthorization = 'pending_authorization';
     case Issued = 'issued';
     case Voided = 'voided';
 
@@ -22,6 +23,7 @@ enum WithholdingStatusEnum: string implements DocumentStatus, HasColor, HasIcon,
     {
         return match ($this) {
             self::Draft => __('Draft'),
+            self::PendingAuthorization => __('Pending Authorization'),
             self::Issued => __('Issued'),
             self::Voided => __('Voided'),
         };
@@ -31,6 +33,7 @@ enum WithholdingStatusEnum: string implements DocumentStatus, HasColor, HasIcon,
     {
         return match ($this) {
             self::Draft => 'gray',
+            self::PendingAuthorization => 'warning',
             self::Issued => 'success',
             self::Voided => 'danger',
         };
@@ -40,6 +43,7 @@ enum WithholdingStatusEnum: string implements DocumentStatus, HasColor, HasIcon,
     {
         return match ($this) {
             self::Draft => Heroicon::OutlinedPencil,
+            self::PendingAuthorization => Heroicon::OutlinedClock,
             self::Issued => Heroicon::OutlinedCheck,
             self::Voided => Heroicon::OutlinedXCircle,
         };
@@ -58,7 +62,8 @@ enum WithholdingStatusEnum: string implements DocumentStatus, HasColor, HasIcon,
     public function canTransitionTo(self $newStatus): bool
     {
         return match ($this) {
-            self::Draft => $newStatus === self::Issued,
+            self::Draft => $newStatus === self::PendingAuthorization,
+            self::PendingAuthorization => in_array($newStatus, [self::Issued, self::Voided], true),
             self::Issued => in_array($newStatus, [self::Voided], true),
             default => false,
         };

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('status')->default(FiscalPeriodStatusEnum::OPEN)->comment('OPEN, CLOSED');
+            $table->string('status', 35)->default(FiscalPeriodStatusEnum::OPEN)->comment('OPEN, CLOSED');
             $table->timestamp('closed_at')->nullable();
             $table->foreignId('closed_by_id')->nullable()->constrained('core_users')->nullOnDelete();
             $table->timestamps();

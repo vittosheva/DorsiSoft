@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\DebitNoteStatusEnum;
 
 return new class extends Migration
 {
@@ -48,7 +49,7 @@ return new class extends Migration
             $table->decimal('total', 20, 4)->default(0);
 
             // Estado
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 35)->default(DebitNoteStatusEnum::Draft->value);
 
             // Secuencia SRI
             $table->char('access_key', 49)->nullable();

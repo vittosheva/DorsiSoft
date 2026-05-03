@@ -9,6 +9,7 @@ use Modules\Core\Support\Pages\BaseEditRecord;
 use Modules\Sales\Enums\DebitNoteStatusEnum;
 use Modules\Sales\Filament\Concerns\InteractsWithDebitNoteHeaderActions;
 use Modules\Sales\Filament\Concerns\InteractsWithSalesDocumentHeaderActions;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\DebitNotes\DebitNoteResource;
 use Modules\Sales\Filament\CoreApp\Resources\DebitNotes\Schemas\DebitNoteForm;
 
@@ -16,6 +17,7 @@ final class EditDebitNote extends BaseEditRecord
 {
     use InteractsWithDebitNoteHeaderActions;
     use InteractsWithSalesDocumentHeaderActions;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = DebitNoteResource::class;
 

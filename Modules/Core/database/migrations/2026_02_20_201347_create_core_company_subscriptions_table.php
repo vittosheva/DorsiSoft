@@ -34,7 +34,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('core_companies')->cascadeOnDelete();
             $table->string('plan_code', 32);
-            $table->string('status', 32)->default('active');
+            $table->string('status', 35)->default('active');
             $table->string('billing_cycle', 32)->nullable();
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();

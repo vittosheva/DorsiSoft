@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\CreditNoteStatusEnum;
 
 return new class extends Migration
 {
@@ -46,7 +47,7 @@ return new class extends Migration
             $table->decimal('refunded_amount', 20, 4)->default(0);
 
             // Estado y metadatos
-            $table->string('status', 20);
+            $table->string('status', 35)->default(CreditNoteStatusEnum::Draft->value);
             $table->text('reason');
             $table->text('notes')->nullable();
             $table->json('metadata')->nullable();

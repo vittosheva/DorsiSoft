@@ -73,7 +73,7 @@ final class CreditNoteForm
                             ->columnSpan(6),
                     ]),
 
-                Livewire::make(CreditNoteItems::class, fn (?CreditNote $record, string $operation) => [
+                Livewire::make(CreditNoteItems::class, fn(?CreditNote $record, string $operation) => [
                     'creditNoteId' => $record?->getKey(),
                     'minimumItemsCount' => 1,
                     'minimumItemsValidationMessage' => __('Add at least one item to the document.'),
@@ -168,7 +168,7 @@ final class CreditNoteForm
             ->schema([
                 CodeTextInput::make('code')
                     ->autoGenerateFromModel(
-                        scope: fn () => [
+                        scope: fn() => [
                             'company_id' => Filament::getTenant()?->getKey(),
                         ],
                     )
@@ -184,7 +184,6 @@ final class CreditNoteForm
                     ->columnSpanFull(),
 
                 Select::make('reason_code')
-                    ->label(__('Reason'))
                     ->options(CreditNoteReasonEnum::class)
                     ->live()
                     ->afterStateUpdated(function (mixed $state, Get $get, Set $set): void {
@@ -212,8 +211,8 @@ final class CreditNoteForm
                     ->rows(3)
                     ->maxLength(500)
                     ->dehydrated(true)
-                    ->required(fn (Get $get): bool => self::isOtherReasonCode($get('reason_code')))
-                    ->visible(fn (Get $get): bool => self::isOtherReasonCode($get('reason_code')))
+                    ->required(fn(Get $get): bool => self::isOtherReasonCode($get('reason_code')))
+                    ->visible(fn(Get $get): bool => self::isOtherReasonCode($get('reason_code')))
                     ->columnSpan(6),
             ])
             ->columns(12);
@@ -268,7 +267,7 @@ final class CreditNoteForm
                     ->footer([
                         self::systemInvoiceSelect(__('Select invoice')),
                     ])
-                    ->visible(fn (Get $get): bool => blank($get('invoice_id')))
+                    ->visible(fn(Get $get): bool => blank($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         ! $get('invoice_id')
                     JS)
@@ -277,16 +276,16 @@ final class CreditNoteForm
 
                 TextEntry::make('invoice_selected_display')
                     ->hiddenLabel()
-                    ->state(fn (Get $get): HtmlString => self::buildSelectedInvoiceCard($get('invoice_id')))
+                    ->state(fn(Get $get): HtmlString => self::buildSelectedInvoiceCard($get('invoice_id')))
                     ->html()
-                    ->visible(fn (Get $get): bool => filled($get('invoice_id')))
+                    ->visible(fn(Get $get): bool => filled($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         !! $get('invoice_id')
                     JS)
                     ->columnSpanFull(),
 
                 self::systemInvoiceSelect(__('Change Invoice'), asLink: false)
-                    ->visible(fn (Get $get): bool => filled($get('invoice_id')))
+                    ->visible(fn(Get $get): bool => filled($get('invoice_id')))
                     ->visibleJs(<<<'JS'
                         !! $get('invoice_id')
                     JS)
@@ -294,15 +293,15 @@ final class CreditNoteForm
 
                 // Hidden snapshot fields — always in Livewire state regardless of section visibility
                 Hidden::make('invoice_id')
-                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'system')
-                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'system')
+                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'system')
+                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'system')
                     ->rule(
-                        fn (Get $get, ?CreditNote $record) => $get('invoice_source_mode') === 'system'
+                        fn(Get $get, ?CreditNote $record) => $get('invoice_source_mode') === 'system'
                             ? Rule::unique('sales_credit_notes', 'invoice_id')
-                                ->where('company_id', Filament::getTenant()?->getKey())
-                                ->where('status', '!=', CreditNoteStatusEnum::Voided->value)
-                                ->where('electronic_status', ElectronicStatusEnum::Authorized->value)
-                                ->ignore($record?->getKey())
+                            ->where('company_id', Filament::getTenant()?->getKey())
+                            ->where('status', '!=', CreditNoteStatusEnum::Voided->value)
+                            ->where('electronic_status', ElectronicStatusEnum::Authorized->value)
+                            ->ignore($record?->getKey())
                             : 'nullable'
                     )
                     ->validationMessages([
@@ -320,7 +319,7 @@ final class CreditNoteForm
             ->icon(Heroicon::PencilSquare)
             ->schema([
                 CustomerBusinessPartnerSelect::make('business_partner_id')
-                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpanFull(),
 
                 TextInput::make('ext_invoice_code')
@@ -328,18 +327,18 @@ final class CreditNoteForm
                     ->placeholder('001-001-000000001')
                     ->live(onBlur: true)
                     ->mask('999-999-999999999')
-                    ->rule(fn (Get $get) => $get('invoice_source_mode') === 'manual' ? new NotAllZerosPerBlock : 'nullable')
+                    ->rule(fn(Get $get) => $get('invoice_source_mode') === 'manual' ? new NotAllZerosPerBlock : 'nullable')
                     ->trim()
                     ->minLength(17)
                     ->maxLength(17)
-                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
-                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(3),
 
                 DatePicker::make('ext_invoice_date')
                     ->label(__('Issue Date'))
-                    ->required(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
-                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->required(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(3),
 
                 TextInput::make('ext_invoice_auth_number')
@@ -350,7 +349,7 @@ final class CreditNoteForm
                     ->trim()
                     ->minLength(49)
                     ->maxLength(49)
-                    ->dehydrated(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->dehydrated(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(6),
             ])
             ->columns(12)
@@ -371,18 +370,18 @@ final class CreditNoteForm
                     ->label(__('Invoice Code'))
                     ->placeholder('001-001-000000001')
                     ->maxLength(17)
-                    ->visible(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->visible(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(4),
 
                 DatePicker::make('ext_invoice_date')
                     ->label(__('Invoice Date'))
-                    ->visible(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->visible(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(4),
 
                 TextInput::make('ext_invoice_auth_number')
                     ->label(__('Authorization Number'))
                     ->maxLength(49)
-                    ->visible(fn (Get $get): bool => $get('invoice_source_mode') === 'manual')
+                    ->visible(fn(Get $get): bool => $get('invoice_source_mode') === 'manual')
                     ->columnSpan(8),
 
             ])
@@ -406,9 +405,9 @@ final class CreditNoteForm
             ->relationship(
                 name: 'invoice',
                 titleAttribute: 'code',
-                modifyQueryUsing: fn ($query) => $query->select(['id', 'code'])
+                modifyQueryUsing: fn($query) => $query->select(['id', 'code'])
             )
-            ->getOptionLabelUsing(fn () => '')
+            ->getOptionLabelUsing(fn() => '')
             ->tableConfiguration(AuthorizedInvoicesTable::class)
             ->live()
             ->afterStateUpdated(function ($state, Set $set, Component $livewire): void {
@@ -487,8 +486,8 @@ final class CreditNoteForm
         }
 
         $invoice = Invoice::query()
-            ->with('businessPartner:id,legal_name,identification_number')
-            ->select(['id', 'code', 'issue_date', 'total', 'business_partner_id'])
+            ->with(['businessPartner:id,legal_name,identification_number'])
+            ->select(['id', 'code', 'issue_date', 'total', 'business_partner_id', 'establishment_code', 'emission_point_code', 'sequential_number', 'document_type_id', 'company_id'])
             ->find($invoiceId);
 
         if (! $invoice) {

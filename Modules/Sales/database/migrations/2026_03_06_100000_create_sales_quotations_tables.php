@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\QuotationStatusEnum;
 
 return new class extends Migration
 {
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->string('price_list_name', 100)->nullable();
 
             $table->string('currency_code', 3)->default('USD');
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 35)->default(QuotationStatusEnum::Draft->value);
 
             $table->date('issue_date');
             $table->unsignedSmallInteger('validity_days')->default(15);

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DangerRecordStatusAction;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Sales\Enums\DeliveryGuideStatusEnum;
 use Modules\Sales\Models\DeliveryGuide;
@@ -66,6 +67,9 @@ trait InteractsWithDeliveryGuideHeaderActions
                         ->title(__('Cannot issue delivery guide'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\WithholdingStatusEnum;
 
 return new class extends Migration
 {
@@ -29,11 +30,11 @@ return new class extends Migration
             $table->char('access_key', 49)->nullable();
 
             // Estado del proceso electrónico
-            $table->string('electronic_status', 20)->nullable();
+            $table->string('electronic_status', 35)->nullable();
 
             // Datos del comprobante
             $table->string('period_fiscal', 7)->nullable(); // YYYY/MM
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 35)->default(WithholdingStatusEnum::Draft->value);
             $table->date('issue_date');
             $table->timestamp('issued_at')->nullable();
             $table->timestamp('voided_at')->nullable();

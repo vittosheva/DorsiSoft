@@ -10,6 +10,7 @@ use Filament\Support\Exceptions\Halt;
 use Filament\Support\Icons\Heroicon;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Finance\Enums\CollectionMethodEnum;
 use Modules\Finance\Models\Collection;
@@ -73,6 +74,9 @@ trait InteractsWithCreditNoteHeaderActions
                         ->title(__('Cannot issue credit note'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;
@@ -177,6 +181,7 @@ trait InteractsWithCreditNoteHeaderActions
             return;
         }
 
+        /** @var Invoice $invoice */
         $availableLimit = $invoice->availableCreditableAmount($creditNote->getKey());
 
         if (CollectionAllocationMath::exceedsWithTolerance((string) $creditNote->total, $availableLimit)) {

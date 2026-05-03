@@ -29,6 +29,7 @@ use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\CreditNoteReasonEnum;
 use Modules\Sales\Enums\CreditNoteStatusEnum;
 use Modules\Sales\Enums\DocumentTypeEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sales\Support\Pdf\CommercialDocumentPdfDataBuilder;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
@@ -46,6 +47,7 @@ use Modules\Workflow\Traits\HasApprovals;
 
 final class CreditNote extends BaseModel implements Approvable, DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasApprovals;
     use HasCustomerSnapshot;
     use HasDocumentBehavior;
@@ -62,6 +64,7 @@ final class CreditNote extends BaseModel implements Approvable, DocumentContract
 
     protected $fillable = [
         'company_id',
+        'document_type_id',
         'code',
         'invoice_id',
         'collection_id',

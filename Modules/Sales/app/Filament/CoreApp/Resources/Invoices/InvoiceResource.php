@@ -39,6 +39,7 @@ final class InvoiceResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
+                'documentType:id,code,name',
                 'seller:id,name',
                 'salesOrder:id,code',
                 'allocations:id,invoice_id,amount,collection_id',

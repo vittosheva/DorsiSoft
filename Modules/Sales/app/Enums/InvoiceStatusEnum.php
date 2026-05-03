@@ -15,6 +15,7 @@ use Modules\Core\Contracts\DocumentStatus;
 enum InvoiceStatusEnum: string implements DocumentStatus, HasColor, HasIcon, HasLabel
 {
     case Draft = 'draft';
+    case PendingAuthorization = 'pending_authorization';
     case Issued = 'issued';
     case Paid = 'paid';
     case Voided = 'voided';
@@ -23,6 +24,7 @@ enum InvoiceStatusEnum: string implements DocumentStatus, HasColor, HasIcon, Has
     {
         return match ($this) {
             self::Draft => __('Draft'),
+            self::PendingAuthorization => __('Pending Authorization'),
             self::Issued => __('Issued'),
             self::Paid => __('Paid'),
             self::Voided => __('Voided'),
@@ -33,6 +35,7 @@ enum InvoiceStatusEnum: string implements DocumentStatus, HasColor, HasIcon, Has
     {
         return match ($this) {
             self::Draft => 'gray',
+            self::PendingAuthorization => 'warning',
             self::Issued => 'success',
             self::Paid => 'info',
             self::Voided => 'danger',
@@ -43,6 +46,7 @@ enum InvoiceStatusEnum: string implements DocumentStatus, HasColor, HasIcon, Has
     {
         return match ($this) {
             self::Draft => Heroicon::OutlinedPencil,
+            self::PendingAuthorization => Heroicon::OutlinedClock,
             self::Issued => Heroicon::OutlinedCheck,
             self::Paid => Heroicon::OutlinedCurrencyDollar,
             self::Voided => Heroicon::OutlinedXCircle,
@@ -62,7 +66,8 @@ enum InvoiceStatusEnum: string implements DocumentStatus, HasColor, HasIcon, Has
     public function canTransitionTo(self $newStatus): bool
     {
         return match ($this) {
-            self::Draft => $newStatus === self::Issued,
+            self::Draft => $newStatus === self::PendingAuthorization,
+            self::PendingAuthorization => in_array($newStatus, [self::Issued, self::Voided], true),
             self::Issued => in_array($newStatus, [self::Paid, self::Voided], true),
             default => false,
         };

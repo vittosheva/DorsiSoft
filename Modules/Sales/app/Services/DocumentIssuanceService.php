@@ -54,7 +54,7 @@ final class DocumentIssuanceService
      */
     public function issueInvoice(Invoice $invoice, ?int $performedBy = null): void
     {
-        if (! $invoice->status->canTransitionTo(InvoiceStatusEnum::Issued)) {
+        if (! $invoice->status->canTransitionTo(InvoiceStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue an invoice with status :status.', ['status' => $invoice->status->getLabel()])
             );
@@ -63,7 +63,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($invoice);
 
         DB::transaction(function () use ($invoice, $performedBy): void {
-            $invoice->status = InvoiceStatusEnum::Issued;
+            $invoice->status = InvoiceStatusEnum::PendingAuthorization;
             $invoice->issue_date ??= now()->toDateString();
             $invoice->save();
 
@@ -80,7 +80,7 @@ final class DocumentIssuanceService
      */
     public function issueCreditNote(CreditNote $creditNote, ?int $performedBy = null): void
     {
-        if (! $creditNote->status->canTransitionTo(CreditNoteStatusEnum::Issued)) {
+        if (! $creditNote->status->canTransitionTo(CreditNoteStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue a credit note with status :status.', ['status' => $creditNote->status->getLabel()])
             );
@@ -89,7 +89,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($creditNote);
 
         DB::transaction(function () use ($creditNote, $performedBy): void {
-            $creditNote->status = CreditNoteStatusEnum::Issued;
+            $creditNote->status = CreditNoteStatusEnum::PendingAuthorization;
             $creditNote->issue_date ??= now()->toDateString();
             $creditNote->save();
 
@@ -106,7 +106,7 @@ final class DocumentIssuanceService
      */
     public function issueDebitNote(DebitNote $debitNote, ?int $performedBy = null): void
     {
-        if (! $debitNote->status->canTransitionTo(DebitNoteStatusEnum::Issued)) {
+        if (! $debitNote->status->canTransitionTo(DebitNoteStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue a debit note with status :status.', ['status' => $debitNote->status->getLabel()])
             );
@@ -126,7 +126,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($debitNote);
 
         DB::transaction(function () use ($debitNote, $performedBy): void {
-            $debitNote->status = DebitNoteStatusEnum::Issued;
+            $debitNote->status = DebitNoteStatusEnum::PendingAuthorization;
             $debitNote->issue_date ??= now()->toDateString();
             $debitNote->save();
 
@@ -143,7 +143,7 @@ final class DocumentIssuanceService
      */
     public function issueDeliveryGuide(DeliveryGuide $deliveryGuide, ?int $performedBy = null): void
     {
-        if (! $deliveryGuide->status->canTransitionTo(DeliveryGuideStatusEnum::Issued)) {
+        if (! $deliveryGuide->status->canTransitionTo(DeliveryGuideStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue a delivery guide with status :status.', ['status' => $deliveryGuide->status->getLabel()])
             );
@@ -156,7 +156,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($deliveryGuide);
 
         DB::transaction(function () use ($deliveryGuide, $performedBy): void {
-            $deliveryGuide->status = DeliveryGuideStatusEnum::Issued;
+            $deliveryGuide->status = DeliveryGuideStatusEnum::PendingAuthorization;
             $deliveryGuide->issue_date ??= now()->toDateString();
             $deliveryGuide->save();
 
@@ -173,7 +173,7 @@ final class DocumentIssuanceService
      */
     public function issuePurchaseSettlement(PurchaseSettlement $settlement, ?int $performedBy = null): void
     {
-        if (! $settlement->status->canTransitionTo(PurchaseSettlementStatusEnum::Issued)) {
+        if (! $settlement->status->canTransitionTo(PurchaseSettlementStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue a purchase settlement with status :status.', ['status' => $settlement->status->getLabel()])
             );
@@ -186,7 +186,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($settlement);
 
         DB::transaction(function () use ($settlement, $performedBy): void {
-            $settlement->status = PurchaseSettlementStatusEnum::Issued;
+            $settlement->status = PurchaseSettlementStatusEnum::PendingAuthorization;
             $settlement->issue_date ??= now()->toDateString();
             $settlement->save();
 
@@ -203,7 +203,7 @@ final class DocumentIssuanceService
      */
     public function issueWithholding(Withholding $withholding, ?int $performedBy = null): void
     {
-        if (! $withholding->status->canTransitionTo(WithholdingStatusEnum::Issued)) {
+        if (! $withholding->status->canTransitionTo(WithholdingStatusEnum::PendingAuthorization)) {
             throw new InvalidArgumentException(
                 __('Cannot issue a withholding with status :status.', ['status' => $withholding->status->getLabel()])
             );
@@ -216,7 +216,7 @@ final class DocumentIssuanceService
         $this->validateElectronicIssuance($withholding);
 
         DB::transaction(function () use ($withholding, $performedBy): void {
-            $withholding->status = WithholdingStatusEnum::Issued;
+            $withholding->status = WithholdingStatusEnum::PendingAuthorization;
             $withholding->issue_date ??= now()->toDateString();
             $withholding->save();
 

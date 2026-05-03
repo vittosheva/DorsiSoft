@@ -12,6 +12,7 @@ use Modules\Sales\Filament\Concerns\DispatchesItemsPersistEvent;
 use Modules\Sales\Filament\Concerns\InteractsWithCreditNoteHeaderActions;
 use Modules\Sales\Filament\Concerns\InteractsWithSalesDocumentHeaderActions;
 use Modules\Sales\Filament\Concerns\SyncsDocumentItemsCount;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\CreditNotes\CreditNoteResource;
 use Modules\Sales\Filament\CoreApp\Resources\CreditNotes\Schemas\CreditNoteForm;
 
@@ -21,6 +22,7 @@ final class EditCreditNote extends BaseEditRecord
     use InteractsWithCreditNoteHeaderActions;
     use InteractsWithSalesDocumentHeaderActions;
     use SyncsDocumentItemsCount;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = CreditNoteResource::class;
 

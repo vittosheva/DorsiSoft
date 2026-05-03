@@ -128,8 +128,6 @@ final class EditCompany extends EditTenantProfile
         }
 
         $this->commitDatabaseTransaction();
-
-        // $this->redirect($this->getUrl('edit', ['tenant' => $this->tenant->getKey()]));
     }
 
     protected function afterSave(): void
@@ -556,8 +554,7 @@ final class EditCompany extends EditTenantProfile
                     ->default(SriEnvironmentEnum::DEFAULT)
                     ->columnSpanFull(),
             ])
-            ->columns(2)
-            ->collapsible();
+            ->columns(2);
     }
 
     private static function digitalCertificateSection(): Section
@@ -574,12 +571,10 @@ final class EditCompany extends EditTenantProfile
 
                         return __('Upload your SRI digital signing certificate.');
                     })
-                    ->acceptedFileTypes(['application/x-pkcs12', '.p12', '.pfx'])
-                    ->disk('local')
-                    ->directory(fn (?Company $record): string => $record?->ruc
-                        ? "tenants/{$record->ruc}/certificates"
-                        : 'certificates/pending')
-                    ->visibility('private')
+                    ->disk(fn () => FileStoragePathService::getDisk(FileTypeEnum::CertificateFiles))
+                    ->directory(fn (?Company $record) => FileStoragePathService::getPath(FileTypeEnum::CertificateFiles, $record))
+                    ->acceptedFileTypes(fn () => FileStoragePathService::getAcceptedTypes(FileTypeEnum::CertificateFiles))
+                    ->visibility(fn () => FileStoragePathService::getVisibility(FileTypeEnum::CertificateFiles))
                     ->downloadable()
                     ->maxSize(1024),
 
@@ -593,12 +588,22 @@ final class EditCompany extends EditTenantProfile
 
                         return null;
                     })
-                    ->required(function (Get $get) {
-                        if (filled($get('certificate_path'))) {
-                            return blank($get('certificate_password_encrypted')) && blank($get('certificate_password_raw'));
+                    ->required(function (Get $get, ?Company $record): bool {
+                        $formPath = $get('certificate_path');
+                        $dbPath = $record?->certificate_path;
+
+                        // Case 1: No cert anywhere — password not needed.
+                        if (blank($formPath) && blank($dbPath)) {
+                            return false;
                         }
 
-                        return blank($get('certificate_password_encrypted')) && blank($get('certificate_password_raw'));
+                        // Case 2: New file staged (temp path ≠ persisted path) — password required.
+                        if (filled($formPath) && $formPath !== $dbPath) {
+                            return true;
+                        }
+
+                        // Cases 3 & 4: Cert in DB, no new upload — required only if no stored password.
+                        return blank($record?->certificate_password_encrypted);
                     }),
 
                 Flex::make([

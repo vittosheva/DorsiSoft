@@ -22,6 +22,7 @@ use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\DeliveryGuideCarrierTypeEnum;
 use Modules\Sales\Enums\DeliveryGuideStatusEnum;
 use Modules\Sales\Enums\DocumentTypeEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
 use Modules\Sri\Concerns\HasSriTechnicalExchanges;
@@ -29,9 +30,11 @@ use Modules\Sri\Contracts\GeneratesRidePdf;
 use Modules\Sri\Contracts\HasElectronicBilling;
 use Modules\Sri\Enums\ElectronicCorrectionStatusEnum;
 use Modules\Sri\Enums\ElectronicStatusEnum;
+use Modules\System\Models\DocumentType;
 
 final class DeliveryGuide extends BaseModel implements DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasDocumentBehavior;
     use HasElectronicDocumentState;
     use HasElectronicEvents;
@@ -46,6 +49,7 @@ final class DeliveryGuide extends BaseModel implements DocumentContract, Generat
 
     protected $fillable = [
         'company_id',
+        'document_type_id',
         'code',
         'carrier_id',
         'carrier_name',
@@ -109,6 +113,11 @@ final class DeliveryGuide extends BaseModel implements DocumentContract, Generat
     public function carrier(): BelongsTo
     {
         return $this->belongsTo(BusinessPartner::class, 'carrier_id');
+    }
+
+    public function documentType(): BelongsTo
+    {
+        return $this->belongsTo(DocumentType::class, 'document_type_id');
     }
 
     public function recipients(): HasMany

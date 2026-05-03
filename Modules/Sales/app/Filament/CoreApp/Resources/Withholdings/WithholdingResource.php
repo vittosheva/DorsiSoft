@@ -35,14 +35,14 @@ final class WithholdingResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->withSum('items', 'withheld_amount')
             ->with([
                 'businessPartner:id,legal_name,identification_number,tax_address',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
                 'company:id,default_currency_id',
                 'company.defaultCurrency:id,code',
-            ]);
+            ])
+            ->withSum('items', 'withheld_amount');
     }
 
     public static function form(Schema $schema): Schema

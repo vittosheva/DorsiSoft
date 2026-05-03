@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\FusedGroup;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Modules\Core\Support\Actions\ResetSequentialNumberAction;
 use Modules\Sri\Enums\SriDocumentTypeEnum;
 use Modules\Sri\Support\Forms\Concerns\HasSriEstablishmentFields;
 
@@ -38,15 +39,17 @@ final class SequenceEmissionFusedGroup extends FusedGroup
             ->label(__('Sequence Emission'))
             ->schema([
                 Select::make('establishment_code')
-                    ->options(fn (): array => self::resolveEstablishmentOptions())
+                    ->options(fn(): array => self::resolveEstablishmentOptions())
                     ->live()
-                    ->afterStateUpdated(self::resetSequenceOnEstablishmentChange())
+                    ->afterStateUpdated(function (Set $set) {
+                        self::resetSequenceOnEstablishmentChange()($set);
+                    })
                     ->placeholder(__('Establishment'))
                     ->required(),
 
                 Select::make('emission_point_code')
-                    ->options(fn (Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
-                    ->disabled(fn (Get $get): bool => blank($get('establishment_code')))
+                    ->options(fn(Get $get): array => self::resolveEmissionPointOptions($get('establishment_code')))
+                    ->disabled(fn(Get $get): bool => blank($get('establishment_code')))
                     ->live()
                     ->afterStateUpdated(function ($state, $old, Get $get, Set $set) {
                         $operation = 'create';
@@ -57,11 +60,14 @@ final class SequenceEmissionFusedGroup extends FusedGroup
                     ->required(),
 
                 TextInput::make('sequential_number')
+                    ->suffixActions([
+                        ResetSequentialNumberAction::make(),
+                    ])
                     ->maxLength(9)
-                    ->disabled()
-                    ->dehydrated()
                     ->live(onBlur: true)
                     ->placeholder(__('Sequential number'))
+                    ->readOnly()
+                    ->dehydrated()
                     ->required(),
             ])
             ->columns(3)

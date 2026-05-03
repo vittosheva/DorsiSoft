@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DangerRecordStatusAction;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Sales\Enums\WithholdingStatusEnum;
 use Modules\Sales\Filament\CoreApp\Resources\PurchaseSettlements\PurchaseSettlementResource;
@@ -70,6 +71,9 @@ trait InteractsWithWithholdingHeaderActions
                         ->title(__('Cannot issue withholding'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;
@@ -104,7 +108,6 @@ trait InteractsWithWithholdingHeaderActions
     protected function getViewSourceSettlementAction(): Action
     {
         return Action::make('view_source_settlement')
-            ->label(__('Ver Liquidación'))
             ->icon(Heroicon::DocumentText)
             ->color('gray')
             ->visible(function (): bool {

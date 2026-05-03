@@ -9,12 +9,14 @@ use Modules\Core\Support\Pages\BaseEditRecord;
 use Modules\Sales\Enums\DeliveryGuideStatusEnum;
 use Modules\Sales\Filament\Concerns\InteractsWithDeliveryGuideHeaderActions;
 use Modules\Sales\Filament\Concerns\InteractsWithSalesDocumentHeaderActions;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\DeliveryGuides\DeliveryGuideResource;
 
 final class EditDeliveryGuide extends BaseEditRecord
 {
     use InteractsWithDeliveryGuideHeaderActions;
     use InteractsWithSalesDocumentHeaderActions;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = DeliveryGuideResource::class;
 

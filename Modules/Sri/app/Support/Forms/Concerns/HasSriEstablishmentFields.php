@@ -71,7 +71,7 @@ trait HasSriEstablishmentFields
             ->select(['code', 'name'])
             ->where('company_id', $companyId)
             ->where('is_active', true)
-            ->orderBy('code')
+            ->orderBy('code', 'desc')
             ->limit(config('dorsi.filament.select_filter_options_limit', 50))
             ->get()
             ->mapWithKeys(fn (Establishment $e): array => [
@@ -99,7 +99,7 @@ trait HasSriEstablishmentFields
                 fn ($q) => $q->where('code', $establishmentCode),
             )
             ->where('is_active', true)
-            ->orderBy('code')
+            ->orderBy('code', 'desc')
             ->limit(config('dorsi.filament.select_filter_options_limit', 50))
             ->get()
             ->mapWithKeys(fn (EmissionPoint $e): array => [

@@ -33,6 +33,7 @@ use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\CreditNoteStatusEnum;
 use Modules\Sales\Enums\DocumentTypeEnum;
 use Modules\Sales\Enums\InvoiceStatusEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sales\Support\Pdf\CommercialDocumentPdfDataBuilder;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
@@ -50,6 +51,7 @@ use Modules\Workflow\Traits\HasApprovals;
 
 final class Invoice extends BaseModel implements Approvable, DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasApprovals;
     use HasCustomerSnapshot;
     use HasDocumentBehavior;
@@ -108,6 +110,7 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
         'correction_requested_at',
         'corrected_at',
         'correction_reason',
+        'document_type_id',
         'warehouse_id',
         'created_by',
         'updated_by',

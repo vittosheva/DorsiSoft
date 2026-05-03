@@ -11,12 +11,14 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Modules\Core\Support\Pages\BaseCreateRecord;
 use Modules\Sales\Filament\Concerns\DispatchesItemsPersistEvent;
 use Modules\Sales\Filament\Concerns\SyncsDocumentItemsCount;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\PurchaseSettlements\PurchaseSettlementResource;
 
 final class CreatePurchaseSettlement extends BaseCreateRecord
 {
     use DispatchesItemsPersistEvent;
     use SyncsDocumentItemsCount;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = PurchaseSettlementResource::class;
 

@@ -162,6 +162,47 @@ final class SriDocumentPreValidator
                 );
             }
         }
+
+        $this->validateCustomerIdentification($invoice);
+    }
+
+    /**
+     * @throws XmlGenerationException
+     */
+    private function validateCustomerIdentification(Invoice $invoice): void
+    {
+        if ($invoice->customer_identification_type === 'cedula') {
+            $cedula = preg_replace('/\D/', '', (string) $invoice->customer_identification ?? '');
+
+            if (! $this->isValidEcuadorCedula($cedula)) {
+                throw new XmlGenerationException(
+                    "Factura [{$invoice->id}]: El número de cédula del cliente '{$invoice->customer_identification}' no es válido. "
+                        .'Verifique que la cédula tenga 10 dígitos y que el dígito verificador sea correcto.'
+                );
+            }
+        }
+    }
+
+    private function isValidEcuadorCedula(string $cedula): bool
+    {
+        if (mb_strlen($cedula) !== 10 || ! ctype_digit($cedula)) {
+            return false;
+        }
+
+        $province = (int) mb_substr($cedula, 0, 2);
+        if ($province < 1 || $province > 24) {
+            return false;
+        }
+
+        $coefficients = [2, 1, 2, 1, 2, 1, 2, 1, 2];
+        $sum = 0;
+        for ($i = 0; $i < 9; $i++) {
+            $product = (int) $cedula[$i] * $coefficients[$i];
+            $sum += $product >= 10 ? $product - 9 : $product;
+        }
+        $checkDigit = (10 - ($sum % 10)) % 10;
+
+        return $checkDigit === (int) $cedula[9];
     }
 
     /**

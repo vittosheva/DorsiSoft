@@ -7,12 +7,14 @@ namespace Modules\Sales\Filament\CoreApp\Resources\Withholdings\Pages;
 use Modules\Core\Support\Pages\BaseEditRecord;
 use Modules\Sales\Filament\Concerns\InteractsWithSalesDocumentHeaderActions;
 use Modules\Sales\Filament\Concerns\InteractsWithWithholdingHeaderActions;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\Withholdings\WithholdingResource;
 
 final class EditWithholding extends BaseEditRecord
 {
     use InteractsWithSalesDocumentHeaderActions;
     use InteractsWithWithholdingHeaderActions;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = WithholdingResource::class;
 

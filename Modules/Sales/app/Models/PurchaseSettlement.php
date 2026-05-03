@@ -23,6 +23,7 @@ use Modules\People\Models\User;
 use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\DocumentTypeEnum;
 use Modules\Sales\Enums\PurchaseSettlementStatusEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sales\Support\Pdf\CommercialDocumentPdfDataBuilder;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
@@ -39,6 +40,7 @@ use Modules\Workflow\Traits\HasApprovals;
 
 final class PurchaseSettlement extends BaseModel implements Approvable, DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasApprovals;
     use HasDocumentBehavior;
     use HasElectronicDocumentState {
@@ -56,6 +58,7 @@ final class PurchaseSettlement extends BaseModel implements Approvable, Document
 
     protected $fillable = [
         'company_id',
+        'document_type_id',
         'code',
         'supplier_id',
         'supplier_name',

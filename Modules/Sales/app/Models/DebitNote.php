@@ -25,6 +25,7 @@ use Modules\Sales\Casts\MoneyAmount;
 use Modules\Sales\Contracts\HasSriSequential;
 use Modules\Sales\Enums\DebitNoteStatusEnum;
 use Modules\Sales\Enums\DocumentTypeEnum;
+use Modules\Sales\Models\Traits\AutoAssignsDocumentType;
 use Modules\Sri\Concerns\HasElectronicDocumentState;
 use Modules\Sri\Concerns\HasElectronicEvents;
 use Modules\Sri\Concerns\HasSriTechnicalExchanges;
@@ -36,6 +37,7 @@ use Modules\System\Models\DocumentType;
 
 final class DebitNote extends BaseModel implements DocumentContract, GeneratesPdf, GeneratesRidePdf, HasElectronicBilling, HasSriSequential
 {
+    use AutoAssignsDocumentType;
     use HasCustomerSnapshot;
     use HasDocumentBehavior;
     use HasElectronicDocumentState;
@@ -51,6 +53,7 @@ final class DebitNote extends BaseModel implements DocumentContract, GeneratesPd
 
     protected $fillable = [
         'company_id',
+        'document_type_id',
         'code',
         'invoice_id',
         'business_partner_id',

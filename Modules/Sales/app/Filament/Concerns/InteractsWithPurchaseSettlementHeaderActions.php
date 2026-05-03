@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use Modules\Core\Support\Actions\DangerRecordStatusAction;
 use Modules\Core\Support\Actions\DuplicateRecordAction;
+use Modules\Core\Support\Actions\EditCompanyAction;
 use Modules\Core\Support\Actions\TransitionRecordStatusAction;
 use Modules\Sales\Enums\PurchaseSettlementStatusEnum;
 use Modules\Sales\Filament\CoreApp\Resources\PurchaseSettlements\PurchaseSettlementResource;
@@ -70,6 +71,9 @@ trait InteractsWithPurchaseSettlementHeaderActions
                         ->title(__('Cannot issue purchase settlement'))
                         ->body($e->getMessage())
                         ->persistent()
+                        ->actions([
+                            EditCompanyAction::make(),
+                        ])
                         ->send();
 
                     throw new Halt;

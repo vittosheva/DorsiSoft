@@ -157,7 +157,9 @@ trait HasElectronicDocumentState
         $attributes = [];
         $issuedStatus = $this->getIssuedCommercialStatus();
 
-        if ($issuedStatus !== null && ! $this->isCommerciallyIssued() && ! $this->isCommerciallyVoided()) {
+        if ($issuedStatus !== null && ! $this->isCommerciallyVoided()
+            && ($this->getCommercialStatusValue() === 'pending_authorization'
+                || ! $this->isCommerciallyIssued())) {
             $attributes['status'] = $issuedStatus;
         }
 

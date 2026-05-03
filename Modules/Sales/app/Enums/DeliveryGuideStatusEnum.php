@@ -11,6 +11,7 @@ use Modules\Core\Contracts\DocumentStatus;
 enum DeliveryGuideStatusEnum: string implements DocumentStatus, HasColor, HasLabel
 {
     case Draft = 'draft';
+    case PendingAuthorization = 'pending_authorization';
     case Issued = 'issued';
     case Voided = 'voided';
 
@@ -18,6 +19,7 @@ enum DeliveryGuideStatusEnum: string implements DocumentStatus, HasColor, HasLab
     {
         return match ($this) {
             self::Draft => __('Draft'),
+            self::PendingAuthorization => __('Pending Authorization'),
             self::Issued => __('Issued'),
             self::Voided => __('Voided'),
         };
@@ -27,6 +29,7 @@ enum DeliveryGuideStatusEnum: string implements DocumentStatus, HasColor, HasLab
     {
         return match ($this) {
             self::Draft => 'gray',
+            self::PendingAuthorization => 'warning',
             self::Issued => 'success',
             self::Voided => 'danger',
         };
@@ -45,7 +48,8 @@ enum DeliveryGuideStatusEnum: string implements DocumentStatus, HasColor, HasLab
     public function canTransitionTo(self $newStatus): bool
     {
         return match ($this) {
-            self::Draft => $newStatus === self::Issued,
+            self::Draft => $newStatus === self::PendingAuthorization,
+            self::PendingAuthorization => in_array($newStatus, [self::Issued, self::Voided], true),
             self::Issued => $newStatus === self::Voided,
             default => false,
         };

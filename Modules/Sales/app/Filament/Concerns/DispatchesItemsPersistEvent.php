@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Sales\Filament\Concerns;
 
+use Livewire\Attributes\On;
+
 /**
  * Dispatches the Livewire items-persist event after a document is created or saved.
  *

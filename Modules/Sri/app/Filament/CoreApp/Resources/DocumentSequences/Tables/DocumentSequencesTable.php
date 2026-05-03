@@ -93,18 +93,22 @@ final class DocumentSequencesTable
                             ->schema([
                                 TextInput::make('last_sequential')
                                     ->label(__('Last Issued'))
+                                    ->default(fn (DocumentSequence $record) => mb_str_pad((string) ($record->last_sequential), 9, '0', STR_PAD_LEFT))
                                     ->placeholder(__('None'))
                                     ->dehydrated(false)
-                                    ->readOnly(),
+                                    ->readOnly()
+                                    ->columnSpan(4),
 
                                 TextInput::make('new_start')
                                     ->label(__('Next Sequential Number'))
                                     ->helperText(__('The next issued document will use this number.'))
+                                    ->default(fn (DocumentSequence $record) => $record->last_sequential + 1)
                                     ->numeric()
                                     ->required()
                                     ->minValue(1)
                                     ->integer()
-                                    ->autofocus(),
+                                    ->autofocus()
+                                    ->columnSpan(4),
 
                                 Textarea::make('reason')
                                     ->helperText(__('Required for audit trail.'))
@@ -113,7 +117,7 @@ final class DocumentSequencesTable
                                     ->rows(3)
                                     ->columnSpanFull(),
                             ])
-                            ->columns(2),
+                            ->columns(12),
                     ])
                     ->action(function (DocumentSequence $record, array $data): void {
                         app(DocumentSequentialService::class)->reset(
@@ -128,7 +132,7 @@ final class DocumentSequencesTable
 
                         Notification::make()
                             ->success()
-                            ->title(__('Sequential reset successfully'))
+                            ->title(__('Sequential number reset successfully'))
                             ->send();
                     }),
 

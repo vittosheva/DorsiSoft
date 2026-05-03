@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sales_debit_notes', function (Blueprint $table): void {
-            $table->string('electronic_status', 20)->nullable()->after('access_key');
+            $table->string('electronic_status', 35)->nullable()->after('access_key');
             $table->timestamp('electronic_submitted_at')->nullable()->after('electronic_status');
             $table->timestamp('electronic_authorized_at')->nullable()->after('electronic_submitted_at');
 

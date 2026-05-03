@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Sales\Enums\DeliveryGuideStatusEnum;
 
 return new class extends Migration
 {
@@ -37,10 +38,10 @@ return new class extends Migration
             $table->char('access_key', 49)->nullable();
 
             // Estado electrónico
-            $table->string('electronic_status', 20)->nullable();
+            $table->string('electronic_status', 35)->nullable();
 
             // Datos del traslado
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 35)->default(DeliveryGuideStatusEnum::Draft->value);
             $table->date('transport_date');
             $table->string('origin_address', 300)->nullable();
             $table->string('destination_address', 300)->nullable();

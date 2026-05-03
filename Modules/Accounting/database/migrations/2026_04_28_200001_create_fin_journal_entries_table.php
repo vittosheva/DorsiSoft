@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Accounting\Enums\JournalEntryStatusEnum;
 
 return new class extends Migration
 {
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('reference', 100)->comment('JE-2024-000001');
             $table->string('description', 500);
             $table->date('entry_date');
-            $table->string('status', 20)->default('draft')->comment('JournalEntryStatusEnum: draft, approved, voided');
+            $table->string('status', 35)->default(JournalEntryStatusEnum::Draft->value)->comment('draft, approved, voided');
 
             // Origen polimórfico
             $table->string('source_type', 60)->nullable()->comment('Ej: sales_invoice, finance_collection');

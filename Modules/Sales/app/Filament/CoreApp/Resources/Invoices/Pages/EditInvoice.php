@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Modules\Sales\Filament\CoreApp\Resources\Invoices\Pages;
 
 use Filament\Actions\DeleteAction;
-use Filament\Schemas\Schema;
 use Modules\Core\Support\Pages\BaseEditRecord;
 use Modules\Sales\Enums\InvoiceStatusEnum;
 use Modules\Sales\Filament\Concerns\DispatchesItemsPersistEvent;
 use Modules\Sales\Filament\Concerns\InteractsWithInvoiceHeaderActions;
 use Modules\Sales\Filament\Concerns\InteractsWithSalesDocumentHeaderActions;
 use Modules\Sales\Filament\Concerns\SyncsDocumentItemsCount;
+use Modules\Sales\Filament\Concerns\SyncsSequentialNumberEvent;
 use Modules\Sales\Filament\CoreApp\Resources\Invoices\InvoiceResource;
-use Modules\Sales\Filament\CoreApp\Resources\Invoices\Schemas\InvoiceForm;
 use Modules\Sales\Models\Invoice;
 
 final class EditInvoice extends BaseEditRecord
@@ -22,13 +21,9 @@ final class EditInvoice extends BaseEditRecord
     use InteractsWithInvoiceHeaderActions;
     use InteractsWithSalesDocumentHeaderActions;
     use SyncsDocumentItemsCount;
+    use SyncsSequentialNumberEvent;
 
     protected static string $resource = InvoiceResource::class;
-
-    public function form(Schema $schema): Schema
-    {
-        return InvoiceForm::configure($schema);
-    }
 
     protected function getItemsPersistEvent(): string
     {

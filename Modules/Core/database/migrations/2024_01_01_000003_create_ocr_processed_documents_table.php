@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('confidence_score', 3, 2)->default(0);
             $table->decimal('processing_time', 8, 3)->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('status', 20)->default('completed');
+            $table->string('status', 35)->default('completed');
             $table->text('error_message')->nullable();
             $table->timestamps();
 
