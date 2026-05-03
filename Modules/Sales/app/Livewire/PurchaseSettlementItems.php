@@ -193,7 +193,7 @@ final class PurchaseSettlementItems extends Component
         }
 
         $this->pendingItems = array_values(
-            array_filter($this->pendingItems, fn($i) => $i['_key'] !== $key),
+            array_filter($this->pendingItems, fn ($i) => $i['_key'] !== $key),
         );
 
         unset($this->expandedItems[$key]);

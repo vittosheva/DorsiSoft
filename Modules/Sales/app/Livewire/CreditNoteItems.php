@@ -190,7 +190,7 @@ final class CreditNoteItems extends Component
         $this->expandedItems = [];
 
         foreach ($invoice->items as $item) {
-            $taxes = $item->taxes->map(fn($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
+            $taxes = $item->taxes->map(fn ($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
 
             $key = Str::uuid()->toString();
 

@@ -203,7 +203,7 @@ final class InvoiceItems extends Component
         $this->expandedItems = [];
 
         foreach ($order->items as $item) {
-            $taxes = $item->taxes->map(fn($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
+            $taxes = $item->taxes->map(fn ($tax) => $this->makePendingTaxFromSnapshot($tax))->all();
 
             $key = Str::uuid()->toString();
 

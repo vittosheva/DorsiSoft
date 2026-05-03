@@ -299,7 +299,7 @@ final class CreditNoteForm
                         fn (Get $get, ?CreditNote $record) => $get('invoice_source_mode') === 'system'
                             ? Rule::unique('sales_credit_notes', 'invoice_id')
                                 ->where('company_id', Filament::getTenant()?->getKey())
-                                ->where('status', '!=', CreditNoteStatusEnum::Voided->value)
+                                ->whereNot('status', CreditNoteStatusEnum::Voided->value)
                                 ->where('electronic_status', ElectronicStatusEnum::Authorized->value)
                                 ->ignore($record?->getKey())
                             : 'nullable'
