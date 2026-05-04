@@ -159,8 +159,7 @@ final class DeliveryGuideForm
                                     ->toArray();
                             })
                             ->live()
-                            ->afterStateHydrated(function (Select $component): void {
-                                $record = $component->getLivewire()->getRecord();
+                            ->afterStateHydrated(function (Select $component, $livewire, $record): void {
                                 if (! $record || blank($record->carrier_plate) || blank($record->carrier_id)) {
                                     return;
                                 }

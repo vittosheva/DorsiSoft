@@ -85,12 +85,20 @@ final class DebitNoteForm
 
                 Grid::make(12)
                     ->schema([
-                        self::notesSection()
+                        Grid::make(1)
+                            ->schema([
+                                AdditionalInfoRepeaterSection::make(),
+                                Section::make(__('Internal Notes'))
+                                    ->icon(Heroicon::ChatBubbleBottomCenterText)
+                                    ->schema([
+                                        NotesTextarea::make('notes')
+                                            ->columnSpanFull(),
+                                    ]),
+                            ])
                             ->columnSpan(7),
                         Grid::make(1)
                             ->schema([
                                 self::paymentsSection(),
-                                AdditionalInfoRepeaterSection::make(),
                                 AuditSection::make(),
                             ])
                             ->columnSpan(5),
@@ -390,16 +398,6 @@ final class DebitNoteForm
     private static function paymentsSection(): Section
     {
         return SriPaymentsRepeaterSection::make(__('Payment'), 0);
-    }
-
-    private static function notesSection(): Section
-    {
-        return Section::make(__('Internal Notes'))
-            ->icon(Heroicon::ChatBubbleBottomCenterText)
-            ->schema([
-                NotesTextarea::make('notes')
-                    ->columnSpanFull(),
-            ]);
     }
 
     private static function systemInvoiceSelect(string $label, bool $asLink = false): ModalTableSelect

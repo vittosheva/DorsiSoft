@@ -15,6 +15,7 @@ final class DateRangeFilter extends BaseDateRangeFilter
         $this
             ->maxDate(now())
             ->placeholder(__('Select date range'))
+            ->withIndicator()
             ->columnSpan(2);
     }
 }

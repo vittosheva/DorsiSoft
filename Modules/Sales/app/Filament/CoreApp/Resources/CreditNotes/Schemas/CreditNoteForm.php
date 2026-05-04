@@ -97,10 +97,18 @@ final class CreditNoteForm
 
                 Grid::make(2)
                     ->schema([
-                        self::notesSection(),
                         Grid::make(1)
                             ->schema([
                                 AdditionalInfoRepeaterSection::make(),
+                            ]),
+                        Grid::make(1)
+                            ->schema([
+                                Section::make(__('Internal Notes'))
+                                    ->icon(Heroicon::ChatBubbleBottomCenterText)
+                                    ->schema([
+                                        NotesTextarea::make('notes')
+                                            ->columnSpanFull(),
+                                    ]),
                                 AuditSection::make(),
                             ]),
                     ]),
@@ -386,16 +394,6 @@ final class CreditNoteForm
 
             ])
             ->columns(12);
-    }
-
-    private static function notesSection(): Section
-    {
-        return Section::make(__('Internal Notes'))
-            ->icon(Heroicon::ChatBubbleBottomCenterText)
-            ->schema([
-                NotesTextarea::make('notes')
-                    ->columnSpanFull(),
-            ]);
     }
 
     private static function systemInvoiceSelect(string $label, bool $asLink = false): ModalTableSelect

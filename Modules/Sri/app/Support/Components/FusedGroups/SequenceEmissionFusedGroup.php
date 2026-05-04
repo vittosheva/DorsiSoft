@@ -60,9 +60,10 @@ final class SequenceEmissionFusedGroup extends FusedGroup
                     ->required(),
 
                 TextInput::make('sequential_number')
-                    ->suffixActions([
-                        ResetSequentialNumberAction::make(),
-                    ])
+                    /* ->suffixActions([
+                        ResetSequentialNumberAction::make()
+                            ->setSriDocumentType($this->documentType),
+                    ]) */
                     ->maxLength(9)
                     ->live(onBlur: true)
                     ->placeholder(__('Sequential number'))

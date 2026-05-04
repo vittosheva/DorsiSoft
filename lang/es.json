@@ -26,6 +26,7 @@
     "A new draft was generated to correct and resend the receipt.": "Se generó un nuevo borrador para corregir y reenviar el recibo.",
     "A new draft will be created linked to the returned document, with a new sequence and access key in the next SRI cycle.": "Se creará un nuevo borrador vinculado al documento devuelto, con una nueva secuencia y clave de acceso en el próximo ciclo del SRI.",
     "A new withholding has been created based on the data of this settlement. You can review and edit the withholding before sending it to the tax authority.": "Se ha creado una nueva retención basada en los datos de esta liquidación. Puedes revisar y editar la retención antes de enviarla a la autoridad tributaria.",
+    "A potential customer or client who has shown interest in the company's products or services but has not yet made a purchase.": "Un cliente potencial que ha mostrado interés en los productos o servicios de la empresa pero aún no ha realizado una compra.",
     "A report breakdown of taxes applied to sales invoices, including tax type, name, rate, and totals.": "Reporte con desglose de los impuestos aplicados a las facturas de venta, incluyendo tipo de impuesto, nombre, tarifa y totales.",
     "A report of all issued sales invoices grouped by customer, showing the aging of pending amounts.": "Reporte de todas las facturas emitidas agrupadas por cliente, mostrando el envejecimiento de los montos pendientes.",
     "A report of all issued sales invoices grouped by seller, showing key performance indicators such as total revenue, collected amount, pending amount, average ticket, and collection rate.": "Reporte de todas las facturas de venta emitidas agrupadas por vendedor, mostrando indicadores clave de desempeño como ingresos totales, monto cobrado, monto pendiente, ticket promedio y porcentaje de cobranza.",
@@ -2089,6 +2090,5 @@
     "≤ (less or equal)": "≤ (menor o igual que)",
     "≥ (greater or equal)": "≥ (mayor o igual que)",
     "🚀 PRODUCTION SRI": "🚀 PRODUCCIÓN SRI",
-    "🧪 TESTING SRI": "🧪 PRUEBAS SRI",
-    "A potential customer or client who has shown interest in the company's products or services but has not yet made a purchase.": "Un cliente potencial que ha mostrado interés en los productos o servicios de la empresa pero aún no ha realizado una compra."
+    "🧪 TESTING SRI": "🧪 PRUEBAS SRI"
 }

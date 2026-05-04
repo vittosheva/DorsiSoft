@@ -827,3 +827,7 @@ ul.fi-topbar-nav-groups > li.fi-topbar-item span.fi-topbar-item-label {
     padding-inline: calc(var(--spacing) * 6) !important;
     padding-block: calc(var(--spacing) * 6) !important;
 }
+
+/* .fi-body.fi-panel-core-app:not(.fi-body-has-navigation) {
+    background: url('/img/login_bg.jpg') #040d20 no-repeat center center fixed;
+} */

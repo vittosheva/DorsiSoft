@@ -74,8 +74,7 @@ final class SriPaymentsRepeaterSection
                     ->defaultItems(1)
                     ->minItems($minItems)
                     ->addActionLabel(__('Add Payment Method')),
-            ])
-            ->collapsible();
+            ]);
     }
 
     private static function resolveDocumentItemsTotal(Get $get): float

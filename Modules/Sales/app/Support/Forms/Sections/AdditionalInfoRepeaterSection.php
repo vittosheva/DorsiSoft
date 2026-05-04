@@ -53,7 +53,6 @@ final class AdditionalInfoRepeaterSection
                     ->hiddenLabel()
                     ->defaultItems(0)
                     ->addActionLabel(__('Add Field')),
-            ])
-            ->collapsible();
+            ]);
     }
 }

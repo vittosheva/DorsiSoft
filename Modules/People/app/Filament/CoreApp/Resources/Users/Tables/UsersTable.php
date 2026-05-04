@@ -107,8 +107,7 @@ final class UsersTable
                 CreatorFilter::make('creator'),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->modal(),
+                ViewAction::make()->modal(),
                 EditAction::make(),
             ])
             ->toolbarActions([

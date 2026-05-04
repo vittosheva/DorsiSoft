@@ -38,6 +38,7 @@ use Filament\Tables\Enums\ColumnManagerLayout;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Enums\FiltersResetActionPosition;
 use Filament\Tables\Enums\RecordActionsPosition;
+use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
@@ -251,9 +252,12 @@ final class FilamentServiceProvider extends ServiceProvider
 
     private function configureFilters(): void
     {
+        BaseFilter::configureUsing(function (BaseFilter $filter): void {
+            $filter->translateLabel();
+        });
+
         SelectFilter::configureUsing(function (SelectFilter $filter): void {
             $filter
-                ->translateLabel()
                 ->native(false)
                 ->columnSpan(2);
         });

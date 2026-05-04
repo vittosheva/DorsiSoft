@@ -15,6 +15,12 @@ use Modules\Sales\Filament\CoreApp\Resources\DeliveryGuides\DeliveryGuideResourc
 use Modules\Sales\Filament\CoreApp\Resources\Invoices\InvoiceResource;
 use Modules\Sales\Filament\CoreApp\Resources\PurchaseSettlements\PurchaseSettlementResource;
 use Modules\Sales\Filament\CoreApp\Resources\Withholdings\WithholdingResource;
+use Modules\Sales\Models\CreditNote;
+use Modules\Sales\Models\DebitNote;
+use Modules\Sales\Models\DeliveryGuide;
+use Modules\Sales\Models\Invoice;
+use Modules\Sales\Models\PurchaseSettlement;
+use Modules\Sales\Models\Withholding;
 
 /**
  * Tipos de comprobantes electrónicos SRI Ecuador.
@@ -124,6 +130,18 @@ enum SriDocumentTypeEnum: string implements HasDescription, HasIcon, HasLabel
             self::Withholding => WithholdingResource::class,
             self::DeliveryGuide => DeliveryGuideResource::class,
             self::PurchaseSettlement => PurchaseSettlementResource::class,
+        };
+    }
+
+    public function getModel(): string
+    {
+        return match ($this) {
+            self::Invoice => Invoice::class,
+            self::CreditNote => CreditNote::class,
+            self::DebitNote => DebitNote::class,
+            self::Withholding => Withholding::class,
+            self::DeliveryGuide => DeliveryGuide::class,
+            self::PurchaseSettlement => PurchaseSettlement::class,
         };
     }
 

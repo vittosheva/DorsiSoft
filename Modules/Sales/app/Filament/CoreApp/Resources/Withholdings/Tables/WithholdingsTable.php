@@ -68,8 +68,7 @@ final class WithholdingsTable
                 DateRangeFilter::make('issue_date'),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->modal(),
+                ViewAction::make()->modal(),
                 EditAction::make()
                     ->visible(fn (?Withholding $record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),

@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Sri\Enums\SriDocumentTypeEnum;
 use Modules\Sri\Models\DocumentSequence;
 use Modules\Sri\Services\DocumentSequentialService;
+use Modules\System\Models\DocumentType;
 
 final class ResetSequentialNumberAction extends Action
 {
+    protected SriDocumentTypeEnum $documentType;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,7 +41,11 @@ final class ResetSequentialNumberAction extends Action
                     ->schema([
                         TextInput::make('last_sequential')
                             ->label(__('Last Issued'))
-                            ->default(fn (?Model $record, Set $set) => $this->buildSequentialNumber($this->getDocumentSequence($record, $set)->last_sequential))
+                            /* ->default(function (?Model $record, Set $set) {
+                                $documentSequence = $this->getDocumentSequence($record, $set);
+                                $lastSequential = $documentSequence?->last_sequential ?? 0;
+                                return $this->buildSequentialNumber($lastSequential);
+                            }) */
                             ->placeholder(__('None'))
                             ->dehydrated(false)
                             ->readOnly()
@@ -96,17 +103,35 @@ final class ResetSequentialNumberAction extends Action
         return 'reset_sequential_number';
     }
 
+    public function setSriDocumentType(SriDocumentTypeEnum $documentType): static
+    {
+        $this->documentType = $documentType;
+
+        return $this;
+    }
+
     private function getDocumentSequence(?Model $record, Set $set): ?DocumentSequence
     {
-        $record = $record->loadMissing('documentType:id,code,name');
-        $documentTypeCode = $record->documentType?->code ?? null;
+        if (! $record) {
+            $documentTypeCode = DocumentType::query()->where('code', $this->documentType)->value('id');
+            $companyId = filament()->getTenant()->id;
+            $establishmentCode = $get('establishment_code');
+            $emissionPointCode = $get('emission_point_code');
+        } else {
+            $record = $record->loadMissing('documentType:id,code,name');
+            $documentTypeCode = $record->documentType?->code ?? null;
+            $companyId = $record->company_id;
+            $establishmentCode = $record->establishment_code;
+            $emissionPointCode = $record->emission_point_code;
+        }
+
         $set('document_type', $documentTypeCode);
 
         return DocumentSequence::query()
             ->select(['id', 'last_sequential'])
-            ->where('company_id', $record->company_id)
-            ->where('establishment_code', $record->establishment_code)
-            ->where('emission_point_code', $record->emission_point_code)
+            ->where('company_id', $companyId)
+            ->where('establishment_code', $establishmentCode)
+            ->where('emission_point_code', $emissionPointCode)
             ->where('document_type', $documentTypeCode)
             ->first();
     }

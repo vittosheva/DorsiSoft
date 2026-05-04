@@ -77,7 +77,7 @@ final class InvoiceForm
                     ->schema([
                         Group::make()
                             ->schema([
-                                SriPaymentsRepeaterSection::make(),
+                                AdditionalInfoRepeaterSection::make(),
                                 Section::make(__('Internal Notes'))
                                     ->icon(Heroicon::ChatBubbleBottomCenterText)
                                     ->schema([
@@ -88,7 +88,7 @@ final class InvoiceForm
                             ->columnSpan(6),
                         Group::make()
                             ->schema([
-                                AdditionalInfoRepeaterSection::make(),
+                                SriPaymentsRepeaterSection::make(),
                                 AuditSection::make()
                                     ->columnSpan(1),
                             ])

@@ -16,6 +16,7 @@ use Modules\Core\Models\Traits\HasAutoCode;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Sales\Enums\DocumentTypeEnum;
+use Modules\Sri\Enums\SriDocumentTypeEnum;
 
 final class DocumentType extends BaseModel
 {
@@ -49,6 +50,7 @@ final class DocumentType extends BaseModel
     protected function casts(): array
     {
         return [
+            'code' => SriDocumentTypeEnum::class,
             'generates_receivable' => 'boolean',
             'generates_payable' => 'boolean',
             'affects_inventory' => 'boolean',

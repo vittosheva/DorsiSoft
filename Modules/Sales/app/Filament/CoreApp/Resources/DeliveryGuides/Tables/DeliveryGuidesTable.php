@@ -62,12 +62,13 @@ final class DeliveryGuidesTable
                 CreatedAtTextColumn::make(),
             ])
             ->filters([
+                DateRangeFilter::make('issue_date'),
                 DateRangeFilter::make('transport_start_date'),
                 StatusFilter::make(),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->visible(fn ($record) => $record->isEditable()),
+                ViewAction::make()->modal(),
+                EditAction::make()->visible(fn ($record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()

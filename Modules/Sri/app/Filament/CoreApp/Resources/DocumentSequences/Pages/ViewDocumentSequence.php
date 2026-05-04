@@ -45,6 +45,7 @@ final class ViewDocumentSequence extends BaseViewRecord
                             TextInput::make('last_sequential')
                                 ->label(__('Last Issued'))
                                 ->placeholder(__('None'))
+                                ->default(mb_str_pad((string) ($record->last_sequential ?? 0), 9, '0', STR_PAD_LEFT))
                                 ->dehydrated(false)
                                 ->readOnly(),
 
@@ -55,7 +56,7 @@ final class ViewDocumentSequence extends BaseViewRecord
                                 ->required()
                                 ->minValue(1)
                                 ->integer()
-                                ->default(fn () => (int) $record->last_sequential + 1)
+                                ->default((int) $record->last_sequential + 1)
                                 ->autofocus(),
 
                             Textarea::make('reason')
