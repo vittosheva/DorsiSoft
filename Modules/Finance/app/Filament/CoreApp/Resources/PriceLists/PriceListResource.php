@@ -14,6 +14,7 @@ use Modules\Core\Traits\HasActiveIcon;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Pages\CreatePriceList;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Pages\EditPriceList;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Pages\ListPriceLists;
+use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Pages\ViewPriceList;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\RelationManagers\PriceListItemsRelationManager;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Schemas\PriceListForm;
 use Modules\Finance\Filament\CoreApp\Resources\PriceLists\Tables\PriceListsTable;
@@ -64,6 +65,7 @@ final class PriceListResource extends Resource
             'index' => ListPriceLists::route('/'),
             'create' => CreatePriceList::route('/create'),
             'edit' => EditPriceList::route('/{record}/edit'),
+            'view' => ViewPriceList::route('/{record}'),
         ];
     }
 

@@ -100,7 +100,7 @@ final class CollectionsTable
                 VoidedFilter::make('voided'),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()->modal(),
                 EditAction::make()
                     ->visible(fn (Collection $record) => ! $record->isVoided()),
                 DeleteAction::make()

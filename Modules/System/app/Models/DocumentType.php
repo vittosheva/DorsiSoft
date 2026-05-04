@@ -50,7 +50,7 @@ final class DocumentType extends BaseModel
     protected function casts(): array
     {
         return [
-            'code' => SriDocumentTypeEnum::class,
+            // 'code' => SriDocumentTypeEnum::class,
             'generates_receivable' => 'boolean',
             'generates_payable' => 'boolean',
             'affects_inventory' => 'boolean',

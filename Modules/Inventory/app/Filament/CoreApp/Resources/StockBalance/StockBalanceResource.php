@@ -28,7 +28,7 @@ final class StockBalanceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 20;
 
     public static function getEloquentQuery(): Builder
     {
@@ -143,7 +143,7 @@ final class StockBalanceResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return __('Current Stock');
+        return __('Stock');
     }
 
     public static function getNavigationGroup(): string|UnitEnum|null

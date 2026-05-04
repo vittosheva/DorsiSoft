@@ -48,7 +48,7 @@ final class WithholdingsTable
 
                 MoneyTextColumn::make('items_sum_withheld_amount')
                     ->label(__('Withheld amount'))
-                    ->currencyCode(fn ($record): string => $record->company?->defaultCurrency?->code ?? '')
+                    ->currencyCode(fn (?Withholding $record): string => $record?->company?->defaultCurrency?->code ?? '')
                     ->placeholder('—'),
 
                 TextColumn::make('period_fiscal')

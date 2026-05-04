@@ -14,6 +14,10 @@ trait HasActiveIcon
     {
         $icon = static::getNavigationIcon();
 
+        if ($icon === null || ! $icon instanceof Heroicon) {
+            return null;
+        }
+
         if (is_string($icon)) {
             return str($icon)
                 ->replace('heroicon-o', 'heroicon-s')

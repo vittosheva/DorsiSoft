@@ -113,17 +113,15 @@ final class ResetSequentialNumberAction extends Action
     private function getDocumentSequence(?Model $record, Set $set): ?DocumentSequence
     {
         if (! $record) {
-            $documentTypeCode = DocumentType::query()->where('code', $this->documentType)->value('id');
-            $companyId = filament()->getTenant()->id;
-            $establishmentCode = $get('establishment_code');
-            $emissionPointCode = $get('emission_point_code');
-        } else {
-            $record = $record->loadMissing('documentType:id,code,name');
-            $documentTypeCode = $record->documentType?->code ?? null;
-            $companyId = $record->company_id;
-            $establishmentCode = $record->establishment_code;
-            $emissionPointCode = $record->emission_point_code;
+            // $documentTypeCode = DocumentType::query()->where('code', $this->documentType)->value('id');
+            return null;
         }
+
+        $record = $record->loadMissing('documentType:id,code,name');
+        $documentTypeCode = $record->documentType?->code ?? null;
+        $companyId = $record->company_id;
+        $establishmentCode = $record->establishment_code;
+        $emissionPointCode = $record->emission_point_code;
 
         $set('document_type', $documentTypeCode);
 

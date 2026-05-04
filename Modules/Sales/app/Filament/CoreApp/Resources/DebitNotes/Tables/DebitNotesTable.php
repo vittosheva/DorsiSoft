@@ -22,6 +22,7 @@ use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\DebitNoteStatusEnum;
+use Modules\Sales\Models\DebitNote;
 use Modules\Sales\Support\Tables\Columns\SriSequentialTextColumn;
 use Modules\Sales\Support\Tables\Filters\CustomerFilter;
 use Modules\Sri\Support\Tables\Columns\CommercialStatusColumn;
@@ -49,10 +50,10 @@ final class DebitNotesTable
                 TextColumn::make('invoice.code')
                     ->label(__('Invoice'))
                     ->placeholder('—')
-                    ->description(fn ($record) => $record->invoice ? $record->invoice->getSriSequentialCode() : null),
+                    ->description(fn (?DebitNote $record) => $record?->invoice ? $record->invoice->getSriSequentialCode() : null),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?DebitNote $record): string => $record?->currency_code ?? ''),
 
                 CommercialStatusColumn::make(),
 
@@ -71,11 +72,11 @@ final class DebitNotesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->status === DebitNoteStatusEnum::Draft),
+                    ->visible(fn (?DebitNote $record) => $record->status === DebitNoteStatusEnum::Draft),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === DebitNoteStatusEnum::Draft),
+                    ->visible(fn (?DebitNote $record) => $record->status === DebitNoteStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

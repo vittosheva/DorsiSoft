@@ -25,7 +25,9 @@ final class InventoryDocumentTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentDuplicate;
 
-    protected static ?int $navigationSort = 95;
+    protected static ?int $navigationSort = 1000;
+
+    protected static ?string $slug = 'inventory-document-types';
 
     public static function isScopedToTenant(): bool
     {

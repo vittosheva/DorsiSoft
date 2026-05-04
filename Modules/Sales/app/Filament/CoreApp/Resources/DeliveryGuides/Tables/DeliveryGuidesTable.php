@@ -20,6 +20,7 @@ use Modules\Core\Support\Tables\Columns\CreatedByTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\DeliveryGuideStatusEnum;
+use Modules\Sales\Models\DeliveryGuide;
 use Modules\Sri\Support\Tables\Columns\CommercialStatusColumn;
 use Modules\Sri\Support\Tables\Columns\ElectronicStatusColumn;
 
@@ -46,7 +47,7 @@ final class DeliveryGuidesTable
                 TextColumn::make('carrier_name')
                     ->label(__('Carrier'))
                     ->placeholder('—')
-                    ->description(fn ($record) => $record->carrier_plate),
+                    ->description(fn (?DeliveryGuide $record) => $record?->carrier_plate),
 
                 TextColumn::make('recipients_count')
                     ->label(__('Recipients'))
@@ -68,11 +69,11 @@ final class DeliveryGuidesTable
             ])
             ->recordActions([
                 ViewAction::make()->modal(),
-                EditAction::make()->visible(fn ($record) => $record->isElectronicDocumentMutable()),
+                EditAction::make()->visible(fn (?DeliveryGuide $record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === DeliveryGuideStatusEnum::Draft),
+                    ->visible(fn (?DeliveryGuide $record) => $record->status === DeliveryGuideStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

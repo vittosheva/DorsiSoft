@@ -8,6 +8,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Traits\HasActiveIcon;
 use Modules\Finance\Filament\CoreApp\Resources\TaxApplications\Pages\ListTaxApplications;
 use Modules\Finance\Filament\CoreApp\Resources\TaxApplications\Tables\TaxApplicationsTable;
@@ -25,6 +26,16 @@ final class TaxApplicationResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected static ?int $navigationSort = 95;
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with([
+                'applicable:id,code,establishment_code,emission_point_code,sequential_number',
+                'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
+            ]);
+    }
 
     public static function table(Table $table): Table
     {

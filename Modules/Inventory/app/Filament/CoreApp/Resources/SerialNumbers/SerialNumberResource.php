@@ -27,7 +27,7 @@ final class SerialNumberResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFingerPrint;
 
-    protected static ?int $navigationSort = 50;
+    protected static ?int $navigationSort = 70;
 
     public static function getEloquentQuery(): Builder
     {
@@ -55,10 +55,12 @@ final class SerialNumberResource extends Resource
                     ->copyable(),
 
                 TextColumn::make('product.code')
+                    ->label(__('Product Code'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('product.name')
+                    ->label(__('Product'))
                     ->searchable()
                     ->wrap(),
 
@@ -79,7 +81,8 @@ final class SerialNumberResource extends Resource
             ->filters([
                 SelectFilter::make('product_id')
                     ->options(fn () => Product::query()->active()->pluck('name', 'id'))
-                    ->searchable(),
+                    ->searchable()
+                    ->columnSpan(3),
 
                 SelectFilter::make('warehouse_id')
                     ->options(fn () => Warehouse::query()->active()->pluck('name', 'id')),

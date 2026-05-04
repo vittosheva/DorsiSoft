@@ -22,6 +22,7 @@ use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\QuotationStatusEnum;
+use Modules\Sales\Models\Quotation;
 use Modules\Sales\Support\Tables\Filters\CustomerFilter;
 use Modules\Sales\Support\Tables\Filters\SellerFilter;
 
@@ -48,17 +49,16 @@ final class QuotationsTable
                     ->badge(),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?Quotation $record): string => $record?->currency_code ?? ''),
 
                 TextColumn::make('expires_at')
                     ->date('d/m/Y')
                     ->sortable()
-                    ->color(fn ($record) => $record->expires_at?->isPast() && $record->status === QuotationStatusEnum::Draft ? 'danger' : null),
+                    ->color(fn (?Quotation $record) => $record?->expires_at?->isPast() && $record?->status === QuotationStatusEnum::Draft ? 'danger' : null),
 
                 CreatedByTextColumn::make(),
 
                 CreatedAtTextColumn::make(),
-
             ])
             ->filters([
                 CustomerFilter::make('customer'),
@@ -68,13 +68,13 @@ final class QuotationsTable
                 SellerFilter::make('seller'),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()->modal(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->status === QuotationStatusEnum::Draft),
+                    ->visible(fn (?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
                 GeneratePdfAction::make(),
                 SendDocumentEmailAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === QuotationStatusEnum::Draft),
+                    ->visible(fn (?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

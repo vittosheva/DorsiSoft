@@ -36,9 +36,9 @@ final class WithholdingResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
+                'documentType:id,code,name',
                 'company:id,default_currency_id,logo_pdf_url,legal_name,ruc,phone,tax_address',
                 'company.defaultCurrency:id,code',
-                'documentType:id,code,name',
                 'businessPartner:id,legal_name,identification_number,tax_address',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',

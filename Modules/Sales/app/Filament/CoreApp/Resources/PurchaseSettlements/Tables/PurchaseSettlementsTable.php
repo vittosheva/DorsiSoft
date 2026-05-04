@@ -21,6 +21,7 @@ use Modules\Core\Support\Tables\Columns\SupplierNameTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\PurchaseSettlementStatusEnum;
+use Modules\Sales\Models\PurchaseSettlement;
 use Modules\Sri\Support\Tables\Columns\CommercialStatusColumn;
 use Modules\Sri\Support\Tables\Columns\ElectronicStatusColumn;
 
@@ -56,12 +57,12 @@ final class PurchaseSettlementsTable
                 DateRangeFilter::make('issue_date'),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->visible(fn ($record) => $record->isEditable()),
+                ViewAction::make()->modal(),
+                EditAction::make()->visible(fn (?PurchaseSettlement $record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === PurchaseSettlementStatusEnum::Draft),
+                    ->visible(fn (?PurchaseSettlement $record) => $record->status === PurchaseSettlementStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

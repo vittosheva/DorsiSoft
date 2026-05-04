@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Accounting\Filament\CoreApp\Resources\JournalEntries\Pages\CreateJournalEntry;
 use Modules\Accounting\Filament\CoreApp\Resources\JournalEntries\Pages\EditJournalEntry;
 use Modules\Accounting\Filament\CoreApp\Resources\JournalEntries\Pages\ListJournalEntries;
@@ -28,6 +29,16 @@ final class JournalEntryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
     protected static ?int $navigationSort = 30;
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with([
+                'fiscalPeriod:id,name,status',
+                'creator:id,name,avatar_url',
+                'editor:id,name,avatar_url',
+            ]);
+    }
 
     public static function form(Schema $schema): Schema
     {

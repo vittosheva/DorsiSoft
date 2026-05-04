@@ -11,6 +11,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Pages\ListFiscalPeriods;
+use Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Pages\ViewFiscalPeriod;
 use Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Schemas\FiscalPeriodForm;
 use Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Tables\FiscalPeriodsTable;
 use Modules\Accounting\Models\FiscalPeriod;
@@ -52,6 +53,7 @@ final class FiscalPeriodResource extends Resource
             'index' => ListFiscalPeriods::route('/'),
             // 'create' => CreateFiscalPeriod::route('/create'),
             // 'edit' => EditFiscalPeriod::route('/{record}/edit'),
+            'view' => ViewFiscalPeriod::route('/{record}'),
         ];
     }
 

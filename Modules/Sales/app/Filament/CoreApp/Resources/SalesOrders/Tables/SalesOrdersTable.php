@@ -22,6 +22,7 @@ use Modules\Core\Support\Tables\Columns\CustomerNameTextColumn;
 use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\SalesOrderStatusEnum;
+use Modules\Sales\Models\SalesOrder;
 use Modules\Sales\Support\Tables\Filters\CustomerFilter;
 use Modules\Sales\Support\Tables\Filters\SellerFilter;
 use Modules\Workflow\Support\Tables\Columns\ApprovalDecisionTextColumn;
@@ -54,7 +55,7 @@ final class SalesOrdersTable
                 ApprovalDecisionTextColumn::forFlow('confirmation_approval', 'sales_order_confirmation'),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?SalesOrder $record): string => $record?->currency_code ?? ''),
 
                 CreatedByTextColumn::make(),
 
@@ -68,13 +69,13 @@ final class SalesOrdersTable
                 SellerFilter::make('seller'),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()->modal(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->status === SalesOrderStatusEnum::Pending),
+                    ->visible(fn (?SalesOrder $record) => $record?->status === SalesOrderStatusEnum::Pending),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === SalesOrderStatusEnum::Pending),
+                    ->visible(fn (?SalesOrder $record) => $record?->status === SalesOrderStatusEnum::Pending),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

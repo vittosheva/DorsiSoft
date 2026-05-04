@@ -7,7 +7,6 @@ namespace Modules\Inventory\Filament\CoreApp\Resources\Warehouses;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Traits\HasActiveIcon;
@@ -17,6 +16,7 @@ use Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Pages\ListWarehouses
 use Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Schemas\WarehouseForm;
 use Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Tables\WarehousesTable;
 use Modules\Inventory\Models\Warehouse;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
 use UnitEnum;
 
 final class WarehouseResource extends Resource
@@ -27,9 +27,9 @@ final class WarehouseResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::Warehouse;
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 50;
 
     public static function getEloquentQuery(): Builder
     {
@@ -38,7 +38,8 @@ final class WarehouseResource extends Resource
                 'establishment:id,name',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
-            ]);
+            ])
+            ->withCount('movements');
     }
 
     public static function form(Schema $schema): Schema

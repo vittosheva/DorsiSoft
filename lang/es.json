@@ -231,8 +231,8 @@
     "Barcode": "Código de barras",
     "Barcode Type": "Tipo de código de barras",
     "Barcode type": "Tipo de código de barras",
-    "Base amount": "Monto base",
-    "Base total": "Total base",
+    "Base amount": "Base imponible",
+    "Base total": "Total base imponible",
     "Based on sales invoices issued this year.": "Basado en las facturas de venta emitidas este año.",
     "Basic": "Básico",
     "BASIC": "BÁSICO",
@@ -2090,5 +2090,14 @@
     "≤ (less or equal)": "≤ (menor o igual que)",
     "≥ (greater or equal)": "≥ (mayor o igual que)",
     "🚀 PRODUCTION SRI": "🚀 PRODUCCIÓN SRI",
-    "🧪 TESTING SRI": "🧪 PRUEBAS SRI"
+    "🧪 TESTING SRI": "🧪 PRUEBAS SRI",
+    "Movements count": "Cantidad de movimientos",
+    "Product Code": "Código de producto",
+    "Sold at": "Fecha venta",
+    "Product price": "Precio del producto",
+    "Product prices": "Precios de productos",
+    "Void reason": "Motivo de anulación",
+    "Sequential reset successfully": "Reinicio secuencial exitoso",
+    "record": "Registro",
+    "reset": "Reiniciado"
 }

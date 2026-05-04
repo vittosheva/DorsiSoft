@@ -6,6 +6,7 @@ namespace Modules\System\Filament\CoreApp\Resources\DocumentTypes\Tables;
 
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -58,6 +59,11 @@ final class DocumentTypesTable
                     ->boolean()
                     ->alignCenter(),
 
+                TextColumn::make('series_count')
+                    ->badge()
+                    ->color('success')
+                    ->alignment(Alignment::Center),
+
                 IconColumn::make('affects_accounting')
                     ->boolean()
                     ->alignCenter(),
@@ -69,12 +75,6 @@ final class DocumentTypesTable
                 IsActiveColumn::make('is_active')
                     ->boolean()
                     ->alignCenter(),
-
-                TextColumn::make('series_count')
-                    // ->counts('series')
-                    ->badge()
-                    ->color('success')
-                    ->alignment(Alignment::Center),
             ])
             ->filters([
                 TernaryFilter::make('affects_accounting'),
@@ -82,6 +82,8 @@ final class DocumentTypesTable
                 TernaryFilter::make('is_active'),
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modal(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

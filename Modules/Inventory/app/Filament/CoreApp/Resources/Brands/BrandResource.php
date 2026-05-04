@@ -29,7 +29,7 @@ final class BrandResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookmarkSquare;
 
-    protected static ?int $navigationSort = 70;
+    protected static ?int $navigationSort = 90;
 
     public static function getEloquentQuery(): Builder
     {

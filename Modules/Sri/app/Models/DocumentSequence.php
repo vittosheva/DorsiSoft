@@ -43,7 +43,8 @@ final class DocumentSequence extends Model
 
     public function latestHistory(): HasOne
     {
-        return $this->hasOne(DocumentSequenceHistory::class, 'document_sequence_id')
+        return $this
+            ->hasOne(DocumentSequenceHistory::class, 'document_sequence_id')
             ->ofMany([
                 'created_at' => 'max',
                 'id' => 'max',

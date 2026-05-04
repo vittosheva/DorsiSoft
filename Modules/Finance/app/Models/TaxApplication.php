@@ -14,6 +14,7 @@ use Modules\Core\Models\Company;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Finance\Enums\TaxTypeEnum;
+use Modules\System\Models\TaxDefinition;
 
 final class TaxApplication extends BaseModel
 {

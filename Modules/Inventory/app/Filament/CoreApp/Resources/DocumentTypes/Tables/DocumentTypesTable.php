@@ -27,8 +27,7 @@ final class DocumentTypesTable
                     ->searchable(),
 
                 TextColumn::make('movement_type')
-                    ->badge()
-                    ->color(fn ($state) => $state?->getColor()),
+                    ->badge(),
 
                 IconColumn::make('affects_inventory')
                     ->boolean()

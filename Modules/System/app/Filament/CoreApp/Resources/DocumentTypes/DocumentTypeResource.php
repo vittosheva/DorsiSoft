@@ -14,6 +14,7 @@ use Modules\Core\Traits\HasActiveIcon;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Pages\CreateDocumentType;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Pages\EditDocumentType;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Pages\ListDocumentTypes;
+use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Pages\ViewDocumentType;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\RelationManagers\DocumentSeriesRelationManager;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Schemas\DocumentTypeForm;
 use Modules\System\Filament\CoreApp\Resources\DocumentTypes\Tables\DocumentTypesTable;
@@ -37,9 +38,7 @@ final class DocumentTypeResource extends Resource
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',
             ])
-            ->withCount([
-                'series',
-            ]);
+            ->withCount('series');
     }
 
     public static function form(Schema $schema): Schema
@@ -65,6 +64,7 @@ final class DocumentTypeResource extends Resource
             'index' => ListDocumentTypes::route('/'),
             'create' => CreateDocumentType::route('/create'),
             'edit' => EditDocumentType::route('/{record}/edit'),
+            'view' => ViewDocumentType::route('/{record}'),
         ];
     }
 

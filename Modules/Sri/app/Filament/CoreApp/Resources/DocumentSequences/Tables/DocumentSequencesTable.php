@@ -81,8 +81,8 @@ final class DocumentSequencesTable
                     ->modalWidth('4xl'),
 
                 Action::make('reset')
-                    ->icon(Heroicon::ArrowPath)
                     ->tooltip(__('Set new sequential'))
+                    ->icon(Heroicon::ArrowPath)
                     ->color('warning')
                     ->requiresConfirmation(false)
                     ->modalHeading(__('Set new sequential'))

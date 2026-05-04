@@ -7,8 +7,10 @@ namespace Modules\Accounting\Filament\CoreApp\Resources\JournalEntries\Tables;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Textarea;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -62,11 +64,13 @@ final class JournalEntriesTable
                     ->relationship('fiscalPeriod', 'name'),
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modal()
+                    ->modalWidth(Width::FourExtraLarge),
                 Action::make('approve')
+                    ->tooltip(__('Approve'))
                     ->icon(Heroicon::OutlinedCheckCircle)
                     ->color('success')
-                    ->visible(fn (JournalEntry $record): bool => $record->canBeApproved())
-                    ->requiresConfirmation()
                     ->modalHeading(__('Approve Journal Entry'))
                     ->modalDescription(fn (JournalEntry $record): string => __(
                         'Approve entry :ref? This will post it to the ledger and update account balances.',
@@ -76,17 +80,18 @@ final class JournalEntriesTable
                         /** @var User $user */
                         $user = Filament::auth()->user();
                         app(JournalEntryService::class)->approve($record, $user);
-                    }),
+                    })
+                    ->requiresConfirmation()
+                    ->visible(fn (JournalEntry $record): bool => $record->canBeApproved()),
 
                 Action::make('void')
+                    ->tooltip(__('Void'))
                     ->icon(Heroicon::OutlinedXCircle)
                     ->color('danger')
-                    ->visible(fn (JournalEntry $record): bool => $record->canBeVoided())
-                    ->requiresConfirmation()
                     ->modalHeading(__('Void Journal Entry'))
                     ->schema([
                         Textarea::make('void_reason')
-                            ->label(__('Reason'))
+                            // ->label(__('Reason'))
                             ->required()
                             ->rows(3),
                     ])
@@ -94,7 +99,9 @@ final class JournalEntriesTable
                         /** @var User $user */
                         $user = Filament::auth()->user();
                         app(JournalEntryService::class)->void($record, $user, $data['void_reason']);
-                    }),
+                    })
+                    ->requiresConfirmation()
+                    ->visible(fn (JournalEntry $record): bool => $record->canBeVoided()),
 
                 EditAction::make()
                     ->visible(fn (JournalEntry $record): bool => $record->isDraft()),

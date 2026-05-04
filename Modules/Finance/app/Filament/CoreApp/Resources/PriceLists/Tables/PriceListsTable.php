@@ -8,6 +8,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
@@ -62,6 +63,7 @@ final class PriceListsTable
                 IsActiveFilter::make('is_active'),
             ])
             ->recordActions([
+                ViewAction::make()->modal(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

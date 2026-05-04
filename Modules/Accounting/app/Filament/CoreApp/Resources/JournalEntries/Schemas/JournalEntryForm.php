@@ -51,7 +51,8 @@ final class JournalEntryForm
                                     ->maxLength(500)
                                     ->columnSpanFull(),
                             ]),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

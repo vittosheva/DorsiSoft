@@ -9,6 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\RestoreAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Indicator;
@@ -106,6 +107,7 @@ final class BusinessPartnersTable
                 TrashedFilter::make('deleted_at'),
             ])
             ->recordActions([
+                ViewAction::make()->modal(),
                 EditAction::make(),
                 DeleteAction::make(),
                 RestoreAction::make(),

@@ -32,6 +32,7 @@ final class SequenceHistoryRelationManager extends BaseRelationManager
             ->pluralModelLabel(__('Entries'))
             ->columns([
                 TextColumn::make('event')
+                    ->formatStateUsing(fn (DocumentSequenceHistory $record): string => __($record->event))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'reset' => 'warning',

@@ -223,7 +223,10 @@ final class BusinessPartnerForm
                 ])
                 ->columnSpan(3),
         ])
-            ->hiddenOn(Operation::Create)
+            ->hiddenOn([
+                Operation::Create,
+                Operation::View,
+            ])
             ->columns(12)
             ->columnSpanFull();
     }

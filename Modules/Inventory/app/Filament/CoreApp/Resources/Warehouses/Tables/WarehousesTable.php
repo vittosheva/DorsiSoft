@@ -7,8 +7,10 @@ namespace Modules\Inventory\Filament\CoreApp\Resources\Warehouses\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -39,8 +41,7 @@ final class WarehousesTable
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('movements_count')
-                    ->label(__('Movements'))
-                    ->counts('movements')
+                    ->alignment(Alignment::Center)
                     ->sortable(),
 
                 IconColumn::make('is_default')
@@ -56,6 +57,9 @@ final class WarehousesTable
                 IsActiveFilter::make('is_active'),
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modal()
+                    ->modalWidth(Width::FourExtraLarge),
                 EditAction::make(),
             ])
             ->toolbarActions([

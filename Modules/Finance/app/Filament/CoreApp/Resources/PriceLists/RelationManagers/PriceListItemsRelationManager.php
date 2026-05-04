@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Support\Forms\TextInputs\MoneyTextInput;
 use Modules\Core\Support\Forms\TextInputs\QuantityTextInput;
 use Modules\Core\Support\RelationManagers\BaseRelationManager;
@@ -24,6 +25,11 @@ use Modules\Inventory\Support\Forms\Selects\ProductSelect;
 final class PriceListItemsRelationManager extends BaseRelationManager
 {
     protected static string $relationship = 'items';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('Products');
+    }
 
     public function getEloquentQuery(): Builder
     {
@@ -61,9 +67,12 @@ final class PriceListItemsRelationManager extends BaseRelationManager
     {
         return $table
             ->description(__('Products with specific prices assigned to this price list. Each item overrides the product\'s default price when this price list is applied during invoice or quotation creation. Items can be added, updated, or removed as pricing agreements change over time.'))
+            ->modelLabel(__('Product price'))
+            ->pluralModelLabel(__('Product prices'))
             ->recordTitleAttribute('product.name')
             ->columns([
                 TextColumn::make('product.code')
+                    ->label(__('Product Code'))
                     ->searchable(),
 
                 TextColumn::make('product.name')
@@ -73,7 +82,8 @@ final class PriceListItemsRelationManager extends BaseRelationManager
                     ->numeric(decimalPlaces: 2),
 
                 MoneyTextColumn::make('price')
-                    ->currencyCode(fn (PriceListItem $record): string => $record->priceList->currency_code ?? 'USD'),
+                    ->currencyCode(fn (PriceListItem $record): string => $record->priceList->currency_code ?? 'USD')
+                    ->withoutDefaultSummarizer(),
 
                 CreatedByTextColumn::make(),
 

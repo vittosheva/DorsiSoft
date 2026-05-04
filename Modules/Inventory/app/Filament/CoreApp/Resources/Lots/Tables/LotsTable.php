@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Inventory\Filament\CoreApp\Resources\Lots\Tables;
 
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -24,14 +25,17 @@ final class LotsTable
         return $table
             ->columns([
                 TextColumn::make('product.code')
+                    ->label(__('Product Code'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('product.name')
+                    ->label(__('Product'))
                     ->searchable()
                     ->wrap(),
 
                 TextColumn::make('code')
+                    ->label(__('Lot Code'))
                     ->searchable()
                     ->copyable(),
 
@@ -63,7 +67,8 @@ final class LotsTable
             ->filters([
                 SelectFilter::make('product_id')
                     ->options(fn () => Product::query()->active()->pluck('name', 'id'))
-                    ->searchable(),
+                    ->searchable()
+                    ->columnSpan(3),
 
                 TernaryFilter::make('is_active'),
 
@@ -77,6 +82,7 @@ final class LotsTable
                         ->where('expiry_date', '<', today())),
             ])
             ->recordActions([
+                ViewAction::make()->modal(),
                 EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');

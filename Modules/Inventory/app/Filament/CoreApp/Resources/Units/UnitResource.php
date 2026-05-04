@@ -29,7 +29,7 @@ final class UnitResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;
 
-    protected static ?int $navigationSort = 90;
+    protected static ?int $navigationSort = 100;
 
     public static function getEloquentQuery(): Builder
     {

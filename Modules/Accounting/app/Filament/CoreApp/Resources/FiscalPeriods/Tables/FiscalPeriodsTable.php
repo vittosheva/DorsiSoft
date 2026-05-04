@@ -6,7 +6,9 @@ namespace Modules\Accounting\Filament\CoreApp\Resources\FiscalPeriods\Tables;
 
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -59,12 +61,15 @@ final class FiscalPeriodsTable
                         __('November'),
                         __('December'),
                     ])),
-                SelectFilter::make('status')
-                    ->options(FiscalPeriodStatusEnum::class),
                 DateRangeFilter::make('start_date'),
                 DateRangeFilter::make('end_date'),
+                SelectFilter::make('status')
+                    ->options(FiscalPeriodStatusEnum::class),
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modal()
+                    ->modalWidth(Width::FourExtraLarge),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

@@ -22,6 +22,7 @@ use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\CreditNoteStatusEnum;
+use Modules\Sales\Models\CreditNote;
 use Modules\Sales\Support\Tables\Columns\SriSequentialTextColumn;
 use Modules\Sales\Support\Tables\Filters\CustomerFilter;
 use Modules\Sri\Support\Tables\Columns\CommercialStatusColumn;
@@ -48,16 +49,16 @@ final class CreditNotesTable
 
                 TextColumn::make('invoice.code')
                     ->placeholder('—')
-                    ->description(fn ($record) => $record->invoice ? $record->invoice->getSriSequentialCode() : null),
+                    ->description(fn (?CreditNote $record) => $record?->invoice ? $record->invoice->getSriSequentialCode() : null),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?CreditNote $record): string => $record?->currency_code ?? ''),
 
                 MoneyTextColumn::make('applied_amount')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?CreditNote $record): string => $record?->currency_code ?? ''),
 
                 MoneyTextColumn::make('refunded_amount')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?CreditNote $record): string => $record?->currency_code ?? ''),
 
                 CommercialStatusColumn::make(),
 
@@ -78,11 +79,11 @@ final class CreditNotesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->status === CreditNoteStatusEnum::Draft),
+                    ->visible(fn (?CreditNote $record) => $record->status === CreditNoteStatusEnum::Draft),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === CreditNoteStatusEnum::Draft),
+                    ->visible(fn (?CreditNote $record) => $record->status === CreditNoteStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

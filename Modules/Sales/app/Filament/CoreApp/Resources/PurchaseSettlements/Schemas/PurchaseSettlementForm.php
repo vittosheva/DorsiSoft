@@ -176,7 +176,7 @@ final class PurchaseSettlementForm
                 CurrencyCodeSelect::make('currency_code')
                     ->columnSpan(4),
 
-                Select::make('warehouse_id')
+                /* Select::make('warehouse_id')
                     ->label(__('Warehouse'))
                     ->options(fn () => Warehouse::query()
                         ->where('company_id', Filament::getTenant()?->getKey())
@@ -184,7 +184,7 @@ final class PurchaseSettlementForm
                         ->pluck('name', 'id'))
                     ->searchable()
                     ->nullable()
-                    ->columnSpan(6),
+                    ->columnSpan(6), */
 
                 SequenceEmissionFusedGroup::makeForDocumentType(SriDocumentTypeEnum::PurchaseSettlement),
             ])

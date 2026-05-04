@@ -59,7 +59,7 @@ final class SalesOrderResource extends Resource
             'index' => ListSalesOrders::route('/'),
             'create' => CreateSalesOrder::route('/create'),
             'edit' => EditSalesOrder::route('/{record}/edit'),
-            // 'view' => ViewSalesOrder::route('/{record}'),
+            'view' => ViewSalesOrder::route('/{record}'),
         ];
     }
 

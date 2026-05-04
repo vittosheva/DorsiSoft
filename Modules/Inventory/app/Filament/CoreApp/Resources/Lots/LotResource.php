@@ -26,7 +26,7 @@ final class LotResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
 
-    protected static ?int $navigationSort = 50;
+    protected static ?int $navigationSort = 60;
 
     public static function getEloquentQuery(): Builder
     {

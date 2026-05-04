@@ -23,6 +23,7 @@ use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Core\Support\Tables\Filters\DateRangeFilter;
 use Modules\Core\Support\Tables\Filters\StatusFilter;
 use Modules\Sales\Enums\InvoiceStatusEnum;
+use Modules\Sales\Models\Invoice;
 use Modules\Sales\Support\Tables\Columns\SriSequentialTextColumn;
 use Modules\Sales\Support\Tables\Filters\CustomerFilter;
 use Modules\Sales\Support\Tables\Filters\SellerFilter;
@@ -58,12 +59,12 @@ final class InvoicesTable
                     ->placeholder('—'),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn (?Invoice $record): string => $record?->currency_code ?? ''),
 
                 MoneyTextColumn::make('paid_amount')
                     ->label(__('Paid'))
-                    ->currencyCode(fn ($record): string => $record->currency_code)
-                    ->color(fn ($record) => match ($record->paymentStatus()) {
+                    ->currencyCode(fn (?Invoice $record): string => $record?->currency_code ?? '')
+                    ->color(fn (?Invoice $record) => match ($record?->paymentStatus()) {
                         'paid' => 'success',
                         'partially_paid' => 'warning',
                         default => 'gray',
@@ -93,11 +94,11 @@ final class InvoicesTable
             ->recordActions([
                 ViewAction::make()->modal(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->isElectronicDocumentMutable()),
+                    ->visible(fn (?Invoice $record) => $record->isElectronicDocumentMutable()),
                 SendDocumentEmailAction::make(),
                 GeneratePdfAction::make(),
                 DeleteAction::make()
-                    ->visible(fn ($record) => $record->status === InvoiceStatusEnum::Draft),
+                    ->visible(fn (?Invoice $record) => $record->status === InvoiceStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

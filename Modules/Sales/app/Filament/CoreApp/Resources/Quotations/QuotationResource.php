@@ -58,7 +58,7 @@ final class QuotationResource extends Resource
             'index' => ListQuotations::route('/'),
             'create' => CreateQuotation::route('/create'),
             'edit' => EditQuotation::route('/{record}/edit'),
-            // 'view' => ViewQuotation::route('/{record}'),
+            'view' => ViewQuotation::route('/{record}'),
         ];
     }
 
