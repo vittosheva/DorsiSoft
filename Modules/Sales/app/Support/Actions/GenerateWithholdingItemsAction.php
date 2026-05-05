@@ -61,6 +61,6 @@ final class GenerateWithholdingItemsAction
 
                 $set('items', $suggestions);
             })
-            ->visible(fn($operation) => in_array($operation, [Operation::Create->value, Operation::Edit->value]));
+            ->visible(fn ($operation) => in_array($operation, [Operation::Create->value, Operation::Edit->value]));
     }
 }

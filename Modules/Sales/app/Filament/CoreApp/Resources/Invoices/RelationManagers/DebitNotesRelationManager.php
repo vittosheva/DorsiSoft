@@ -46,9 +46,11 @@ final class DebitNotesRelationManager extends BaseRelationManager
     {
         return $table
             ->description(__('Debit notes issued against this invoice to record additional charges, interest, or value corrections. Each debit note increases the total amount owed and must be independently authorized by the SRI. Debit notes are part of the complete audit trail for this invoice.'))
-            ->modifyQueryUsing(fn(Builder $query): Builder => $query->with([
-                'creator:id,name,avatar_url',
-            ]))
+            ->modifyQueryUsing(
+                fn (Builder $query): Builder => $query->with([
+                    'creator:id,name,avatar_url',
+                ])
+            )
             ->recordTitleAttribute('code')
             ->columns([
                 CodeTextColumn::make('code')
@@ -60,7 +62,7 @@ final class DebitNotesRelationManager extends BaseRelationManager
 
                 MoneyTextColumn::make('total')
                     ->label(__('Total'))
-                    ->currencyCode(fn($record): string => $record->currency_code),
+                    ->currencyCode(fn ($record): string => $record->currency_code),
 
                 CommercialStatusColumn::make(),
 
@@ -75,11 +77,11 @@ final class DebitNotesRelationManager extends BaseRelationManager
             ->recordActions([
                 PreviewRecordAction::make()
                     ->modalHeading(__('Debit Note Preview'))
-                    ->modalContent(fn($record): View => view('sales::filament.invoices.relation-managers.debit-note-preview', [
+                    ->modalContent(fn ($record): View => view('sales::filament.invoices.relation-managers.debit-note-preview', [
                         'record' => PreviewAmountFormatter::normalize($record, ['total', 'payment_amount']),
                     ])),
                 OpenRecordAction::make()
-                    ->url(fn($record): string => DebitNoteResource::getUrl('view', ['record' => $record]), shouldOpenInNewTab: true),
+                    ->url(fn ($record): string => DebitNoteResource::getUrl('view', ['record' => $record]), shouldOpenInNewTab: true),
             ])
             ->toolbarActions([])
             ->defaultSort('created_at', 'desc');

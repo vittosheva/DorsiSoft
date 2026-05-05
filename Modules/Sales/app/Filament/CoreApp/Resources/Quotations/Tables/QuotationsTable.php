@@ -49,12 +49,12 @@ final class QuotationsTable
                     ->badge(),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn(?Quotation $record): string => $record?->currency_code ?? ''),
+                    ->currencyCode(fn (?Quotation $record): string => $record?->currency_code ?? ''),
 
                 TextColumn::make('expires_at')
                     ->date('d/m/Y')
                     ->sortable()
-                    ->color(fn(?Quotation $record) => $record?->expires_at?->isPast() && $record?->status === QuotationStatusEnum::Draft ? 'danger' : null),
+                    ->color(fn (?Quotation $record) => $record?->expires_at?->isPast() && $record?->status === QuotationStatusEnum::Draft ? 'danger' : null),
 
                 CreatedByTextColumn::make(),
 
@@ -70,11 +70,11 @@ final class QuotationsTable
             ->recordActions([
                 ViewAction::make()->modal(),
                 EditAction::make()
-                    ->visible(fn(?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
+                    ->visible(fn (?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
                 GeneratePdfAction::make(),
                 SendDocumentEmailAction::make(),
                 DeleteAction::make()
-                    ->visible(fn(?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
+                    ->visible(fn (?Quotation $record) => $record->status === QuotationStatusEnum::Draft),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

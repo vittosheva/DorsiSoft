@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Modules\Sri\Contracts\HasElectronicBilling;
+use Modules\Sri\Enums\ElectronicStatusEnum;
 use Modules\Sri\Support\XmlDisplayFormatter;
 
 final class ViewXmlAction extends Action
@@ -27,8 +28,17 @@ final class ViewXmlAction extends Action
                     return false;
                 }
 
-                return filled($record->metadata['ride_path'] ?? null)
-                    || filled($record->metadata['xml_path'] ?? null);
+                /* return filled($record->metadata['ride_path'] ?? null)
+                    || filled($record->metadata['xml_path'] ?? null); */
+
+                $status = $record->getElectronicStatus();
+
+                return in_array($status, [
+                    // ElectronicStatusEnum::XmlGenerated,
+                    // ElectronicStatusEnum::Signed,
+                    // ElectronicStatusEnum::Submitted,
+                    ElectronicStatusEnum::Authorized,
+                ], strict: true);
             })
             ->modalContent(function (?Model $record): View {
                 $xmlPath = $record->metadata['ride_path'] ?? $record->metadata['xml_path'] ?? null;

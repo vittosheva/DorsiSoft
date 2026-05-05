@@ -30,9 +30,9 @@ final class DownloadXmlAction extends Action
                 $status = $record->getElectronicStatus();
 
                 return in_array($status, [
-                    ElectronicStatusEnum::XmlGenerated,
-                    ElectronicStatusEnum::Signed,
-                    ElectronicStatusEnum::Submitted,
+                    // ElectronicStatusEnum::XmlGenerated,
+                    // ElectronicStatusEnum::Signed,
+                    // ElectronicStatusEnum::Submitted,
                     ElectronicStatusEnum::Authorized,
                 ], strict: true);
             })

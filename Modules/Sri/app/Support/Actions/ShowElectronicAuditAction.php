@@ -45,7 +45,7 @@ final class ShowElectronicAuditAction extends Action
 
                 return Color::Gray;
             })
-            ->visible(fn(?Model $record): bool => $record instanceof HasElectronicBilling && self::hasBeenEmittedToSri($record))
+            ->visible(fn (?Model $record): bool => $record instanceof HasElectronicBilling && self::hasBeenEmittedToSri($record))
             ->slideOver()
             ->modalHeading(__('SRI Audit Panel'))
             ->modalWidth('7xl')
