@@ -142,7 +142,7 @@ final class QuotationForm
                     ->columnSpan(4),
 
                 PriceListSelect::make('price_list_id')
-                    ->columnSpan(4),
+                    ->columnSpan(6),
             ])
             ->columns(12);
     }

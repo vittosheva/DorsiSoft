@@ -12,11 +12,11 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Modules\Core\Support\Forms\TextInputs\MoneyTextInput;
-use Modules\Finance\Models\PriceListItem;
 use Modules\Finance\Models\Tax;
 use Modules\Inventory\Models\Product;
 use Modules\Sales\Livewire\Concerns\HasMinimumItemsValidation;
 use Modules\Sales\Livewire\Concerns\HasPendingItems;
+use Modules\Sales\Livewire\Concerns\HasPriceListSupport;
 use Modules\Sales\Livewire\Concerns\SearchesProducts;
 use Modules\Sales\Models\Quotation;
 use Modules\Sales\Models\QuotationItem;
@@ -28,6 +28,7 @@ final class QuotationItems extends Component
 {
     use HasMinimumItemsValidation;
     use HasPendingItems;
+    use HasPriceListSupport;
     use SearchesProducts;
 
     #[Locked]
@@ -57,6 +58,7 @@ final class QuotationItems extends Component
             $quotation = Quotation::with(['items.taxes'])->find($this->quotationId);
 
             if ($quotation) {
+                $this->priceListId = $quotation->price_list_id;
                 $this->loadFromDatabase($quotation);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($quotation->currency_code);
             }
@@ -278,25 +280,5 @@ final class QuotationItems extends Component
 
         $quotation = Quotation::with(['items.taxes'])->findOrFail($this->quotationId);
         app(QuotationTotalsCalculator::class)->recalculate($quotation);
-    }
-
-    private function resolveProductPrice(Product $product): float|string
-    {
-        if (! $this->quotationId) {
-            return $product->sale_price ?? 0;
-        }
-
-        $quotation = Quotation::find($this->quotationId, ['*']);
-
-        if (! $quotation?->price_list_id) {
-            return $product->sale_price ?? 0;
-        }
-
-        $priceListItem = PriceListItem::where('price_list_id', $quotation->price_list_id)
-            ->where('product_id', $product->id)
-            ->orderBy('min_quantity')
-            ->first();
-
-        return $priceListItem?->price ?? $product->sale_price ?? 0;
     }
 }

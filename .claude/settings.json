@@ -9,7 +9,11 @@
       "Bash(grep \"\\\\.php$\")",
       "Bash(herd open *)",
       "Bash(curl -s https://dorsisoft.test/admin/people/business-partners/create -H \"Accept: text/html\")",
-      "Bash(xargs -I{} find {} -name \"CompanyUser.php\" -o -name \"UserCompany.php\")"
+      "Bash(xargs -I{} find {} -name \"CompanyUser.php\" -o -name \"UserCompany.php\")",
+      "Bash(php -l Modules/Sales/app/Livewire/Concerns/HasPriceListSupport.php)",
+      "Bash(php -l Modules/Finance/app/Support/Forms/Selects/PriceListSelect.php)",
+      "Bash(php -l Modules/Sales/app/Livewire/CreditNoteItems.php)",
+      "Bash(php -l Modules/Sales/app/Livewire/DebitNoteItems.php)"
     ]
   }
 }

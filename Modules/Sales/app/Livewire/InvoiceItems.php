@@ -16,6 +16,7 @@ use Modules\Finance\Models\Tax;
 use Modules\Inventory\Models\Product;
 use Modules\Sales\Livewire\Concerns\HasMinimumItemsValidation;
 use Modules\Sales\Livewire\Concerns\HasPendingItems;
+use Modules\Sales\Livewire\Concerns\HasPriceListSupport;
 use Modules\Sales\Livewire\Concerns\SearchesProducts;
 use Modules\Sales\Models\Invoice;
 use Modules\Sales\Models\InvoiceItem;
@@ -28,6 +29,7 @@ final class InvoiceItems extends Component
 {
     use HasMinimumItemsValidation;
     use HasPendingItems;
+    use HasPriceListSupport;
     use SearchesProducts;
 
     #[Locked]
@@ -65,6 +67,7 @@ final class InvoiceItems extends Component
             $invoice = Invoice::with(['items.taxes'])->find($this->invoiceId);
 
             if ($invoice) {
+                $this->priceListId = $invoice->price_list_id;
                 $this->loadFromDatabase($invoice);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($invoice->currency_code);
             }
@@ -101,7 +104,7 @@ final class InvoiceItems extends Component
             'product_unit' => $product->unit?->symbol,
             'description' => $product->name,
             'quantity' => 1.0,
-            'unit_price' => (float) ($product->sale_price ?? 0),
+            'unit_price' => (float) $this->resolveProductPrice($product),
         ], $taxes);
 
         $this->searchQuery = '';

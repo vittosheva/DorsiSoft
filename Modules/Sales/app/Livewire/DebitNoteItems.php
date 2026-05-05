@@ -16,6 +16,7 @@ use Modules\Finance\Models\Tax;
 use Modules\Inventory\Models\Product;
 use Modules\Sales\Livewire\Concerns\HasMinimumItemsValidation;
 use Modules\Sales\Livewire\Concerns\HasPendingItems;
+use Modules\Sales\Livewire\Concerns\HasPriceListSupport;
 use Modules\Sales\Livewire\Concerns\SearchesProducts;
 use Modules\Sales\Models\DebitNote;
 use Modules\Sales\Models\DebitNoteItem;
@@ -28,6 +29,7 @@ final class DebitNoteItems extends Component
 {
     use HasMinimumItemsValidation;
     use HasPendingItems;
+    use HasPriceListSupport;
     use SearchesProducts;
 
     #[Locked]
@@ -54,6 +56,7 @@ final class DebitNoteItems extends Component
             $debitNote = DebitNote::with(['items.taxes'])->find($this->debitNoteId);
 
             if ($debitNote) {
+                $this->priceListId = $debitNote->price_list_id;
                 $this->loadFromDatabase($debitNote);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($debitNote->currency_code);
             }
@@ -85,7 +88,7 @@ final class DebitNoteItems extends Component
             'product_unit' => $product->unit?->symbol,
             'description' => $product->name,
             'quantity' => 1.0,
-            'unit_price' => (float) ($product->sale_price ?? 0),
+            'unit_price' => (float) $this->resolveProductPrice($product),
         ], $taxes);
 
         $this->searchQuery = '';

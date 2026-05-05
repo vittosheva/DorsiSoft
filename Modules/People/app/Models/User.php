@@ -25,6 +25,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Mattiverse\Userstamps\Traits\Userstamps;
 use Modules\Core\Enums\LanguageEnum;
 use Modules\Core\Models\Company;
+use Modules\Core\Models\CompanyUser;
 use Modules\Core\Models\EmissionPoint;
 use Modules\Core\Models\Establishment;
 use Modules\Core\Models\Traits\HasAutoCode;
@@ -103,7 +104,8 @@ final class User extends BaseAuthenticatable implements FilamentUser, HasAvatar,
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'core_company_user', 'user_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'core_company_user', 'user_id', 'company_id')
+            ->using(CompanyUser::class);
     }
 
     public function establishment(): BelongsTo
@@ -143,23 +145,24 @@ final class User extends BaseAuthenticatable implements FilamentUser, HasAvatar,
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->companies;
+        return $this->getCachedCompanies();
     }
 
     public function getDefaultTenant(Panel $panel): ?Model
     {
         $tenantKey = session()->get("filament.tenant.{$panel->getId()}");
+        $companies = $this->getCachedCompanies();
 
         if (blank($tenantKey)) {
-            return $this->companies()->first();
+            return $companies->first();
         }
 
-        return $this->companies()->whereKey($tenantKey)->first() ?? $this->companies()->first();
+        return $companies->find($tenantKey) ?? $companies->first();
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->companies()->whereKey($tenant)->exists();
+        return $this->getCachedCompanies()->contains($tenant);
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -186,5 +189,10 @@ final class User extends BaseAuthenticatable implements FilamentUser, HasAvatar,
     protected static function newFactory(): Factory
     {
         return UserFactory::new();
+    }
+
+    private function getCachedCompanies(): Collection
+    {
+        return once(fn () => $this->companies()->get());
     }
 }

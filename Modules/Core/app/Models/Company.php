@@ -113,7 +113,8 @@ final class Company extends Model implements HasAvatar, HasCurrentTenantLabel, H
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'core_company_user', 'company_id', 'user_id');
+        return $this->belongsToMany(User::class, 'core_company_user', 'company_id', 'user_id')
+            ->using(CompanyUser::class);
     }
 
     public function establishments(): HasMany

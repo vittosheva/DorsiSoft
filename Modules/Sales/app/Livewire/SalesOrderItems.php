@@ -15,6 +15,7 @@ use Modules\Finance\Models\Tax;
 use Modules\Inventory\Models\Product;
 use Modules\Sales\Livewire\Concerns\HasMinimumItemsValidation;
 use Modules\Sales\Livewire\Concerns\HasPendingItems;
+use Modules\Sales\Livewire\Concerns\HasPriceListSupport;
 use Modules\Sales\Livewire\Concerns\SearchesProducts;
 use Modules\Sales\Models\SalesOrder;
 use Modules\Sales\Models\SalesOrderItem;
@@ -26,6 +27,7 @@ final class SalesOrderItems extends Component
 {
     use HasMinimumItemsValidation;
     use HasPendingItems;
+    use HasPriceListSupport;
     use SearchesProducts;
 
     #[Locked]
@@ -55,6 +57,7 @@ final class SalesOrderItems extends Component
             $order = SalesOrder::with(['items.taxes'])->find($this->orderId);
 
             if ($order) {
+                $this->priceListId = $order->price_list_id;
                 $this->loadFromDatabase($order);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($order->currency_code);
             }
@@ -86,7 +89,7 @@ final class SalesOrderItems extends Component
             'product_unit' => $product->unit?->symbol,
             'description' => $product->name,
             'quantity' => 1.0,
-            'unit_price' => (float) ($product->sale_price ?? 0),
+            'unit_price' => (float) $this->resolveProductPrice($product),
         ], $taxes);
 
         $this->searchQuery = '';

@@ -16,6 +16,7 @@ use Modules\Finance\Models\Tax;
 use Modules\Inventory\Models\Product;
 use Modules\Sales\Livewire\Concerns\HasMinimumItemsValidation;
 use Modules\Sales\Livewire\Concerns\HasPendingItems;
+use Modules\Sales\Livewire\Concerns\HasPriceListSupport;
 use Modules\Sales\Livewire\Concerns\SearchesProducts;
 use Modules\Sales\Models\CreditNote;
 use Modules\Sales\Models\CreditNoteItem;
@@ -28,6 +29,7 @@ final class CreditNoteItems extends Component
 {
     use HasMinimumItemsValidation;
     use HasPendingItems;
+    use HasPriceListSupport;
     use SearchesProducts;
 
     #[Locked]
@@ -57,6 +59,7 @@ final class CreditNoteItems extends Component
             $creditNote = CreditNote::with(['items.taxes'])->find($this->creditNoteId);
 
             if ($creditNote) {
+                $this->priceListId = $creditNote->price_list_id;
                 $this->loadFromDatabase($creditNote);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($creditNote->currency_code);
             }
@@ -88,7 +91,7 @@ final class CreditNoteItems extends Component
             'product_unit' => $product->unit?->symbol,
             'description' => $product->name,
             'quantity' => 1.0,
-            'unit_price' => (float) ($product->sale_price ?? 0),
+            'unit_price' => (float) $this->resolveProductPrice($product),
         ], $taxes);
 
         $this->searchQuery = '';

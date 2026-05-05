@@ -29,6 +29,10 @@ final class CollectionsRelationManager extends BaseRelationManager
 {
     protected static string $relationship = 'allocations';
 
+    protected ?string $pollingInterval = null;
+
+    protected static bool $isLazy = false;
+
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return $ownerRecord->electronic_status === ElectronicStatusEnum::Authorized;

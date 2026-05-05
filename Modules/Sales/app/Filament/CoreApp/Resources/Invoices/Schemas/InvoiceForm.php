@@ -21,6 +21,7 @@ use Modules\Core\Support\Forms\DatePickers\IssueDatePicker;
 use Modules\Core\Support\Forms\Selects\CurrencyCodeSelect;
 use Modules\Core\Support\Forms\Textareas\NotesTextarea;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
+use Modules\Finance\Support\Forms\Selects\PriceListSelect;
 use Modules\Inventory\Models\Warehouse;
 use Modules\People\Support\Forms\Selects\CustomerBusinessPartnerSelect;
 use Modules\People\Support\Forms\Selects\SellerUserSelect;
@@ -188,21 +189,27 @@ final class InvoiceForm
                         if (! $state) {
                             return;
                         }
+
                         $order = SalesOrder::query()
                             ->select(['id', 'business_partner_id', 'currency_code'])
                             ->find($state);
+
                         if (! $order) {
                             return;
                         }
+
                         $set('business_partner_id', $order->business_partner_id);
                         $set('currency_code', $order->currency_code);
                         $livewire->dispatch('invoice-items:load-from-order', orderId: (int) $state);
                     })
                     ->columnSpan(4),
+                PriceListSelect::make('price_list_id')
+                    ->columnSpan(6),
                 SellerUserSelect::make('seller_id')
                     ->columnSpan(4),
                 CurrencyCodeSelect::make('currency_code')
-                    ->columnSpan(4),
+                    ->columnSpan(4)
+                    ->hidden(),
             ])
             ->columns(12);
     }

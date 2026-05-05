@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
@@ -95,6 +96,23 @@ final class ProductForm
                         ->schema([
                             RichEditor::make('description')
                                 ->columnSpanFull(),
+
+                            Fieldset::make(__('Accounting accounts'))
+                                ->schema([
+                                    TextInput::make('revenue_account')
+                                        ->maxLength(100)
+                                        ->columnSpan(4),
+
+                                    TextInput::make('income_account')
+                                        ->maxLength(100)
+                                        ->columnSpan(4),
+
+                                    TextInput::make('cost_of_goods_sold_account')
+                                        ->maxLength(100)
+                                        ->columnSpan(4),
+                                ])
+                                ->dehydrated(false)
+                                ->columns(12),
                         ]),
 
                     Tab::make(__('Costs & Prices'))
