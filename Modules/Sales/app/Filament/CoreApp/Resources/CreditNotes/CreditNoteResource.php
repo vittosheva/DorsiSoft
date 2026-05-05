@@ -67,7 +67,7 @@ final class CreditNoteResource extends Resource
             'index' => ListCreditNotes::route('/'),
             'create' => CreateCreditNote::route('/create'),
             'edit' => EditCreditNote::route('/{record}/edit'),
-            // 'view' => ViewCreditNote::route('/{record}'),
+            'view' => ViewCreditNote::route('/{record}'),
         ];
     }
 

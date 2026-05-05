@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Sri\Support\Actions;
 
 use Filament\Actions\Action;
+use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
@@ -37,14 +38,14 @@ final class ShowElectronicAuditAction extends Action
                 return __('SRI Audit Panel');
             })
             ->icon(Heroicon::ShieldCheck)
-            ->color(function (?Model $record): string {
+            ->color(function (?Model $record) {
                 if ($record instanceof HasElectronicBilling && in_array($record->getElectronicStatus(), [ElectronicStatusEnum::Error, ElectronicStatusEnum::Rejected], true)) {
-                    return 'warning';
+                    return Color::Indigo;
                 }
 
-                return 'gray';
+                return Color::Gray;
             })
-            ->visible(fn (?Model $record): bool => $record instanceof HasElectronicBilling && self::hasBeenEmittedToSri($record))
+            ->visible(fn(?Model $record): bool => $record instanceof HasElectronicBilling && self::hasBeenEmittedToSri($record))
             ->slideOver()
             ->modalHeading(__('SRI Audit Panel'))
             ->modalWidth('7xl')

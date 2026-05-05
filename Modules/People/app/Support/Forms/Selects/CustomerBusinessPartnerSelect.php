@@ -234,7 +234,8 @@ final class CustomerBusinessPartnerSelect extends Select
     {
         return BusinessPartner::query()
             ->select(['id', 'legal_name', 'identification_number'])
-            ->orderBy('legal_name')
+            // ->orderBy('legal_name')
+            ->orderBy('created_at', 'desc')
             ->limit(max(1, $this->initialResultsLimit))
             ->get()
             ->mapWithKeys(fn (BusinessPartner $businessPartner): array => [

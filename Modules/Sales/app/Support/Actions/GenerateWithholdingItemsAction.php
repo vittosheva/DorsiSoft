@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Sales\Filament\CoreApp\Resources\Withholdings\Actions;
+namespace Modules\Sales\Support\Actions;
 
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
@@ -61,6 +61,6 @@ final class GenerateWithholdingItemsAction
 
                 $set('items', $suggestions);
             })
-            ->visible(fn ($operation) => in_array($operation, [Operation::Create->value, Operation::Edit->value]));
+            ->visible(fn($operation) => in_array($operation, [Operation::Create->value, Operation::Edit->value]));
     }
 }

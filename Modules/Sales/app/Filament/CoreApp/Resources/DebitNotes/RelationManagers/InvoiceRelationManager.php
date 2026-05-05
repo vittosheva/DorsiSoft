@@ -19,12 +19,18 @@ use Modules\Core\Support\Tables\Columns\CreatedByTextColumn;
 use Modules\Core\Support\Tables\Columns\MoneyTextColumn;
 use Modules\Sales\Filament\CoreApp\Resources\Invoices\InvoiceResource;
 use Modules\Sales\Support\PreviewAmountFormatter;
+use Modules\Sri\Enums\ElectronicStatusEnum;
 use Modules\Sri\Support\Tables\Columns\CommercialStatusColumn;
 use Modules\Sri\Support\Tables\Columns\ElectronicStatusColumn;
 
 final class InvoiceRelationManager extends BaseRelationManager
 {
     protected static string $relationship = 'invoice';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $ownerRecord->electronic_status === ElectronicStatusEnum::Authorized;
+    }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
@@ -40,7 +46,7 @@ final class InvoiceRelationManager extends BaseRelationManager
     {
         return $table
             ->description(__('The original invoice to which this debit note is linked. The referenced invoice serves as the fiscal basis for the additional charges or corrections recorded in this debit note. Only one invoice can be referenced per debit note.'))
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with([
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->with([
                 'creator:id,name,avatar_url',
             ]))
             ->recordTitleAttribute('code')
@@ -53,7 +59,7 @@ final class InvoiceRelationManager extends BaseRelationManager
                     ->sortable(),
 
                 MoneyTextColumn::make('total')
-                    ->currencyCode(fn ($record): string => $record->currency_code),
+                    ->currencyCode(fn($record): string => $record->currency_code),
 
                 CommercialStatusColumn::make(),
 
@@ -68,11 +74,11 @@ final class InvoiceRelationManager extends BaseRelationManager
             ->recordActions([
                 PreviewRecordAction::make()
                     ->modalHeading(__('Invoice Preview'))
-                    ->modalContent(fn ($record): View => view('sales::filament.invoices.relation-managers.invoice-preview', [
+                    ->modalContent(fn($record): View => view('sales::filament.invoices.relation-managers.invoice-preview', [
                         'record' => PreviewAmountFormatter::normalize($record, ['total', 'paid_amount', 'credited_amount']),
                     ])),
                 OpenRecordAction::make()
-                    ->url(fn ($record): string => InvoiceResource::getUrl('view', ['record' => $record]), shouldOpenInNewTab: true),
+                    ->url(fn($record): string => InvoiceResource::getUrl('view', ['record' => $record]), shouldOpenInNewTab: true),
             ])
             ->toolbarActions([])
             ->defaultSort('issue_date', 'desc');

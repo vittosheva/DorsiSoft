@@ -40,6 +40,7 @@ use Modules\Core\Support\Forms\Toggles\IsDefaultToggle;
 use Modules\Finance\Filament\CoreApp\Resources\Collections\CollectionResource;
 use Modules\People\Enums\AddressTypeEnum;
 use Modules\People\Enums\BankAccountTypeEnum;
+use Modules\People\Enums\PartnerRoleEnum;
 use Modules\People\Models\BusinessPartner;
 use Modules\People\Services\PartnerRoleLookup;
 use Modules\People\Support\Actions\DismissDuplicatePartnerCalloutAction;
@@ -128,7 +129,7 @@ final class BusinessPartnerForm
                 TextInput::make('trade_name')
                     ->maxLength(150)
                     ->columnSpan(6)
-                    ->visibleJs(self::roleVisibleJs(['customer', 'supplier', 'carrier'])),
+                    ->visibleJs(fn () => self::roleVisibleJs(PartnerRoleEnum::cases())),
 
                 Callout::make(fn (Get $get): string => $get('_duplicate_partner_name') ?? '')
                     ->description(__('An entity with this identification already exists. You may want to edit it instead of creating a duplicate.'))
@@ -165,18 +166,18 @@ final class BusinessPartnerForm
                     ->schema([
                         self::tabCustomerSection(),
                     ])
-                    ->visibleJs(self::roleVisibleJs('customer')),
+                    ->visibleJs(fn () => self::roleVisibleJs([PartnerRoleEnum::CUSTOMER])),
                 Tab::make(__('Supplier Details'))
                     ->schema([
                         self::tabSupplierSection(),
                     ])
-                    ->visibleJs(self::roleVisibleJs('supplier')),
+                    ->visibleJs(fn () => self::roleVisibleJs([PartnerRoleEnum::SUPPLIER])),
                 Tab::make(__('Carrier Details'))
                     ->schema([
                         self::tabCarrierSection(),
                         self::tabCarrierVehiclesSection(),
                     ])
-                    ->visibleJs(self::roleVisibleJs('carrier')),
+                    ->visibleJs(fn () => self::roleVisibleJs([PartnerRoleEnum::CARRIER])),
                 Tab::make(__('Bank Accounts'))
                     ->schema([
                         self::tabBankAccountsSection(),
@@ -610,11 +611,11 @@ final class BusinessPartnerForm
                         ->hiddenLabel()
                         ->relationship(
                             'roles',
-                            'code',
+                            'name',
                             fn ($query) => $query
-                                ->select(['core_partner_roles.id', 'core_partner_roles.code'])
+                                ->select(['core_partner_roles.id', 'core_partner_roles.name', 'core_partner_roles.code'])
                                 ->where('is_active', true)
-                                ->orderBy('code')
+                                ->orderBy('name')
                                 ->limit(config('dorsi.filament.select_filter_options_limit', 50))
                         )
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->code->displayName())
@@ -638,27 +639,19 @@ final class BusinessPartnerForm
         ];
     }
 
-    /**
-     * Generate a visibleJs expression that checks if the roles multi-select
-     * includes the given role code(s). Accepts string or array. Resolves role ID(s) from DB by code(s).
-     * Results are memoized for the duration of the request to avoid redundant cache lookups.
-     */
-    private static function roleVisibleJs(string|array $roleCodes): string
+    private static function roleVisibleJs(PartnerRoleEnum|array $roles): string
     {
-        static $cache = [];
+        $codes = is_array($roles)
+            ? array_map(fn (PartnerRoleEnum $role) => $role->value, $roles)
+            : [$roles->value];
 
-        $cacheKey = is_array($roleCodes) ? implode(',', $roleCodes) : $roleCodes;
-        $cacheKey = (int) $cacheKey;
+        $ids = app(PartnerRoleLookup::class)->idsFor($codes);
 
-        return $cache[$cacheKey] ??= self::buildRoleVisibleJs($roleCodes);
-    }
+        if ($ids->isEmpty()) {
+            return 'false';
+        }
 
-    private static function buildRoleVisibleJs(string|array $roleCodes): string
-    {
-        $roleCodesArr = is_array($roleCodes) ? $roleCodes : [$roleCodes];
-        $roleIds = app(PartnerRoleLookup::class)->idsFor($roleCodesArr);
-
-        $roleIdsJs = $roleIds->map(fn ($id) => is_numeric($id) ? $id : "'{$id}'")->implode(', ');
+        $idsJs = $ids->map(fn ($id) => is_numeric($id) ? $id : "'{$id}'")->implode(', ');
 
         return sprintf(
             <<<'JS'
@@ -668,7 +661,7 @@ final class BusinessPartnerForm
                     return ids.some(id => roles.includes(id) || roles.includes(String(id)));
                 })()
                 JS,
-            $roleIdsJs,
+            $idsJs,
         );
     }
 }

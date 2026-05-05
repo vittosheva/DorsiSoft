@@ -88,17 +88,18 @@ final class FilamentServiceProvider extends ServiceProvider
                 ->searchDebounce(null)
                 ->reorderableColumns()
                 ->recordActionsPosition(RecordActionsPosition::BeforeColumns)
-                ->modifyUngroupedRecordActionsUsing(fn (Action $action) => $action->iconButton())
+                ->modifyUngroupedRecordActionsUsing(fn(Action $action) => $action->iconButton())
                 ->columnManagerLayout(ColumnManagerLayout::Modal)
-                ->columnManagerTriggerAction(fn (Action $action) => $action->slideOver())
+                ->columnManagerTriggerAction(fn(Action $action) => $action->slideOver())
                 ->filtersFormColumns(12)
                 ->filtersLayout(FiltersLayout::AboveContent)
                 ->filtersResetActionPosition(FiltersResetActionPosition::Footer)
-                ->filtersApplyAction(fn (Action $action) => $action->label(__('To Filter'))->color('primary')->icon(Phosphor::Funnel))
+                ->filtersApplyAction(fn(Action $action) => $action->label(__('To Filter'))->color('primary')->icon(Phosphor::Funnel))
                 ->persistFiltersInSession()
                 ->persistSearchInSession(false)
                 ->persistColumnSearchesInSession(false)
-                ->paginationPageOptions([5, 10, 25, 50]);
+                ->paginationPageOptions([5, 10, 25, 50])
+                ->summaries(true, false);
         });
 
         Column::configureUsing(function (Column $column): void {
@@ -178,8 +179,8 @@ final class FilamentServiceProvider extends ServiceProvider
 
         CreateAction::configureUsing(function (CreateAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Create')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Create')))
                 ->icon(Heroicon::Plus)
                 ->keyBindings([
                     'F6',
@@ -188,16 +189,17 @@ final class FilamentServiceProvider extends ServiceProvider
 
         EditAction::configureUsing(function (EditAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Edit')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Edit')))
                 ->icon(Heroicon::PencilSquare);
         });
 
         ViewAction::configureUsing(function (ViewAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('View')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('View')))
                 ->icon(Heroicon::Eye)
+                ->modal()
                 ->modalWidth(Width::ScreenTwoExtraLarge)
                 ->extraModalFooterActions(function () use ($action) {
                     $livewire = $action->getLivewire();
@@ -225,22 +227,22 @@ final class FilamentServiceProvider extends ServiceProvider
 
         DeleteAction::configureUsing(function (DeleteAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Delete')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Delete')))
                 ->icon(Heroicon::Trash);
         });
 
         RestoreAction::configureUsing(function (RestoreAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Restore')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Restore')))
                 ->icon(Heroicon::ArrowUturnLeft);
         });
 
         ReplicateAction::configureUsing(function (ReplicateAction $action): void {
             $action
-                ->hiddenLabel(fn (Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
-                ->tooltip(fn (Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Replicate')))
+                ->hiddenLabel(fn(Action $action, Component $livewire) => $this->checkHiddenLabel($action, $livewire))
+                ->tooltip(fn(Action $action, Component $livewire) => $this->checkTooltip($action, $livewire, __('Replicate')))
                 ->icon(Heroicon::DocumentDuplicate)
                 ->color('gray');
         });

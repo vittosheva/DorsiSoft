@@ -27,7 +27,7 @@ use Modules\Core\Support\Forms\TextInputs\MoneyTextInput;
 use Modules\People\Filament\CoreApp\Resources\BusinessPartners\BusinessPartnerResource;
 use Modules\People\Support\Forms\Selects\SupplierBusinessPartnerSelect;
 use Modules\Sales\Filament\CoreApp\Resources\Invoices\InvoiceResource;
-use Modules\Sales\Filament\CoreApp\Resources\Withholdings\Actions\GenerateWithholdingItemsAction;
+use Modules\Sales\Support\Actions\GenerateWithholdingItemsAction;
 use Modules\Sales\Support\Forms\Components\ElectronicDocumentStatusBadges;
 use Modules\Sales\Support\Forms\Sections\AdditionalInfoRepeaterSection;
 use Modules\Sri\Enums\SriDocumentTypeEnum;
@@ -136,7 +136,7 @@ final class WithholdingForm
             ->schema([
                 CodeTextInput::make('code')
                     ->autoGenerateFromModel(
-                        scope: fn () => [
+                        scope: fn() => [
                             'company_id' => Filament::getTenant()?->getKey(),
                         ],
                     )
@@ -165,7 +165,7 @@ final class WithholdingForm
                     ->columnSpan(4),
 
                 TextInput::make('period_fiscal')
-                    ->default(fn () => date('Y/m'))
+                    ->default(fn() => date('Y/m'))
                     ->readOnly()
                     ->dehydrated(false)
                     ->columnSpan(4),
@@ -246,7 +246,7 @@ final class WithholdingForm
                             ->options(TaxGroupEnum::withholdingOptions())
                             ->required()
                             ->live()
-                            ->afterStateUpdated(fn (Set $set) => $set('withholding_rate_id', null))
+                            ->afterStateUpdated(fn(Set $set) => $set('withholding_rate_id', null))
                             ->columnSpan(2),
 
                         Select::make('withholding_rate_id')
@@ -268,8 +268,8 @@ final class WithholdingForm
                                     ->with('taxDefinition:id,tax_group,name')
                                     ->active()
                                     ->get()
-                                    ->filter(fn (TaxWithholdingRate $rate) => $rate->taxDefinition?->tax_group === $targetGroup)
-                                    ->mapWithKeys(fn (TaxWithholdingRate $rate): array => [
+                                    ->filter(fn(TaxWithholdingRate $rate) => $rate->taxDefinition?->tax_group === $targetGroup)
+                                    ->mapWithKeys(fn(TaxWithholdingRate $rate): array => [
                                         $rate->id => "{$rate->sri_code} — {$rate->percentage}% — {$rate->description}",
                                     ])
                                     ->all();
