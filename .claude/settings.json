@@ -6,7 +6,9 @@
       "Bash(vendor/bin/filacheck --fix)",
       "Bash(vendor/bin/filacheck --path Modules/Core --fix)",
       "Bash(php -l Modules/Sri/app/Services/ElectronicDocumentOrchestrator.php)",
-      "Bash(grep \"\\\\.php$\")"
+      "Bash(grep \"\\\\.php$\")",
+      "Bash(herd open *)",
+      "Bash(curl -s https://dorsisoft.test/admin/people/business-partners/create -H \"Accept: text/html\")"
     ]
   }
 }
