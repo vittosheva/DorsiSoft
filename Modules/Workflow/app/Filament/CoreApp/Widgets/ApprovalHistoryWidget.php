@@ -14,6 +14,10 @@ final class ApprovalHistoryWidget extends Widget
 {
     public ?Model $record = null;
 
+    protected ?string $pollingInterval = null;
+
+    protected static bool $isLazy = false;
+
     protected string $view = 'workflow::widgets.approval-history';
 
     /**

@@ -6,6 +6,7 @@ namespace Modules\Core\Providers\Filament;
 
 use AzGasim\FilamentUnsavedChangesModal\FilamentUnsavedChangesModalPlugin;
 use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
+use Filament\Enums\DatabaseNotificationsPosition;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -19,7 +20,6 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
-// use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
@@ -69,7 +69,12 @@ final class AppPanelProvider extends PanelProvider
             ->spa(true, false)
             ->globalSearch(false)
             ->strictAuthorization()
-            ->databaseNotifications()
+            ->databaseNotifications(
+                condition: true,
+                isLazy: false,
+                position: DatabaseNotificationsPosition::Topbar,
+            )
+            ->databaseNotificationsPolling('120s')
             ->unsavedChangesAlerts(false)
             // UI
             ->brandName(config('app.name'))
@@ -105,7 +110,6 @@ final class AppPanelProvider extends PanelProvider
                 StartSession::class,
                 AuthenticateSession::class,
                 ShareErrorsFromSession::class,
-                // VerifyCsrfToken::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,

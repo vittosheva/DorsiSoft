@@ -15,9 +15,11 @@ final class PendingApprovalsWidget extends Widget
 {
     protected static ?int $sort = 7;
 
-    protected string $view = 'workflow::widgets.pending-approvals';
-
     protected ?string $pollingInterval = null;
+
+    protected static bool $isLazy = false;
+
+    protected string $view = 'workflow::widgets.pending-approvals';
 
     /**
      * @return array<int, array{label: string, count: int, flow_key: string, step: string}>

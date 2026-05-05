@@ -8,7 +8,8 @@
       "Bash(php -l Modules/Sri/app/Services/ElectronicDocumentOrchestrator.php)",
       "Bash(grep \"\\\\.php$\")",
       "Bash(herd open *)",
-      "Bash(curl -s https://dorsisoft.test/admin/people/business-partners/create -H \"Accept: text/html\")"
+      "Bash(curl -s https://dorsisoft.test/admin/people/business-partners/create -H \"Accept: text/html\")",
+      "Bash(xargs -I{} find {} -name \"CompanyUser.php\" -o -name \"UserCompany.php\")"
     ]
   }
 }
