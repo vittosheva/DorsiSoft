@@ -16,10 +16,13 @@ use Modules\Core\Models\Traits\HasDocumentBehavior;
 use Modules\Core\Models\Traits\HasTenancy;
 use Modules\Core\Models\Traits\HasYearlyAutoCode;
 use Modules\Core\Support\Models\BaseModel;
+use Modules\Finance\Models\PriceList;
+use Modules\Inventory\Models\Warehouse;
 use Modules\People\Models\BusinessPartner;
 use Modules\People\Models\User;
 use Modules\Sales\Enums\SaleNoteStatusEnum;
 use Modules\Sales\Support\Pdf\CommercialDocumentPdfDataBuilder;
+use Modules\System\Models\DocumentType;
 
 final class SaleNote extends BaseModel implements GeneratesPdf
 {
@@ -60,10 +63,12 @@ final class SaleNote extends BaseModel implements GeneratesPdf
         'voided_reason',
         'metadata',
         'converted_to_invoice_id',
+        'document_type_id',
+        'warehouse_id',
+        'price_list_id',
         'created_by',
         'updated_by',
         'deleted_by',
-        'price_list_id',
     ];
 
     protected function casts(): array
@@ -110,6 +115,21 @@ final class SaleNote extends BaseModel implements GeneratesPdf
     public function convertedInvoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class, 'converted_to_invoice_id');
+    }
+
+    public function documentType(): BelongsTo
+    {
+        return $this->belongsTo(DocumentType::class, 'document_type_id');
+    }
+
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+
+    public function priceList(): BelongsTo
+    {
+        return $this->belongsTo(PriceList::class, 'price_list_id');
     }
 
     public function creator(): BelongsTo

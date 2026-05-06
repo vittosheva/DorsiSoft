@@ -24,6 +24,7 @@ use Modules\Core\Services\FileStoragePathService;
 use Modules\Core\Support\Models\BaseModel;
 use Modules\Finance\Models\Collection;
 use Modules\Finance\Models\CollectionAllocation;
+use Modules\Finance\Models\PriceList;
 use Modules\Finance\Support\CollectionAllocationMath;
 use Modules\Inventory\Models\Warehouse;
 use Modules\People\Enums\RoleEnum;
@@ -113,6 +114,7 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
         'correction_reason',
         'document_type_id',
         'warehouse_id',
+        'price_list_id',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -229,6 +231,11 @@ final class Invoice extends BaseModel implements Approvable, DocumentContract, G
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+
+    public function priceList(): BelongsTo
+    {
+        return $this->belongsTo(PriceList::class, 'price_list_id');
     }
 
     public function salesOrder(): BelongsTo

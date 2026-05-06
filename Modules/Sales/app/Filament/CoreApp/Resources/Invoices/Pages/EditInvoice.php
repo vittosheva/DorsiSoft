@@ -35,6 +35,10 @@ final class EditInvoice extends BaseEditRecord
         /** @var Invoice $record */
         $record = $this->getRecord();
 
+        if ($record->items()->count() > 0 && $data['warehouse_id'] !== $record->warehouse_id) {
+            $this->addError('data.warehouse_id', __('Cannot change warehouse once items have been added to the document.'));
+        }
+
         if (! $record->canEditRejectedElectronicDocumentInPlace()) {
             return $data;
         }

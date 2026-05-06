@@ -38,7 +38,7 @@ final class KardexPage extends Page implements HasForms
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?int $navigationSort = 30;
+    protected static ?int $navigationSort = 40;
 
     protected string $view = 'inventory::filament.pages.kardex-page';
 

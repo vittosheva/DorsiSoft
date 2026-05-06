@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Modules\Core\Models\Company;
 use Spatie\Permission\DefaultTeamResolver;
 use Spatie\Permission\Models\Permission;

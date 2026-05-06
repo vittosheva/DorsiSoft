@@ -2108,5 +2108,7 @@
     "≤ (less or equal)": "≤ (menor o igual que)",
     "≥ (greater or equal)": "≥ (mayor o igual que)",
     "🚀 PRODUCTION SRI": "🚀 PRODUCCIÓN SRI",
-    "🧪 TESTING SRI": "🧪 PRUEBAS SRI"
+    "🧪 TESTING SRI": "🧪 PRUEBAS SRI",
+    "Available :resource": ":resource disponible",
+    "Available :resources": ":resources disponibles"
 }

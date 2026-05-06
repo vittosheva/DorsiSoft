@@ -150,17 +150,17 @@ final class Product extends BaseModel
             : $this->taxes()->get();
 
         if ($taxes->isNotEmpty()) {
-            return $taxes;
+            return $taxes->filter(fn ($tax) => $tax->is_active === true);
         }
 
         if ($this->relationLoaded('tax') && $this->tax !== null) {
-            return collect([$this->tax]);
+            return $this->tax->is_active === true ? collect([$this->tax]) : collect();
         }
 
         if ($this->tax_id !== null) {
             $legacyTax = $this->tax()->first();
 
-            if ($legacyTax !== null) {
+            if ($legacyTax !== null && $legacyTax->is_active === true) {
                 return collect([$legacyTax]);
             }
         }

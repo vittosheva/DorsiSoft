@@ -6,7 +6,6 @@ namespace Modules\Sales\Filament\CoreApp\Resources\Invoices\Schemas;
 
 use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
@@ -22,7 +21,7 @@ use Modules\Core\Support\Forms\Selects\CurrencyCodeSelect;
 use Modules\Core\Support\Forms\Textareas\NotesTextarea;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Finance\Support\Forms\Selects\PriceListSelect;
-use Modules\Inventory\Models\Warehouse;
+use Modules\Inventory\Support\Forms\Selects\WarehouseSelect;
 use Modules\People\Support\Forms\Selects\CustomerBusinessPartnerSelect;
 use Modules\People\Support\Forms\Selects\SellerUserSelect;
 use Modules\Sales\Livewire\InvoiceItems;
@@ -50,14 +49,19 @@ final class InvoiceForm
                             ->columnSpan(6),
                         self::customerSection()
                             ->columnSpan(6),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
+
+                WarehouseSelect::make('warehouse_id')
+                    ->columnSpan(4),
 
                 Livewire::make(InvoiceItems::class, fn (?Invoice $record, string $operation) => [
                     'invoiceId' => $record?->getKey(),
                     'minimumItemsCount' => 1,
                     'minimumItemsValidationMessage' => __('Add at least one item to the document.'),
                     'operation' => $operation,
-                ]),
+                ])
+                    ->columnSpanFull(),
 
                 TextInput::make('document_items_count')
                     ->hiddenLabel()
@@ -70,9 +74,9 @@ final class InvoiceForm
 
                 TextInput::make('document_items_total')
                     ->hiddenLabel()
+                    ->hidden()
                     ->readOnly()
-                    ->dehydrated(false)
-                    ->hidden(),
+                    ->dehydrated(false),
 
                 Grid::make(12)
                     ->schema([
@@ -94,9 +98,10 @@ final class InvoiceForm
                                     ->columnSpan(1),
                             ])
                             ->columnSpan(6),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
             ])
-            ->columns(1);
+            ->columns(12);
     }
 
     /**
@@ -163,16 +168,6 @@ final class InvoiceForm
                     ->columnSpan(4),
 
                 SequenceEmissionFusedGroup::makeForDocumentType(SriDocumentTypeEnum::Invoice),
-
-                /* Select::make('warehouse_id')
-                    ->label(__('Warehouse'))
-                    ->options(fn () => Warehouse::query()
-                        ->where('company_id', Filament::getTenant()?->getKey())
-                        ->where('is_active', true)
-                        ->pluck('name', 'id'))
-                    ->searchable()
-                    ->nullable()
-                    ->columnSpan(6), */
             ])
             ->columns(12);
     }

@@ -140,7 +140,8 @@
                                             <div
                                                 x-show="open"
                                                 @click.outside="open = false"
-                                                class="absolute right-0 z-50 mt-1.5 min-w-max overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800 w-3xs!"
+                                                class="fixed z-50 mt-1.5 min-w-max max-h-96 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800 w-3xs!"
+                                                x-anchor.right.bottom="$el.previousElementSibling"
                                             >
                                                 @foreach ($this->taxes as $tax)
                                                     @php($taxType = $tax->type instanceof \BackedEnum ? $tax->type->value : (string) $tax->type)

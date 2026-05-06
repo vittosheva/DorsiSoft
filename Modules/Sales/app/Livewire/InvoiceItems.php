@@ -64,10 +64,12 @@ final class InvoiceItems extends Component
         $this->initializeMinimumItemsValidation($minimumItemsCount, $minimumItemsValidationMessage);
 
         if ($this->invoiceId) {
-            $invoice = Invoice::with(['items.taxes'])->find($this->invoiceId);
+            $invoice = Invoice::with(['items.taxes'])
+                ->find($this->invoiceId);
 
             if ($invoice) {
                 $this->priceListId = $invoice->price_list_id;
+                $this->warehouseId = $invoice->warehouse_id ?? null;
                 $this->loadFromDatabase($invoice);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($invoice->currency_code);
             }
@@ -80,8 +82,8 @@ final class InvoiceItems extends Component
     public function taxes(): Collection
     {
         return Tax::query()
-            ->select(['id', 'name', 'type', 'rate', 'sri_code', 'sri_percentage_code', 'calculation_type'])
-            ->active()
+            ->select(['id', 'name', 'type', 'rate', 'sri_code', 'sri_percentage_code', 'calculation_type', 'is_active'])
+            ->where('is_active', true)
             ->orderBy('type')
             ->orderBy('name')
             ->get();

@@ -54,7 +54,8 @@ final class SaleNoteItems extends Component
             $saleNote = SaleNote::with(['items.taxes'])->find($this->saleNoteId);
 
             if ($saleNote) {
-                $this->priceListId = null;
+                $this->priceListId = $saleNote->price_list_id;
+                $this->warehouseId = $saleNote->warehouse_id;
                 $this->loadFromDatabase($saleNote);
                 $this->currencySymbol = MoneyTextInput::symbolForCode($saleNote->currency_code);
             }
@@ -66,7 +67,12 @@ final class SaleNoteItems extends Component
     #[Computed]
     public function taxes(): Collection
     {
-        return Tax::query()->select(['id', 'name', 'type', 'rate', 'sri_code', 'sri_percentage_code', 'calculation_type'])->active()->orderBy('type')->orderBy('name')->get();
+        return Tax::query()
+            ->select(['id', 'name', 'type', 'rate', 'sri_code', 'sri_percentage_code', 'calculation_type', 'is_active'])
+            ->where('is_active', true)
+            ->orderBy('type')
+            ->orderBy('name')
+            ->get();
     }
 
     public function addProduct(int $productId): void

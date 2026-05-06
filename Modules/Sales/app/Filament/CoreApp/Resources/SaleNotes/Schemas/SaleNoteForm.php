@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Modules\Sales\Filament\CoreApp\Resources\SaleNotes\Schemas;
 
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Modules\Core\Support\Components\Sections\AuditSection;
 use Modules\Core\Support\Forms\DatePickers\IssueDatePicker;
 use Modules\Core\Support\Forms\TextInputs\CodeTextInput;
 use Modules\Finance\Support\Forms\Selects\PriceListSelect;
+use Modules\Inventory\Support\Forms\Selects\WarehouseSelect;
 use Modules\People\Support\Forms\Selects\CustomerBusinessPartnerSelect;
 use Modules\People\Support\Forms\Selects\SellerUserSelect;
 use Modules\Sales\Livewire\SaleNoteItems;
+use Modules\Sales\Models\SaleNote;
 
 final class SaleNoteForm
 {
@@ -37,7 +41,6 @@ final class SaleNoteForm
                                 CustomerBusinessPartnerSelect::make('business_partner_id')
                                     ->columnSpan(6),
                                 PriceListSelect::make('price_list_id')
-                                    ->dehydrated(false)
                                     ->columnSpan(3),
                                 SellerUserSelect::make('seller_id')
                                     ->columnSpan(3),
@@ -47,12 +50,32 @@ final class SaleNoteForm
                     ])
                     ->columnSpanFull(),
 
-                Livewire::make(SaleNoteItems::class, [
+                WarehouseSelect::make('warehouse_id')
+                    ->columnSpan(4),
+
+                Livewire::make(SaleNoteItems::class, fn (?SaleNote $record, string $operation) => [
+                    'saleNoteId' => $record?->getKey(),
                     'minimumItemsCount' => 1,
                     'minimumItemsValidationMessage' => __('At least one item is required'),
+                    'operation' => $operation,
                 ])
                     ->key('sale-note-items')
                     ->columnSpanFull(),
+
+                TextInput::make('document_items_count')
+                    ->hiddenLabel()
+                    ->readOnly()
+                    ->dehydrated(false)
+                    ->rules(['integer', 'min:1'])
+                    ->validationMessages(['min' => __('At least one item is required')])
+                    ->extraInputAttributes(['class' => 'sr-only'])
+                    ->extraAttributes(['class' => 'hidden has-[.fi-fo-field-wrp-error-message]:block']),
+
+                TextInput::make('document_items_total')
+                    ->hiddenLabel()
+                    ->hidden()
+                    ->readOnly()
+                    ->dehydrated(false),
 
                 Grid::make(12)
                     ->schema([
@@ -62,11 +85,11 @@ final class SaleNoteForm
                                 Textarea::make('notes')->rows(3)->columnSpanFull(),
                             ]),
 
-                        Section::make(__('Audit'))
-                            ->columnSpan(6)
-                            ->schema([]),
+                        AuditSection::make()
+                            ->columnSpan(6),
                     ])
                     ->columnSpanFull(),
-            ]);
+            ])
+            ->columns(12);
     }
 }

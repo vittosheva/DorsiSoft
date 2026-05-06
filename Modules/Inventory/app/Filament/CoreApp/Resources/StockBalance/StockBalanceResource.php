@@ -28,7 +28,7 @@ final class StockBalanceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
 
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 30;
 
     public static function getEloquentQuery(): Builder
     {
