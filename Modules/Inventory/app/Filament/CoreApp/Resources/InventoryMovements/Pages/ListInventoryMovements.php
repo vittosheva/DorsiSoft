@@ -12,13 +12,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Carbon;
+use Modules\Core\Support\Pages\BaseListRecords;
 use Modules\Inventory\Data\AdjustDTO;
 use Modules\Inventory\Data\MoveInDTO;
 use Modules\Inventory\Data\MoveOutDTO;
@@ -34,7 +34,7 @@ use Modules\Inventory\Models\Warehouse;
 use Modules\Inventory\Services\InventoryService;
 use Modules\Inventory\Support\Forms\Selects\ProductSelect;
 
-final class ListInventoryMovements extends ListRecords
+final class ListInventoryMovements extends BaseListRecords
 {
     protected static string $resource = InventoryMovementResource::class;
 

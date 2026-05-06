@@ -38,7 +38,7 @@ final class ProductResource extends Resource
                 'category:id,name',
                 'brand:id,name',
                 'unit:id,name,symbol',
-                'tax:id,name,type,rate,calculation_type',
+                'tax:id,name,type,rate,calculation_type,is_active',
                 'taxes:id,name,type,rate,calculation_type',
                 'creator:id,name,avatar_url',
                 'editor:id,name,avatar_url',

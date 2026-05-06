@@ -2110,5 +2110,9 @@
     "🚀 PRODUCTION SRI": "🚀 PRODUCCIÓN SRI",
     "🧪 TESTING SRI": "🧪 PRUEBAS SRI",
     "Available :resource": ":resource disponible",
-    "Available :resources": ":resources disponibles"
+    "Available :resources": ":resources disponibles",
+    "Cannot change warehouse once items have been added to the document.": "No se puede cambiar la bodega una vez que se han agregado ítems al documento.",
+    "Sale Note issued successfully": "Nota de venta emitida con éxito",
+    "Convert to Invoice": "Convertir a factura",
+    "Generate PDF": "Generar PDF"
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Inventory\Filament\CoreApp\Resources\SerialNumbers\Pages;
 
-use Filament\Resources\Pages\ListRecords;
+use Modules\Core\Support\Pages\BaseListRecords;
 use Modules\Inventory\Filament\CoreApp\Resources\SerialNumbers\SerialNumberResource;
 
-final class ListSerialNumbers extends ListRecords
+final class ListSerialNumbers extends BaseListRecords
 {
     protected static string $resource = SerialNumberResource::class;
 
