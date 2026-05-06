@@ -33,7 +33,7 @@ final class InvoiceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?int $navigationSort = 30;
+    protected static ?int $navigationSort = 40;
 
     public static function getEloquentQuery(): Builder
     {

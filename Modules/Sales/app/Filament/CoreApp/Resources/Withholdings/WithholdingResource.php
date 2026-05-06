@@ -78,6 +78,6 @@ final class WithholdingResource extends Resource
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
-        return __('Sales');
+        return __('Purchases');
     }
 }

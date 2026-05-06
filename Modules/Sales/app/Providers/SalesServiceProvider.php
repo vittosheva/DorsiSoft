@@ -16,6 +16,7 @@ use Modules\Sales\Models\DeliveryGuide;
 use Modules\Sales\Models\Invoice;
 use Modules\Sales\Models\PurchaseSettlement;
 use Modules\Sales\Models\Quotation;
+use Modules\Sales\Models\SaleNote;
 use Modules\Sales\Models\SalesOrder;
 use Modules\Sales\Models\TaxWithholdingRule;
 use Modules\Sales\Models\Withholding;
@@ -33,6 +34,7 @@ use Modules\Sales\Policies\DeliveryGuidePolicy;
 use Modules\Sales\Policies\InvoicePolicy;
 use Modules\Sales\Policies\PurchaseSettlementPolicy;
 use Modules\Sales\Policies\QuotationPolicy;
+use Modules\Sales\Policies\SaleNotePolicy;
 use Modules\Sales\Policies\SalesOrderPolicy;
 use Modules\Sales\Policies\TaxWithholdingRulePolicy;
 use Modules\Sales\Policies\WithholdingPolicy;
@@ -165,6 +167,7 @@ final class SalesServiceProvider extends ServiceProvider
         Gate::policy(Invoice::class, InvoicePolicy::class);
         Gate::policy(PurchaseSettlement::class, PurchaseSettlementPolicy::class);
         Gate::policy(Quotation::class, QuotationPolicy::class);
+        Gate::policy(SaleNote::class, SaleNotePolicy::class);
         Gate::policy(SalesOrder::class, SalesOrderPolicy::class);
         Gate::policy(Withholding::class, WithholdingPolicy::class);
         // Policy for tax withholding rules (UI + management)

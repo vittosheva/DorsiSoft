@@ -153,6 +153,7 @@ final class AppPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make(__('People'))->collapsed(),
                 NavigationGroup::make(__('Sales'))->collapsed(),
+                NavigationGroup::make(__('Purchases'))->collapsed(),
                 NavigationGroup::make(__('Inventory'))->collapsed(),
                 NavigationGroup::make(__('Finance'))->collapsed(),
                 NavigationGroup::make(__('Accounting'))->collapsed(),

@@ -14,6 +14,7 @@ use Modules\Sales\Models\DeliveryGuide;
 use Modules\Sales\Models\Invoice;
 use Modules\Sales\Models\PurchaseSettlement;
 use Modules\Sales\Models\Quotation;
+use Modules\Sales\Models\SaleNote;
 use Modules\Sales\Models\SalesOrder;
 use Modules\Sales\Models\Withholding;
 
@@ -27,6 +28,7 @@ final class PdfDocumentRouteKey
         return [
             'quotation' => Quotation::class,
             'sales-order' => SalesOrder::class,
+            'sale-note' => SaleNote::class,
             'invoice' => Invoice::class,
             'credit-note' => CreditNote::class,
             'debit-note' => DebitNote::class,

@@ -31,7 +31,7 @@ final class CreditNoteResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentMinus;
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 45;
 
     public static function getEloquentQuery(): Builder
     {

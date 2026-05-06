@@ -13,7 +13,8 @@
       "Bash(php -l Modules/Sales/app/Livewire/Concerns/HasPriceListSupport.php)",
       "Bash(php -l Modules/Finance/app/Support/Forms/Selects/PriceListSelect.php)",
       "Bash(php -l Modules/Sales/app/Livewire/CreditNoteItems.php)",
-      "Bash(php -l Modules/Sales/app/Livewire/DebitNoteItems.php)"
+      "Bash(php -l Modules/Sales/app/Livewire/DebitNoteItems.php)",
+      "Bash(php -l /Users/vittosheva83/Herd/DorsiSoft/Modules/Sales/app/Filament/CoreApp/Resources/SaleNotes/SaleNoteResource.php)"
     ]
   }
 }
